@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melvin Dev</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Add Google Fonts for Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Add this just after <body> -->
+    <div id="loading-bar-container">
+        <div id="loading-bar"></div>
+    </div>
+
+    <header>
+        <div class="header-container">
+            <h1>
+                <span class="melvin">Melvin</span><span class="dev">(DEV)_</span>
+            </h1>
+            <nav>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Works</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#resume">Resume</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="main-section" id="home">
+        <div class="main-info">
+            <h2>
+                Hi<span class="wave-emoji">👋</span>,<br>
+                I'm <span class="highlight" tabindex="0">Melvin</span><br>
+                <span style="color:#22223b;">Software Developer</span>
+            </h2>
+            <p>
+
+            </p>
+            <a href="#contact" class="main-btn">Contact</a>
+            <div class="main-social">
+                <a href="https://linkedin.com/in/melvingamanajr" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/melvingamanajr" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="assets/Melvin_Gamana_Resume.pdf" download aria-label="Download Resume">
+                    <i class="fas fa-file-download"></i>
+                </a>
+            </div>
+        </div>
+        <div class="main-image-container">
+            <div class="main-image-bg">
+                <img src="assets/profile.png" alt="Melvin's profile photo">
+            </div>
+        </div>
+    </section>
+
+    <section class="main-section" id="about">
+        <div class="section-content">
+            <h2>About</h2>
+            <p>
+                Hi, I'm Melvin, a passionate software developer focused on building modern, efficient, and beautiful web applications. I love solving problems and collaborating with others to create impactful digital experiences.
+            </p>
+        </div>
+    </section>
+
+    <section class="main-section" id="skills">
+        <div class="section-content">
+            <h2>Skills</h2>
+            <ul class="skills-list">
+                <li>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="skill-icon">
+                    JavaScript
+                </li>
+                <li>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="skill-icon">
+                    Python
+                </li>
+                <li>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js" class="skill-icon">
+                    Vue.js
+                </li>
+                <li>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js" class="skill-icon">
+                    React.js
+                </li>
+                <li>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="skill-icon">
+                    Java
+                </li>
+                <li>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" class="skill-icon">
+                    MongoDB
+                </li>
+                <li>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="GIT" class="skill-icon">
+                    GIT
+                </li>
+                <li>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/subversion/subversion-original.svg" alt="SVN" class="skill-icon">
+                    SVN
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="main-section" id="projects">
+        <div class="section-content">
+            <h2>Works</h2>
+            <div class="works-list">
+                <div class="work-item">
+                    <h3>Portfolio Website</h3>
+                    <p>A modern, responsive portfolio to showcase my projects and skills.</p>
+                </div>
+                <div class="work-item">
+                    <h3>Task Manager App</h3>
+                    <p>A web application for managing daily tasks and productivity.</p>
+                </div>
+                <!-- Add more work items as needed -->
+            </div>
+        </div>
+    </section>
+
+    <section class="main-section" id="contact">
+        <div class="section-content">
+            <h2>Contact</h2>
+            <form class="contact-form">
+                <div class="contact-form-row">
+                    <div class="contact-form-col">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="contact-form-col">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="main-section" id="resume">
+        <div class="section-content">
+            <h2>Resume</h2>
+            <div class="resume-preview-container">
+                <iframe 
+                    src="assets/Melvin_Gamana_Resume.pdf#toolbar=0&navpanes=0&scrollbar=0" 
+                    width="100%" 
+                    height="420px" 
+                    style="border-radius: 16px; border: 1.5px solid #e0e0e0; box-shadow: 0 8px 32px 0 rgba(31,38,135,0.10); background: #fff;">
+                </iframe>
+                <div class="resume-actions">
+                    <a href="assets/Melvin_Gamana_Resume.pdf" download class="main-btn" style="margin-top:18px;">Download PDF</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="fireworks-container" class="fireworks-container"></div>
+
+    <!-- Place this where you want the color selector to appear, e.g. in your header or settings area -->
+    <div class="accent-color-container">
+        <label for="accent-color-picker" class="accent-color-label">Accent:</label>
+        <input type="color" id="accent-color-picker" class="accent-color-select" value="#39FF14">
+    </div>
+
+    <!-- Add this before your main.js script -->
+    <script src="data/works.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
