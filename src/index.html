@@ -11,15 +11,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <!-- Add this just after <body> -->
-    <div id="loading-bar-container">
-        <div id="loading-bar"></div>
+    <div id="loading-spinner-container">
+        <div class="spinner"></div>
     </div>
 
     <header>
         <div class="header-container">
             <h1>
-                <span class="melvin">Melvin</span><span class="dev">(DEV)_</span>
+                <span class="melvin">Melvin</span><span class="dev">Dev</span>
             </h1>
             <nav>
                 <button class="nav-toggle" aria-label="Toggle navigation">
@@ -47,7 +46,7 @@
                 <span style="color:#22223b;">Software Developer</span>
             </h2>
             <p>
-
+                I build accessible, inclusive products and digital experiences for the web.
             </p>
             <a href="#contact" class="main-btn">Contact</a>
             <div class="main-social">
@@ -156,12 +155,7 @@
         <div class="section-content">
             <h2>Resume</h2>
             <div class="resume-preview-container">
-                <iframe 
-                    src="assets/Melvin_Gamana_Resume.pdf#toolbar=0&navpanes=0&scrollbar=0" 
-                    width="100%" 
-                    height="420px" 
-                    style="border-radius: 16px; border: 1.5px solid #e0e0e0; box-shadow: 0 8px 32px 0 rgba(31,38,135,0.10); background: #fff;">
-                </iframe>
+                <iframe src="assets/Melvin_Gamana_Resume.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="420px"></iframe>
                 <div class="resume-actions">
                     <a href="assets/Melvin_Gamana_Resume.pdf" download class="main-btn" style="margin-top:18px;">Download PDF</a>
                 </div>
@@ -172,12 +166,11 @@
     <div id="fireworks-container" class="fireworks-container"></div>
 
     <!-- Place this where you want the color selector to appear, e.g. in your header or settings area -->
-<!--     <div class="accent-color-container">
+    <!-- <div class="accent-color-container">
         <label for="accent-color-picker" class="accent-color-label">Accent:</label>
         <input type="color" id="accent-color-picker" class="accent-color-select" value="#39FF14">
     </div> -->
 
-    <!-- Add this before your main.js script -->
     <script src="data/works.js"></script>
     <script src="js/main.js"></script>
 </body>

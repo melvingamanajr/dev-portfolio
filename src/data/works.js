@@ -14,7 +14,7 @@ window.worksData = [
         ],
         period: "July 2024 – Current",
         experience: true,
-        active: false
+        active: true
     },
     {
         title: "Portfolio Website",

@@ -32,6 +32,9 @@ header {
     max-width: 1200px;
     width: 95vw;
     padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .header-container {
@@ -162,10 +165,7 @@ nav a:hover::after {
     }
 }
 
-.main-section, 
-.about-section, 
-.contact-section, 
-.works-section {
+.main-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -176,17 +176,17 @@ nav a:hover::after {
     border-radius: 0 0 24px 24px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.04);
     padding: 60px 40px 40px 60px;
-    min-height: 500px;
+    min-height: 100vh;
     margin-bottom: 40px;
+    /* For fade-in animation */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-@media (max-width: 900px) {
-    .main-section {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 40px 16px 24px 16px;
-        min-height: 400px;
-    }
+.main-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .main-info {
@@ -271,8 +271,8 @@ nav a:hover::after {
 .main-image-bg {
     background: var(--main-accent);
     border-radius: 100%;
-    width: 320px;
-    height: 320px;
+    width: 300px;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -304,10 +304,10 @@ nav a:hover::after {
 }
 
 .main-image-bg img {
-    width: 220px;
-    height: 320px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 48%;
+    border-radius: 50%; /* Make it a perfect circle by default */
     animation: none !important;
     transition: none !important;
 }
@@ -316,15 +316,33 @@ nav a:hover::after {
     .main-section {
         flex-direction: column;
         align-items: center;
+    justify-content: flex-start; /* Align content to the top by default on mobile */
         padding: 32px 8px 24px 8px;
     }
+
+        /* On mobile, show the image before the info text on the home section */
+        .main-section#home {
+        justify-content: center; /* But keep the home section vertically centered */
+            flex-direction: column-reverse;
+            gap: 24px; /* Add space between image and text */
+        }
+
+        .main-info {
+            text-align: center;
+        }
+
+        .main-social {
+            justify-content: center;
+        }
     .main-image-bg {
         width: 220px;
         height: 220px;
+        border-radius: 32px; /* Change to a rounded square on mobile */
     }
     .main-image-bg img {
-        width: 140px;
-        height: 140px;
+        width: 100%;
+        height: 100%;
+        border-radius: 32px; /* Match the container's rounded square shape */
     }
 }
 
@@ -336,12 +354,8 @@ nav a:hover::after {
         font-size: 1.5rem;
     }
     .main-image-bg {
-        width: 140px;
-        height: 140px;
-    }
-    .main-image-bg img {
-        width: 80px;
-        height: 80px;
+        width: 180px;
+        height: 180px;
     }
 }
 
@@ -564,15 +578,14 @@ nav a:hover::after {
         font-size: 15px;
         padding: 0;
         margin: 0;
-        width: 100vw;
-        overflow-x: hidden;
+        width: 100%;
         background: #f3f6fd;
     }
 
     header {
         border-radius: 0 0 18px 18px;
         margin: 0;
-        width: 100vw;
+        width: 100%;
         min-width: 0;
         box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         padding: 0;
@@ -600,17 +613,15 @@ nav a:hover::after {
         gap: 0;
     }
 
-    .main-section,
-    .about-section,
-    .contact-section,
-    .works-section {
-        flex-direction: column !important;
-        align-items: flex-start !important;
+    .main-section {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start; /* Align content to the top */
         padding: 18px 4vw 18px 4vw;
-        min-height: unset;
+        min-height: 100vh;
         margin-bottom: 18px;
         border-radius: 0 0 18px 18px;
-        width: 100vw;
+        width: 100%;
         box-sizing: border-box;
     }
 
@@ -655,17 +666,11 @@ nav a:hover::after {
         min-width: 0;
         width: 100%;
         justify-content: center;
-        margin-top: 18px;
     }
 
     .main-image-bg {
-        width: 110px;
-        height: 110px;
-    }
-
-    .main-image-bg img {
-        width: 70px;
-        height: 70px;
+        width: 360px;
+        height: 380px;
     }
 
     .skills-list {
@@ -736,8 +741,8 @@ nav a:hover::after {
     }
 
     .resume-preview-container iframe {
-        height: 220px !important;
-        border-radius: 8px !important;
+        height: 220px;
+        border-radius: 8px;
     }
 
     .resume-actions {
@@ -751,23 +756,19 @@ nav a:hover::after {
     }
 }
 
-/* Do not remove the next line, it's used in the JS to identify elements with highlights */ */
-/* Hide old sections for now */
-section:not(.main-section), footer {
-    display: none;
-}
-
-.main-section {
-    display: none;
-}
-.main-section.active {
-    display: flex;
-}
-
 .wave-emoji {
     display: inline-block;
     animation: wave-hand 2s infinite;
     transform-origin: 70% 70%;
+}
+
+.resume-preview-container iframe {
+    border-radius: 16px;
+    border: 1.5px solid #e0e0e0;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+    background: #fff;
+    max-width: 100%;
+    display: block;
 }
 
 @keyframes wave-hand {
@@ -823,25 +824,32 @@ section:not(.main-section), footer {
     mix-blend-mode: multiply;
 }
 
-#loading-bar-container {
+#loading-spinner-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 4px;
-    background: transparent;
+    height: 100vh;
+    background: var(--main-bg);
     z-index: 99999;
-    pointer-events: none;
-    transition: opacity 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
 }
 
-#loading-bar {
-    width: 0;
-    height: 100%;
-    background: linear-gradient(90deg, var(--main-accent) 60%, #bfff00 100%);
-    box-shadow: 0 0 8px var(--main-accent), 0 0 16px var(--main-accent);
-    transition: width 0.4s cubic-bezier(.4,1,.7,1);
-    border-radius: 2px;
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--main-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 /* Glassmorphism cards */
@@ -866,6 +874,23 @@ section:not(.main-section), footer {
     pointer-events: none;
     z-index: 9999;
     display: none;
+}
+
+.fireworks-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--main-text);
+    background: var(--card-bg);
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    z-index: 10000;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    pointer-events: none;
 }
 
 .accent-color-container {
