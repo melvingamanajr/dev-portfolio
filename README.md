@@ -2,6 +2,8 @@
 
 Welcome to the Melvin Dev Portfolio project! This repository contains the source code for a personal portfolio website showcasing the work and skills of Melvin Dev.
 
+Click Me! [https://melvingamanajr.github.io/dev-portfolio/src/index.html]
+
 ## Project Structure
 
 ```

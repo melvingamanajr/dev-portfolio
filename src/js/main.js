@@ -22,6 +22,24 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Function to populate about section
+    function populateAboutSection() {
+        const aboutSection = document.querySelector('.about-section .section-content');
+        if (aboutSection && window.aboutData) {
+            aboutSection.innerHTML = `<h2>${window.aboutData.title}</h2><p>${window.aboutData.content}</p>`;
+        }
+    }
+
+    // Function to populate skills section
+    function populateSkillsSection() {
+        const skillsList = document.querySelector('.skills-list');
+        if (skillsList && window.skillsData) {
+            skillsList.innerHTML = window.skillsData.map(skill => `<li>${skill.name}</li>`).join('');
+        }
+    }
+    populateAboutSection();
+    populateSkillsSection();
+
     // --- 3. Mobile Navigation ---
     if (navToggle && navUl) {
         navToggle.addEventListener('click', function () {
@@ -118,39 +136,77 @@ document.addEventListener('DOMContentLoaded', function () {
     if (contactForm && fireworksContainer) {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
+            console.log('Form submitted!'); // ADDED
             fireworksContainer.style.display = 'block';
-            fireworksContainer.innerHTML = `<div class="fireworks-message">🎉 Thank you! I'll be in touch soon. 🎉</div>`;
-            
+            fireworksContainer.innerHTML = `<div class="fireworks-message">Thank you! I'll be in touch soon.</div>`;
+            console.log('Fireworks displayed'); // ADDED
+
             // You can add a real form submission here (e.g., using fetch to an endpoint)
-            
+
             contactForm.reset();
+            console.log('Form reset'); // ADDED
             setTimeout(() => {
                 fireworksContainer.style.display = 'none';
                 fireworksContainer.innerHTML = '';
             }, 4000);
+            console.log('Fireworks hidden'); // ADDED
         });
     }
 
     // --- 8. Dynamic Project Loading ---
-    if (worksList && typeof worksData !== 'undefined') {
-        worksList.innerHTML = ''; // Clear static content
-        worksData.forEach(work => {
-            const workItem = document.createElement('div');
-            workItem.className = 'work-item';
+    function renderWorks() {
+        const worksSection = document.querySelector('#projects .works-list');
+        if (!worksSection && document.querySelector('#projects')) {
+            const sectionContent = document.querySelector('#projects .section-content') || document.querySelector('#projects');
+            const worksList = document.createElement('div');
+            worksList.className = 'works-list';
+            sectionContent.appendChild(worksList);
+        }
+        const worksList = document.querySelector('#projects .works-list');
+        if (!worksList) return;
+        worksList.innerHTML = '';
 
-            let techList = '';
-            if (work.technologies && work.technologies.length > 0) {
-                techList = `<ul>${work.technologies.map(tech => `<li>${tech}</li>`).join('')}</ul>`;
-            }
+        if (window.worksUnderMaintenance) {
+            const card = document.createElement('div');
+            card.className = 'work-item';
+            card.innerHTML = `<h3>Works</h3><p style="color:#aaa;font-style:italic;">Still working on it / Coming soon...</p>`;
+            worksList.appendChild(card);
+            return;
+        }
 
-            workItem.innerHTML = `
-                <h3>${work.title}</h3>
-                <p>${work.description}</p>
-                ${techList}
-            `;
-            worksList.appendChild(workItem);
-        });
+        if (window.worksData && Array.isArray(window.worksData)) {
+            window.worksData.forEach(work => {
+                const card = document.createElement('div');
+                card.className = 'work-item';
+
+                // Experience card design
+                if (work.experience) {
+                    card.innerHTML = `
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
+                            <div>
+                                <span style="font-size:1.13rem;font-weight:700;color:#22223b;">${work.title}</span><br>
+                                <span style="font-size:1.05rem;font-style:italic;font-weight:500;color:#444;">
+                                    <span style="font-family:'Georgia',serif;font-style:italic;">${work.company}</span>
+                                </span>
+                            </div>
+                            <div style="font-size:1.05rem;font-style:italic;color:#666;margin-left:12px;white-space:nowrap;min-width:120px;">
+                                ${work.period || ""}
+                            </div>
+                        </div>
+                        <ul style="margin: 14px 0 0 18px; color:#333; font-size:1.05rem; padding-left: 0;">
+                            ${Array.isArray(work.description) ? work.description.map(item => `<li style="margin-bottom:4px;">${item}</li>`).join('') : ""}
+                        </ul>
+                    `;
+                } else if (work.active) {
+                    card.innerHTML = `<h3>${work.title}</h3><p>${work.description}</p>`;
+                } else {
+                    card.innerHTML = `<h3>${work.title}</h3><p style="color:#aaa;font-style:italic;">Still working on it / Coming soon...</p>`;
+                }
+                worksList.appendChild(card);
+            });
+        }
     }
+    renderWorks();
 
     // --- 9. Custom Cursor ---
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;

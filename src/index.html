@@ -66,10 +66,15 @@
 
     <section class="main-section" id="about">
         <div class="section-content">
-            <h2>About</h2>
-            <p>
-                Hi, I'm Melvin, a passionate software developer focused on building modern, efficient, and beautiful web applications. I love solving problems and collaborating with others to create impactful digital experiences.
-            </p>
+            <div class="about-image-container">
+                <img src="assets/aboutPic.jpg" alt="A professional headshot of Melvin" class="about-image">
+            </div>
+            <div class="about-text-container">
+                <h2>About</h2>
+                <p>
+                    Hi, I'm Melvin, a passionate software developer focused on building modern, efficient, and beautiful web applications. I love solving problems and collaborating with others to create impactful digital experiences.
+                </p>
+            </div>
         </div>
     </section>
 
@@ -78,36 +83,52 @@
             <h2>Skills</h2>
             <ul class="skills-list">
                 <li>
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="skill-icon">
-                    JavaScript
+                    <div class="skill-content">
+                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="skill-icon"> JavaScript</span>
+                        <span class="skill-rating">9/10</span>
+                    </div>
                 </li>
                 <li>
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="skill-icon">
-                    Python
+                    <div class="skill-content">
+                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="skill-icon"> Python</span>
+                        <span class="skill-rating">7/10</span>
+                    </div>
                 </li>
                 <li>
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js" class="skill-icon">
-                    Vue.js
+                    <div class="skill-content">
+                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js" class="skill-icon"> Vue.js</span>
+                        <span class="skill-rating">8/10</span>
+                    </div>
                 </li>
                 <li>
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js" class="skill-icon">
-                    React.js
+                    <div class="skill-content">
+                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js" class="skill-icon"> React.js</span>
+                        <span class="skill-rating">7/10</span>
+                    </div>
                 </li>
                 <li>
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="skill-icon">
-                    Java
+                    <div class="skill-content">
+                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="skill-icon"> Java</span>
+                        <span class="skill-rating">6/10</span>
+                    </div>
                 </li>
                 <li>
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" class="skill-icon">
-                    MongoDB
+                    <div class="skill-content">
+                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" class="skill-icon"> MongoDB</span>
+                        <span class="skill-rating">8/10</span>
+                    </div>
                 </li>
                 <li>
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="GIT" class="skill-icon">
-                    GIT
+                    <div class="skill-content">
+                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="GIT" class="skill-icon"> GIT</span>
+                        <span class="skill-rating">9/10</span>
+                    </div>
                 </li>
                 <li>
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/subversion/subversion-original.svg" alt="SVN" class="skill-icon">
-                    SVN
+                    <div class="skill-content">
+                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/subversion/subversion-original.svg" alt="SVN" class="skill-icon"> SVN</span>
+                        <span class="skill-rating">8/10</span>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -172,6 +193,8 @@
     </div> -->
 
     <script src="data/works.js"></script>
+    <script src="src/data/about.js"></script>
+    <script src="src/data/skills.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
