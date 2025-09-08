@@ -13,29 +13,46 @@
     --main-font: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
 
-/* Define dark theme variables when the .dark-theme class is on the body OR when the system preference is dark and no manual override is set */
-body.dark-theme,
-body:not(.light-theme) {
-    --main-accent: #39FF14; /* Neon Green - stays vibrant */
+/* 1. System Preference (lowest priority) */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light-theme) {
+        /* This applies dark mode if the system is dark AND no manual light theme is set */
+        --main-accent-dark: #8d99ae; /* Lighter gray for hover */
+        --main-bg: #0d1117; /* GitHub Dark BG */
+        --main-text: #e6edf3; /* Light text */
+        --secondary-text: #8d99ae; /* Lighter gray for secondary text */
+        --card-bg: #161b22; /* GitHub Dark Card BG */
+        --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        --glass-bg: rgba(30, 36, 44, 0.5);
+        --glass-border: 1.5px solid rgba(141, 153, 174, 0.2);
+        --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+    }
+}
+
+/* 2. Manual Dark Theme Toggle (highest priority) */
+body.dark-theme {
     --main-accent-dark: #8d99ae; /* Lighter gray for hover */
-    --main-bg: #0d1117; /* GitHub Dark BG */
-    --main-text: #e6edf3; /* Light text */
-    --secondary-text: #8d99ae; /* Lighter gray for secondary text */
-    --card-bg: #161b22; /* GitHub Dark Card BG */
+    --main-bg: #0d1117;
+    --main-text: #e6edf3;
+    --secondary-text: #8d99ae;
+    --card-bg: #161b22;
     --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
     --glass-bg: rgba(30, 36, 44, 0.5);
     --glass-border: 1.5px solid rgba(141, 153, 174, 0.2);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
 }
 
-@media (prefers-color-scheme: dark) {
-    body:not(.light-theme) {
-        /* This block now correctly applies dark theme variables based on system preference */
-        --main-bg: #0d1117;
-        --main-text: #e6edf3;
-        --secondary-text: #8d99ae;
-        --card-bg: #161b22;
-    }
+/* 2. Manual Light Theme Toggle (highest priority) */
+body.light-theme {
+    --main-accent-dark: #4f5d75; /* Slate Gray for hover */
+    --main-bg: #f3f6fd; /* Light Grayish Blue */
+    --main-text: #22223b; /* Dark Blue */
+    --secondary-text: #4f5d75; /* Slate Gray */
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    --glass-bg: rgba(255, 255, 255, 0.18);
+    --glass-border: 1.5px solid rgba(255, 255, 255, 0.28);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
 }
 
 /* Reset and base styles */
