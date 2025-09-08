@@ -20,20 +20,5 @@ window.worksData = [
         title: "Portfolio Website",
         description: "A modern, responsive portfolio to showcase my projects and skills.",
         active: false
-    },
-    {
-        title: "Task Manager App",
-        description: "A web application for managing daily tasks and productivity.",
-        active: false
-    },
-    {
-        title: "E-commerce Platform",
-        description: "A scalable e-commerce platform with payment integration.",
-        active: false
-    },
-    {
-        title: "Blog System",
-        description: "A full-featured blog system with markdown support.",
-        active: false
     }
 ];

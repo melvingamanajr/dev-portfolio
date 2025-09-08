@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     highlight.textContent = originalText;
                 }
                 frame++;
-            }, 50);
+            }, 100);
         };
 
         highlight.addEventListener('mouseenter', scramble);

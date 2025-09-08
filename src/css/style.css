@@ -3,7 +3,7 @@
     --main-accent-dark: #4f5d75;
     --main-bg: #f3f6fd;
     --main-text: #22223b;
-    --main-font: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    --main-font: 'Inter', 'Segoe UI', Arial, sans-serif;
     --card-bg: #fff;
     --card-shadow: 0 4px 24px rgba(0,0,0,0.04);
     --glass-bg: rgba(255, 255, 255, 0.18);
@@ -195,6 +195,11 @@ nav a:hover::after {
     transform: translateY(0);
 }
 
+.main-section#home {
+    padding-top: 20px; /* Reduced top padding for the home section */
+    padding-bottom: 20px; /* Reduced bottom padding for the home section */
+}
+
 .main-info {
     flex: 1;
     display: flex;
@@ -276,9 +281,9 @@ nav a:hover::after {
 
 .main-image-bg {
     background: var(--main-accent);
-    border-radius: 100%;
-    width: 300px;
-    height: 300px;
+    border-radius: 5%;
+    width: 360px;
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -313,7 +318,7 @@ nav a:hover::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%; /* Make it a perfect circle by default */
+    border-radius: 5%;
     animation: none !important;
     transition: none !important;
 }
@@ -322,15 +327,15 @@ nav a:hover::after {
     .main-section {
         flex-direction: column;
         align-items: center;
-    justify-content: flex-start; /* Align content to the top by default on mobile */
+        justify-content: flex-start; /* Align content to the top by default on mobile */
         padding: 32px 8px 24px 8px;
     }
 
         /* On mobile, show the image before the info text on the home section */
         .main-section#home {
         justify-content: center; /* But keep the home section vertically centered */
-            flex-direction: column-reverse;
-            gap: 24px; /* Add space between image and text */
+        flex-direction: column-reverse;
+        gap: 24px; /* Add space between image and text */
         }
 
         .main-info {
@@ -346,7 +351,7 @@ nav a:hover::after {
         border-radius: 32px; /* Change to a rounded square on mobile */
     }
     .main-image-bg img {
-        width: 100%;
+        width: 70%;
         height: 100%;
         border-radius: 32px; /* Match the container's rounded square shape */
     }
