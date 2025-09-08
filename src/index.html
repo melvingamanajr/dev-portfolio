@@ -32,6 +32,7 @@
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Works</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="#settings">Settings</a></li>
                     <li><a href="#resume">Resume</a></li>
                 </ul>
             </nav>
@@ -43,7 +44,7 @@
             <h2>
                 Hi<span class="wave-emoji">👋</span>,<br>
                 I'm <span class="highlight" tabindex="0">Melvin</span><br>
-                <span style="color:#22223b;">Software Developer</span>
+                <span class="job-title">Software Developer</span>
             </h2>
             <p>
                 I build accessible, inclusive products and digital experiences for the web.
@@ -184,15 +185,28 @@
         </div>
     </section>
 
-    <div id="fireworks-container" class="fireworks-container"></div>
+    <section class="main-section" id="settings">
+        <div class="section-content">
+            <h2>Settings</h2>
+            <div class="settings-container">
+                <div class="setting-item">
+                    <label class="setting-label">Theme</label>
+                    <div class="theme-toggle">
+                        <button id="theme-light" class="theme-btn active" aria-label="Switch to light theme"><i class="fas fa-sun"></i> Light</button>
+                        <button id="theme-dark" class="theme-btn" aria-label="Switch to dark theme"><i class="fas fa-moon"></i> Dark</button>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label for="accent-color-picker" class="setting-label">Accent Color</label>
+                    <input type="color" id="accent-color-picker" class="accent-color-select" value="#39FF14">
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Place this where you want the color selector to appear, e.g. in your header or settings area -->
-    <!-- <div class="accent-color-container">
-        <label for="accent-color-picker" class="accent-color-label">Accent:</label>
-        <input type="color" id="accent-color-picker" class="accent-color-select" value="#39FF14">
-    </div> -->
+    <div id="fireworks-container" class="fireworks-container"></div>
 
     <script src="data/works.js"></script>
     <script src="js/main.js"></script>
 </body>
-</html>
+</html> 

@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const fireworksContainer = document.getElementById('fireworks-container');
     const worksList = document.querySelector('#projects .works-list');
     const colorPicker = document.getElementById('accent-color-picker');
+    const themeLightBtn = document.getElementById('theme-light');
+    const themeDarkBtn = document.getElementById('theme-dark');
+    const body = document.body;
 
     // --- 2. Loading Spinner ---
     if (loadingSpinnerContainer) {
@@ -183,18 +186,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (work.experience) {
                     card.innerHTML = `
                         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
-                            <div>
-                                <span style="font-size:1.13rem;font-weight:700;color:#22223b;">${work.title}</span><br>
-                                <span style="font-size:1.05rem;font-style:italic;font-weight:500;color:#444;">
+                            <div class="work-item-header">
+                                <span class="work-item-title">${work.title}</span><br>
+                                <span class="work-item-company">
                                     <span style="font-family:'Georgia',serif;font-style:italic;">${work.company}</span>
                                 </span>
                             </div>
-                            <div style="font-size:1.05rem;font-style:italic;color:#666;margin-left:12px;white-space:nowrap;min-width:120px;">
+                            <div class="work-item-period">
                                 ${work.period || ""}
                             </div>
                         </div>
-                        <ul style="margin: 14px 0 0 18px; color:#333; font-size:1.05rem; padding-left: 0;">
-                            ${Array.isArray(work.description) ? work.description.map(item => `<li style="margin-bottom:4px;">${item}</li>`).join('') : ""}
+                        <ul>
+                            ${Array.isArray(work.description) ? work.description.map(item => `<li>${item}</li>`).join('') : ""}
                         </ul>
                     `;
                 } else if (work.active) {
@@ -236,4 +239,39 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('mainAccent', this.value);
         });
     }
+
+    // --- 11. Manual Theme Toggle ---
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            body.classList.add('dark-theme');
+            body.classList.remove('light-theme');
+        } else {
+            body.classList.add('light-theme');
+            body.classList.remove('dark-theme');
+        }
+        themeDarkBtn.classList.toggle('active', theme === 'dark');
+        themeLightBtn.classList.toggle('active', theme === 'light');
+        localStorage.setItem('theme', theme);
+    }
+
+    if (themeLightBtn && themeDarkBtn) {
+        themeLightBtn.addEventListener('click', () => applyTheme('light'));
+        themeDarkBtn.addEventListener('click', () => applyTheme('dark'));
+
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else {
+            // If no saved theme, check system preference
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                applyTheme('dark');
+            } else {
+                applyTheme('light');
+            }
+        }
+    }
+
+
 });

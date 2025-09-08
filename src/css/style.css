@@ -1,14 +1,41 @@
 :root {
-    --main-accent: #39FF14;
-    --main-accent-dark: #4f5d75;
-    --main-bg: #f3f6fd;
-    --main-text: #22223b;
-    --main-font: 'Inter', 'Segoe UI', Arial, sans-serif;
-    --card-bg: #fff;
-    --card-shadow: 0 4px 24px rgba(0,0,0,0.04);
+    /* Light Theme (Default) */
+    --main-accent: #39FF14; /* Neon Green */
+    --main-accent-dark: #4f5d75; /* Slate Gray for hover */
+    --main-bg: #f3f6fd; /* Light Grayish Blue */
+    --main-text: #22223b; /* Dark Blue */
+    --secondary-text: #4f5d75; /* Slate Gray */
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
     --glass-bg: rgba(255, 255, 255, 0.18);
     --glass-border: 1.5px solid rgba(255, 255, 255, 0.28);
     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+    --main-font: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+/* Define dark theme variables when the .dark-theme class is on the body OR when the system preference is dark and no manual override is set */
+body.dark-theme,
+body:not(.light-theme) {
+    --main-accent: #39FF14; /* Neon Green - stays vibrant */
+    --main-accent-dark: #8d99ae; /* Lighter gray for hover */
+    --main-bg: #0d1117; /* GitHub Dark BG */
+    --main-text: #e6edf3; /* Light text */
+    --secondary-text: #8d99ae; /* Lighter gray for secondary text */
+    --card-bg: #161b22; /* GitHub Dark Card BG */
+    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    --glass-bg: rgba(30, 36, 44, 0.5);
+    --glass-border: 1.5px solid rgba(141, 153, 174, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.light-theme) {
+        /* This block now correctly applies dark theme variables based on system preference */
+        --main-bg: #0d1117;
+        --main-text: #e6edf3;
+        --secondary-text: #8d99ae;
+        --card-bg: #161b22;
+    }
 }
 
 /* Reset and base styles */
@@ -18,6 +45,7 @@ body {
     padding: 0;
     background: var(--main-bg);
     color: var(--main-text);
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 * {
@@ -27,6 +55,7 @@ body {
 header {
     background: var(--card-bg);
     border-radius: 20px 20px 0 0;
+    transition: background-color 0.5s ease;
     box-shadow: var(--card-shadow);
     margin: 24px auto 0 auto;
     max-width: 1200px;
@@ -82,6 +111,7 @@ nav a {
     text-decoration: none;
     font-weight: 600;
     font-size: 1.05rem;
+    color: var(--main-text);
     padding: 8px 0;
     position: relative;
     transition: color 0.2s;
@@ -121,7 +151,7 @@ nav a:hover::after {
 .nav-toggle .bar {
     width: 26px;
     height: 3px;
-    background: #4f5d75;
+    background: var(--secondary-text);
     margin: 4px 0;
     border-radius: 2px;
     transition: 0.3s;
@@ -147,7 +177,7 @@ nav a:hover::after {
         display: none;
         flex-direction: column;
         gap: 0;
-        background: #fff;
+        background-color: var(--card-bg);
         position: absolute;
         top: 60px;
         right: 0;
@@ -155,6 +185,7 @@ nav a:hover::after {
         width: 180px; /* Make the menu wider */
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         padding: 24px; /* Increase padding for more space */
+        transition: background-color 0.5s ease;
         border-radius: 12px;
         z-index: 100;
         align-items: center; /* Center the list items horizontally */
@@ -177,8 +208,8 @@ nav a:hover::after {
     align-items: center;
     max-width: 1200px;
     width: 95vw;
-    margin: 0 auto;
-    background: #f9fafb; /* Changed from white to a light gray */
+    margin: 0 auto 40px auto;
+    background-color: var(--card-bg);
     border-radius: 0 0 24px 24px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.04);
     padding: 60px 40px 40px 60px;
@@ -186,7 +217,7 @@ nav a:hover::after {
     margin-bottom: 40px;
     /* For fade-in animation */
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px); 
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
@@ -212,7 +243,7 @@ nav a:hover::after {
     font-size: 2.5rem;
     font-weight: 700;
     margin: 0 0 10px 0;
-    color: #22223b;
+    color: var(--main-text); 
     line-height: 1.1;
 }
 
@@ -220,10 +251,16 @@ nav a:hover::after {
     color: var(--main-accent);
 }
 
+.main-info h2 .job-title {
+    color: var(--main-text);
+    transition: color 0.5s ease;
+}
+
 .main-info p {
     font-size: 1.2rem;
-    color: #4f5d75;
+    color: var(--secondary-text);
     margin: 0 0 30px 0;
+    transition: color 0.5s ease;
 }
 
 .main-info .main-btn,
@@ -262,7 +299,7 @@ nav a:hover::after {
 }
 
 .main-social a {
-    color: var(--main-text);
+    color: var(--secondary-text);
     font-size: 1.5rem;
     transition: color 0.2s;
 }
@@ -373,9 +410,9 @@ nav a:hover::after {
 .section-content {
     max-width: 900px;
     margin: 0 auto;
-    background: #fff;
+    background: transparent; /* Make it transparent to show the section background */
     border-radius: 18px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    box-shadow: none; /* Remove shadow as it's on the parent section */
     padding: 40px 32px 32px 32px;
     margin-bottom: 32px;
     display: flex;
@@ -386,7 +423,7 @@ nav a:hover::after {
 .section-content h2 {
     font-size: 2.2rem;
     font-weight: 700;
-    color: #22223b;
+    color: var(--main-text);
     margin-bottom: 24px;
     margin-top: 0;
     text-align: left;
@@ -447,7 +484,7 @@ nav a:hover::after {
 .about-section h2,
 .skills-section h2,
 .works-section h2,
-.contact-section h2 {
+.contact-section h2, #resume h2 {
     font-size: 2rem;
     font-weight: 700;
     color: #22223b;
@@ -464,12 +501,12 @@ nav a:hover::after {
     padding: 0;
     margin: 0;
     font-size: 1.1rem;
-    color: #4f5d75;
+    color: var(--secondary-text);
     align-items: center;
 }
 
 .skills-list li {
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--glass-bg);
     border-radius: 18px;
     padding: 0; /* Remove padding from li, will be on content */
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
@@ -477,6 +514,7 @@ nav a:hover::after {
     -webkit-backdrop-filter: blur(12px);
     border: 1.5px solid rgba(255, 255, 255, 0.28);
     transition: box-shadow 0.2s, transform 0.2s;
+    transition: background-color 0.5s ease, box-shadow 0.2s, transform 0.2s;
     position: relative;
     overflow: hidden;
     min-width: 180px; /* Increased min-width to accommodate rating */
@@ -498,12 +536,13 @@ nav a:hover::after {
     align-items: center;
     justify-content: center;
     gap: 12px;
+    color: var(--main-text);
 }
 
 .skill-rating {
     font-weight: 700;
     font-size: 1.2rem;
-    color: #4f5d75;
+    color: var(--secondary-text); 
 }
 
 .skills-list li:hover {
@@ -529,14 +568,14 @@ nav a:hover::after {
 }
 
 .work-item {
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--glass-bg);
     border-radius: 18px;
     padding: 24px 28px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1.5px solid rgba(255, 255, 255, 0.28);
-    transition: box-shadow 0.2s, transform 0.2s;
+    transition: background-color 0.5s ease, box-shadow 0.2s, transform 0.2s;
     position: relative;
     overflow: hidden;
 }
@@ -548,21 +587,21 @@ nav a:hover::after {
 
 .work-item h3 {
     margin: 0 0 8px 0;
-    color: #22223b;
+    color: var(--main-text);
     font-size: 1.25rem;
     font-weight: 700;
 }
 
 .work-item p {
     margin: 0;
-    color: #4f5d75;
+    color: var(--secondary-text);
     font-size: 1.05rem;
 }
 
 .work-item ul {
     margin: 14px 0 0 18px;
     padding-left: 0;
-    color: #333;
+    color: var(--secondary-text);
     font-size: 1.05rem;
     list-style: disc inside;
 }
@@ -572,8 +611,35 @@ nav a:hover::after {
     font-size: 1.05rem;
 }
 
+/* Styles for dynamically generated work items */
+.work-item-header {
+    flex-grow: 1;
+}
+
+.work-item-title {
+    font-size: 1.13rem;
+    font-weight: 700;
+    color: var(--main-text);
+}
+
+.work-item-company {
+    font-size: 1.05rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--secondary-text);
+}
+
+.work-item-period {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--secondary-text);
+    margin-left: 12px;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
 .contact-form {
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--glass-bg);
     border-radius: 18px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
     backdrop-filter: blur(12px);
@@ -603,7 +669,7 @@ nav a:hover::after {
 
 .contact-form label {
     font-weight: 600;
-    color: #22223b;
+    color: var(--main-text);
     margin-bottom: 4px;
 }
 
@@ -613,8 +679,10 @@ nav a:hover::after {
     border: 1px solid #e0e0e0;
     border-radius: 6px;
     font-size: 1rem;
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
     font-family: inherit;
-    background: #f8fafc;
+    background: var(--main-bg);
+    color: var(--main-text);
     resize: none;
     margin-bottom: 12px;
     width: 100%;
@@ -667,7 +735,7 @@ nav a:hover::after {
         padding: 0;
         margin: 0;
         width: 100%;
-        background: #f3f6fd;
+        background: var(--main-bg);
     }
 
     header {
@@ -854,7 +922,7 @@ nav a:hover::after {
     border-radius: 16px;
     border: 1.5px solid #e0e0e0;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
-    background: #fff;
+    background: var(--card-bg);
     max-width: 100%;
     display: block;
 }
@@ -909,7 +977,7 @@ nav a:hover::after {
     transform: translate(-50%, -50%);
     transition: background 0.2s, transform 0.08s;
     box-shadow: 0 0 12px var(--main-accent)88;
-    mix-blend-mode: multiply;
+    mix-blend-mode: difference;
 }
 
 #loading-spinner-container {
@@ -952,7 +1020,10 @@ nav a:hover::after {
     -webkit-backdrop-filter: blur(12px);
     border: var(--glass-border);
 }
-
+.main-section {
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+}
 .fireworks-container {
     position: fixed;
     top: 0;
@@ -983,6 +1054,70 @@ nav a:hover::after {
     box-shadow: var(--card-shadow);
     pointer-events: none;
     white-space: pre-line; /* Allows line breaks in the message */
+}
+
+/* --- Settings Section --- */
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    background: var(--main-bg);
+    transition: background-color 0.5s ease;
+    border-radius: 12px;
+}
+
+.setting-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--main-text);
+}
+
+.theme-toggle {
+    display: flex;
+    background-color: var(--glass-bg);
+    border-radius: 8px;
+    padding: 4px;
+    border: 1px solid var(--glass-border);
+}
+
+.theme-btn {
+    background: transparent;
+    border: none;
+    color: var(--secondary-text);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.theme-btn.active {
+    background-color: var(--card-bg);
+    color: var(--main-text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.accent-color-select {
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: transparent;
 }
 
 .accent-color-container {
