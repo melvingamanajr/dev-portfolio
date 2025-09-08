@@ -61,8 +61,32 @@ body {
     margin: 0;
     padding: 0;
     background: var(--main-bg);
-    color: var(--main-text);
-    transition: background-color 0.5s ease, color 0.5s ease;
+    color: var(--main-text); 
+    position: relative; /* Needed for the pseudo-element */
+    transition: color 0.5s ease 0.2s; /* Delay text color change slightly */
+}
+
+/* --- Theme Wipe Transition --- */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--main-bg);
+    z-index: -1; /* Sit behind the content */
+    transition: clip-path 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Sunrise (to Light Mode) */
+body.light-theme::before {
+    clip-path: circle(150% at 0 100%); /* Start from bottom-left */
+}
+
+/* Sunset (to Dark Mode) */
+body.dark-theme::before {
+    clip-path: circle(150% at 100% 0); /* Start from top-right */
 }
 
 * {
@@ -270,7 +294,15 @@ nav a:hover::after {
 
 .main-info h2 .job-title {
     color: var(--main-text);
-    transition: color 0.5s ease;
+    /* Typing animation styles */
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.1em solid var(--main-accent);
+    /* Animation will be controlled by JavaScript */
+    animation: blink-caret .75s step-end infinite;
+    width: 0; /* Initially no width */
+    vertical-align: bottom; /* Aligns the cursor nicely with the text */
 }
 
 .main-info p {
@@ -443,11 +475,10 @@ nav a:hover::after {
     color: var(--main-text);
     margin-bottom: 24px;
     margin-top: 0;
-    text-align: left;
     letter-spacing: 1px;
-    border-bottom: 2px solid #f3f6fd;
+    border-bottom: 3px solid var(--main-accent);
     padding-bottom: 8px;
-    align-self: flex-start;
+    display: inline-block; /* Ensures the underline only spans the text width */
 }
 
 .about-image-container {
@@ -496,18 +527,6 @@ nav a:hover::after {
     .about-text-container {
         padding-left: 0;
     }
-}
-
-.about-section h2,
-.skills-section h2,
-.works-section h2,
-.contact-section h2, #resume h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #22223b;
-    margin-bottom: 18px;
-    border-bottom: 2px solid #f3f6fd;
-    padding-bottom: 8px;
 }
 
 .skills-list {
@@ -725,7 +744,27 @@ nav a:hover::after {
 
 .contact-form button[type="submit"]:hover {
     background: var(--main-accent-dark);
+    color: var(--main-bg);
+}
+
+/* "Subscribed" button animation */
+.contact-form button[type="submit"].subscribed {
+    cursor: default;
+    color: #fff; /* White text for better contrast on rainbow */
+    border: none;
+    background-size: 400% 400%;
+    animation: rainbow-background 3s ease infinite;
+    background-image: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+}
+
+.contact-form button[type="submit"].subscribed:hover {
     color: #fff;
+}
+
+@keyframes rainbow-background {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 @media (max-width: 700px) {
@@ -1025,18 +1064,24 @@ nav a:hover::after {
     to { transform: rotate(360deg); }
 }
 
-/* Glassmorphism cards */
-.skills-list li,
-.work-item,
-.contact-form,
-.resume-preview-container {
-    background: var(--glass-bg);
-    border-radius: 18px;
-    box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: var(--glass-border);
+/* Keyframes for the typing animation */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 10.5em; } /* Adjust this width to fit the text "Software Developer" */
 }
+
+/* Keyframes for the deleting animation */
+@keyframes deleting {
+    from { width: 10.5em; }
+    to { width: 0; }
+}
+
+/* Keyframes for the blinking cursor */
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--main-accent); }
+}
+
 .main-section {
     background: var(--card-bg);
     box-shadow: var(--card-shadow);
@@ -1059,18 +1104,20 @@ nav a:hover::after {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--main-text);
-    background: var(--card-bg);
+    color: #fff; /* White text for better contrast */
+    background-image: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: rainbow-background 5s ease infinite;
     padding: 2rem 3rem;
     border-radius: 12px;
     font-size: 1.5rem;
     font-weight: 700;
-    z-index: 10000;
     text-align: center;
     box-shadow: var(--card-shadow);
     pointer-events: none;
     white-space: pre-line; /* Allows line breaks in the message */
+    transform: translate(-50%, -50%);
+    z-index: 10000;
 }
 
 /* --- Settings Section --- */
@@ -1160,4 +1207,17 @@ nav a:hover::after {
     outline:1px solid #ccc;
     border-radius:8px;
     cursor:pointer;
+}
+
+/* Glassmorphism cards - Moved here for correct specificity */
+.skills-list li,
+.work-item,
+.contact-form,
+.resume-preview-container {
+    background: var(--glass-bg);
+    border-radius: 18px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: var(--glass-border);
 }

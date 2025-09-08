@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const themeLightBtn = document.getElementById('theme-light');
     const themeDarkBtn = document.getElementById('theme-dark');
     const body = document.body;
+    const jobTitle = document.querySelector('.job-title');
 
     // --- 2. Loading Spinner ---
     if (loadingSpinnerContainer) {
@@ -92,7 +93,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const fadeObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
+                entry.target.classList.add('is-visible'); 
+                // If the home section is visible, start the full typing animation sequence
+                if (entry.target.id === 'home' && jobTitle) {
+                    // Prevent re-triggering if animation is already running
+                    if (jobTitle.dataset.animating === 'true') return;
+                    jobTitle.dataset.animating = 'true';
+
+                    // 1. Initial typing
+                    jobTitle.style.animation = 'typing 2s steps(20, end) forwards, blink-caret .75s step-end infinite';
+
+                    // 2. Pause for 5 seconds, then delete
+                    setTimeout(() => {
+                        jobTitle.style.animation = 'deleting 2s steps(20, end) forwards, blink-caret .75s step-end infinite';
+                    }, 7000); // 2s typing + 5s pause
+
+                    // 3. Pause after deleting, then re-type to final state
+                    setTimeout(() => {
+                        jobTitle.style.animation = 'typing 2s steps(20, end) forwards, blink-caret .75s step-end infinite';
+                        // Animation finished, allow it to be re-triggered if the user scrolls away and back
+                        setTimeout(() => jobTitle.dataset.animating = 'false', 2000);
+                    }, 9500); // 7s from start + 2s deleting + 0.5s pause
+                }
             } else {
                 entry.target.classList.remove('is-visible');
             }
@@ -139,20 +161,28 @@ document.addEventListener('DOMContentLoaded', function () {
     if (contactForm && fireworksContainer) {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            console.log('Form submitted!'); // ADDED
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+
+            // Change button state to "subscribed"
+            submitButton.classList.add('subscribed');
+            submitButton.textContent = 'Message Sent!';
+            submitButton.disabled = true;
+
+            // Show fireworks and message
             fireworksContainer.style.display = 'block';
             fireworksContainer.innerHTML = `<div class="fireworks-message">Thank you! I'll be in touch soon.</div>`;
-            console.log('Fireworks displayed'); // ADDED
 
             // You can add a real form submission here (e.g., using fetch to an endpoint)
 
-            contactForm.reset();
-            console.log('Form reset'); // ADDED
+            // Hide fireworks and reset form after a delay
             setTimeout(() => {
                 fireworksContainer.style.display = 'none';
                 fireworksContainer.innerHTML = '';
+                contactForm.reset();
+                submitButton.classList.remove('subscribed');
+                submitButton.textContent = 'Send Message';
+                submitButton.disabled = false;
             }, 4000);
-            console.log('Fireworks hidden'); // ADDED
         });
     }
 
@@ -238,6 +268,12 @@ document.addEventListener('DOMContentLoaded', function () {
             document.documentElement.style.setProperty('--main-accent', this.value);
             localStorage.setItem('mainAccent', this.value);
         });
+    }
+
+    // --- Initial setup for typing animation ---
+    if (jobTitle) {
+        // Set initial animation to just the blinking cursor
+        jobTitle.style.animation = 'blink-caret .75s step-end infinite';
     }
 
     // --- 11. Manual Theme Toggle ---
