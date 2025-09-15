@@ -1,7 +1,6 @@
-// Export your works data array
-window.worksUnderMaintenance = false; // Set to true to show only "Still working on it / Coming soon"
+// src/data/works.js
 
-window.worksData = [
+window.experienceData = [
     {
         title: "Technical Specialist I",
         company: "Alliance Software Inc. – Cebu City, Philippines",
@@ -13,12 +12,36 @@ window.worksData = [
             "Performed Unit, Integration, System and Mobile Testing to ensure cross-platform stability and reliability."
         ],
         period: "July 2024 – Current",
-        experience: true,
+        image: "assets/project_placeholder.png",
+        active: true
+    }
+];
+
+window.projectsData = [
+    {
+        title: "Real-Time Employee Monitoring System with Face Recognition",
+        company: "Capstone Project",
+        description: [
+            "Developed a real-time employee monitoring system as a capstone project.",
+            "Utilized an AI model for face recognition to automate attendance and monitoring.",
+            "Managed data persistence and retrieval using a MySQL database.",
+            "Collaborated on the project using SVN for version control."
+        ],
+        image: "assets/project_placeholder.png",
+        period: "2023",
         active: true
     },
     {
-        title: "Portfolio Website",
-        description: "A modern, responsive portfolio to showcase my projects and skills.",
-        active: false
+        title: "Personal Portfolio Website",
+        company: "Personal Project",
+        description: [
+            "Developed a responsive personal portfolio using HTML, CSS, and vanilla JavaScript.",
+            "Implemented interactive features like a theme switcher, accent color picker, and animations.",
+            "Designed with a mobile-first approach to ensure a seamless experience across all devices.",
+            "Structured the project with separate data files for easy updates to skills and work history."
+        ],
+        image: "assets/project_placeholder.png",
+        period: "Auguest 2025 – Current",
+        active: true
     }
 ];

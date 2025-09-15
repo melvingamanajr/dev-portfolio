@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const highlight = document.querySelector('.highlight');
     const contactForm = document.querySelector('.contact-form');
     const fireworksContainer = document.getElementById('fireworks-container');
-    const worksList = document.querySelector('#projects .works-list');
     const colorPicker = document.getElementById('accent-color-picker');
     const themeLightBtn = document.getElementById('theme-light');
     const themeDarkBtn = document.getElementById('theme-dark');
@@ -103,17 +102,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     // 1. Initial typing
                     jobTitle.style.animation = 'typing 2s steps(20, end) forwards, blink-caret .75s step-end infinite';
 
-                    // 2. Pause for 5 seconds, then delete
+                    // 2. Pause for 3 seconds, then delete
                     setTimeout(() => {
                         jobTitle.style.animation = 'deleting 2s steps(20, end) forwards, blink-caret .75s step-end infinite';
-                    }, 7000); // 2s typing + 5s pause
+                    }, 5000); // 2s typing + 3s pause
 
                     // 3. Pause after deleting, then re-type to final state
                     setTimeout(() => {
                         jobTitle.style.animation = 'typing 2s steps(20, end) forwards, blink-caret .75s step-end infinite';
                         // Animation finished, allow it to be re-triggered if the user scrolls away and back
                         setTimeout(() => jobTitle.dataset.animating = 'false', 2000);
-                    }, 9500); // 7s from start + 2s deleting + 0.5s pause
+                    }, 7500); // 5s from start + 2s deleting + 0.5s pause
                 }
             } else {
                 entry.target.classList.remove('is-visible');
@@ -126,36 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sections.forEach(section => fadeObserver.observe(section));
 
-    // --- 6. Scramble Animation for Name ---
-    if (highlight) {
-        const originalText = highlight.textContent;
-        const chars = 'MELVINmelvin';
-
-        const scramble = () => {
-            let frame = 0;
-            const totalFrames = 30;
-            const interval = setInterval(() => {
-                highlight.textContent = originalText
-                    .split('')
-                    .map((char, index) => {
-                        if (frame / totalFrames > Math.random() || char === ' ') {
-                            return originalText[index];
-                        }
-                        return chars[Math.floor(Math.random() * chars.length)];
-                    })
-                    .join('');
-
-                if (frame >= totalFrames) {
-                    clearInterval(interval);
-                    highlight.textContent = originalText;
-                }
-                frame++;
-            }, 100);
-        };
-
-        highlight.addEventListener('mouseenter', scramble);
-        highlight.addEventListener('focus', scramble);
-    }
+    // --- 6. Scramble Animation for Name (Removed) ---
 
     // --- 7. Fireworks on Contact Form Submit ---
     if (contactForm && fireworksContainer) {
@@ -187,59 +157,100 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- 8. Dynamic Project Loading ---
-    function renderWorks() {
-        const worksSection = document.querySelector('#projects .works-list');
-        if (!worksSection && document.querySelector('#projects')) {
-            const sectionContent = document.querySelector('#projects .section-content') || document.querySelector('#projects');
-            const worksList = document.createElement('div');
-            worksList.className = 'works-list';
-            sectionContent.appendChild(worksList);
-        }
-        const worksList = document.querySelector('#projects .works-list');
-        if (!worksList) return;
-        worksList.innerHTML = '';
+    function renderExperience() {
+        const experienceList = document.querySelector('#experience .experience-list');
+        if (!experienceList) return;
+        experienceList.innerHTML = '';
 
-        if (window.worksUnderMaintenance) {
-            const card = document.createElement('div');
-            card.className = 'work-item';
-            card.innerHTML = `<h3>Works</h3><p style="color:#aaa;font-style:italic;">Still working on it / Coming soon...</p>`;
-            worksList.appendChild(card);
-            return;
-        }
-
-        if (window.worksData && Array.isArray(window.worksData)) {
-            window.worksData.forEach(work => {
+        if (window.experienceData && Array.isArray(window.experienceData)) {
+            window.experienceData.forEach(exp => {
                 const card = document.createElement('div');
-                card.className = 'work-item';
-
-                // Experience card design
-                if (work.experience) {
-                    card.innerHTML = `
+                card.className = 'work-item'; // Use the same class as projects for ticket styling
+                card.innerHTML = `
+                    <div class="work-item-image-part">
+                        <img src="${exp.image}" alt="${exp.company} logo">
+                    </div>
+                    <div class="work-item-details-part">
                         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
                             <div class="work-item-header">
-                                <span class="work-item-title">${work.title}</span><br>
+                                <span class="work-item-title">${exp.title}</span><br>
                                 <span class="work-item-company">
-                                    <span style="font-family:'Georgia',serif;font-style:italic;">${work.company}</span>
+                                    <span style="font-family:'Georgia',serif;font-style:italic;">${exp.company}</span>
                                 </span>
                             </div>
                             <div class="work-item-period">
-                                ${work.period || ""}
+                                ${exp.period || ""}
                             </div>
                         </div>
                         <ul>
-                            ${Array.isArray(work.description) ? work.description.map(item => `<li>${item}</li>`).join('') : ""}
+                            ${Array.isArray(exp.description) ? exp.description.map(item => `<li>${item}</li>`).join('') : ""}
                         </ul>
-                    `;
-                } else if (work.active) {
-                    card.innerHTML = `<h3>${work.title}</h3><p>${work.description}</p>`;
-                } else {
-                    card.innerHTML = `<h3>${work.title}</h3><p style="color:#aaa;font-style:italic;">Still working on it / Coming soon...</p>`;
-                }
-                worksList.appendChild(card);
+                    </div>
+                `;
+                experienceList.appendChild(card);
             });
         }
     }
-    renderWorks();
+
+    function renderProjects() {
+        const projectsList = document.querySelector('#projects .projects-list');
+        if (!projectsList) return;
+        projectsList.innerHTML = '';
+
+        if (window.projectsData && Array.isArray(window.projectsData)) {
+            window.projectsData.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'work-item';
+
+                if (project.active) {
+                    card.innerHTML = `
+                        <div class="work-item-image-part">
+                            <img src="${project.image}" alt="${project.title} preview">
+                        </div>
+                        <div class="work-item-details-part">
+                            <div class="work-item-header">
+                                <span class="work-item-title">${project.title}</span><br>
+                                <span class="work-item-company">${project.company}</span>
+                            </div>
+                            <ul>
+                                ${Array.isArray(project.description) ? project.description.map(item => `<li>${item}</li>`).join('') : ""}
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    card.innerHTML = `<div class="work-item-details-part"><h3>${project.title}</h3><p style="color:#aaa;font-style:italic;">Still working on it / Coming soon...</p></div>`;
+                }
+                projectsList.appendChild(card);
+            });
+        }
+    }
+    renderExperience();
+    renderProjects();
+
+    function renderCertifications() {
+        const certificationsList = document.querySelector('#certifications .certifications-list');
+        if (!certificationsList) return;
+        certificationsList.innerHTML = '';
+
+        if (window.certificationsData && Array.isArray(window.certificationsData)) {
+            window.certificationsData.forEach(cert => {
+                const card = document.createElement('div');
+                card.className = 'certification-item';
+
+                card.innerHTML = `
+                    <div class="certification-icon">
+                        <i class="${cert.icon || 'fa-solid fa-award'}"></i>
+                    </div>
+                    <div class="certification-details">
+                        <span class="certification-title">${cert.title}</span>
+                        <span class="certification-issuer">${cert.issuer} - ${cert.date}</span>
+                    </div>
+                `;
+                certificationsList.appendChild(card);
+            });
+        }
+    }
+    renderCertifications();
 
     // --- 9. Custom Cursor ---
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;

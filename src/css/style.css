@@ -94,7 +94,7 @@ body.dark-theme::before {
 }
 
 header {
-    background: var(--card-bg);
+    background: var(--card-bg); /* Revert to solid background */
     border-radius: 20px 20px 0 0;
     transition: background-color 0.5s ease;
     box-shadow: var(--card-shadow);
@@ -103,7 +103,7 @@ header {
     width: 95vw;
     padding: 0;
     position: sticky;
-    top: 0;
+    top: 24px; /* Make it stick 24px from the top */
     z-index: 1000;
 }
 
@@ -208,7 +208,7 @@ nav a:hover::after {
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 820px) {
     .header-container {
         flex-direction: row;
         align-items: center;
@@ -245,15 +245,18 @@ nav a:hover::after {
 
 .main-section {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* Change to column to stack header and content */
     align-items: center;
     max-width: 1200px;
     width: 95vw;
-    margin: 0 auto 40px auto;
-    background-color: var(--card-bg);
+    margin: 0 auto;
+    background-color: var(--glass-bg); /* Use the semi-transparent background */
     border-radius: 0 0 24px 24px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-    padding: 60px 40px 40px 60px;
+    box-shadow: var(--glass-shadow); /* Use the glass shadow */
+    backdrop-filter: blur(12px); /* Apply the blur effect */
+    -webkit-backdrop-filter: blur(12px); /* For Safari compatibility */
+    border: var(--glass-border); /* Add the subtle glass border */
+    padding: 0; /* Remove padding, will be on children */
     min-height: 100vh;
     margin-bottom: 40px;
     /* For fade-in animation */
@@ -261,6 +264,11 @@ nav a:hover::after {
     transform: translateY(20px); 
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
+/* Add margin to all sections except the first one (home) */
+.main-section + .main-section {
+    margin-top: 40px;
+}
+
 
 .main-section.is-visible {
     opacity: 1;
@@ -268,6 +276,8 @@ nav a:hover::after {
 }
 
 .main-section#home {
+    flex-direction: row; /* Revert for home section */
+    padding: 20px 40px; /* Restore padding for the home section */
     padding-top: 20px; /* Reduced top padding for the home section */
     padding-bottom: 20px; /* Reduced bottom padding for the home section */
 }
@@ -411,10 +421,6 @@ nav a:hover::after {
 
 @media (max-width: 900px) {
     .main-section {
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start; /* Align content to the top by default on mobile */
-        padding: 32px 8px 24px 8px;
     }
 
         /* On mobile, show the image before the info text on the home section */
@@ -457,28 +463,31 @@ nav a:hover::after {
 }
 
 .section-content {
-    max-width: 900px;
+    width: 100%;
     margin: 0 auto;
     background: transparent; /* Make it transparent to show the section background */
-    border-radius: 18px;
     box-shadow: none; /* Remove shadow as it's on the parent section */
-    padding: 40px 32px 32px 32px;
-    margin-bottom: 32px;
+    padding: 24px 40px 40px 40px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* Center content by default */
 }
 
-.section-content h2 {
-    font-size: 2.2rem;
+/* New Card Header Style for H2 */
+.main-section > h2 {
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--main-text);
-    margin-bottom: 24px;
-    margin-top: 0;
+    margin: 0;
     letter-spacing: 1px;
-    border-bottom: 3px solid var(--main-accent);
-    padding-bottom: 8px;
-    display: inline-block; /* Ensures the underline only spans the text width */
+    padding: 24px 40px;
+    width: 100%;
+    text-align: left;
+}
+
+/* Keep the home section's h2 as it was */
+.main-section#home h2 {
+    border-bottom: none;
 }
 
 .about-image-container {
@@ -505,19 +514,20 @@ nav a:hover::after {
 
 /* Make the about section content display side-by-side */
 #about .section-content {
+    max-width: 1000px;
     flex-direction: row;
     align-items: center; /* Vertically align image and text */
 }
 
 @media (max-width: 700px) {
     #about .section-content {
+        padding: 24px 8px 18px 8px;
+    }
+
+    #about .section-content {
         flex-direction: column-reverse; /* Stack them on mobile, with image at the bottom */
         align-items: center; /* Center content on mobile */
         text-align: center;
-    }
-
-    #about .section-content h2 {
-        align-self: center; /* Center the heading on mobile */
     }
 
     .about-image-container {
@@ -530,6 +540,7 @@ nav a:hover::after {
 }
 
 .skills-list {
+    max-width: 1000px;
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
@@ -537,7 +548,7 @@ nav a:hover::after {
     padding: 0;
     margin: 0;
     font-size: 1.1rem;
-    color: var(--secondary-text);
+    justify-content: center; /* Center the skills */
     align-items: center;
 }
 
@@ -598,6 +609,7 @@ nav a:hover::after {
 }
 
 .works-list {
+    max-width: 1000px;
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -605,8 +617,8 @@ nav a:hover::after {
 
 .work-item {
     background: var(--glass-bg);
-    border-radius: 18px;
-    padding: 24px 28px;
+    border-radius: 20px;
+    padding: 0; /* Remove padding to allow children to fill the space */
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -614,12 +626,49 @@ nav a:hover::after {
     transition: background-color 0.5s ease, box-shadow 0.2s, transform 0.2s;
     position: relative;
     overflow: hidden;
+    display: flex; /* Use flexbox for the ticket layout */
 }
 
 .work-item:hover {
     box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.18);
     transform: translateY(-4px) scale(1.02);
 }
+
+/* New styles for the "ticket" layout */
+.work-item-image-part {
+    flex: 0 0 200px; /* Fixed width for the image part */
+    position: relative;
+    border-right: 2px dashed var(--secondary-text); /* The perforated line */
+}
+
+.work-item-image-part img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* The circular cutouts for the ticket effect */
+.work-item-image-part::before,
+.work-item-image-part::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: var(--main-bg); /* Match the page background */
+    border-radius: 50%;
+    right: -13px; /* Position it over the dashed line */
+    transition: background-color 0.5s ease;
+}
+
+.work-item-image-part::before { top: -12px; }
+.work-item-image-part::after { bottom: -12px; }
+
+.work-item-details-part {
+    flex: 1; /* The details part takes the remaining space */
+    padding: 24px 28px;
+}
+
 
 .work-item h3 {
     margin: 0 0 8px 0;
@@ -673,6 +722,71 @@ nav a:hover::after {
     white-space: nowrap;
     min-width: 120px;
 }
+
+@media (max-width: 600px) {
+    .work-item {
+        flex-direction: column; /* Stack image and details on mobile */
+    }
+    .work-item-image-part {
+        flex-basis: 150px; /* Set a height for the image on mobile */
+        border-right: none;
+        border-bottom: 2px dashed var(--secondary-text); /* Move dashed line to the bottom */
+    }
+    .work-item-image-part::before, .work-item-image-part::after { display: none; } /* Hide cutouts on mobile */
+}
+
+/* --- Certifications Section --- */
+.certifications-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.certification-item {
+    background: var(--glass-bg);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: var(--glass-border);
+    transition: background-color 0.5s ease, box-shadow 0.2s, transform 0.2s;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.certification-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+}
+
+.certification-icon {
+    font-size: 2.5rem;
+    color: var(--main-accent);
+    margin-top: 4px;
+}
+
+.certification-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.certification-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--main-text);
+    margin-bottom: 4px;
+}
+
+.certification-issuer {
+    font-size: 1rem;
+    color: var(--secondary-text);
+}
+
+
 
 .contact-form {
     background: var(--glass-bg);
@@ -769,10 +883,11 @@ nav a:hover::after {
 
 @media (max-width: 700px) {
     .section-content {
-        padding: 24px 8px 18px 8px;
+        padding: 18px 8px;
     }
-    .section-content h2 {
+    .main-section > h2 {
         font-size: 1.3rem;
+        padding: 16px 24px;
     }
     .about-text-container p {
         font-size: 1rem;
@@ -1086,6 +1201,7 @@ nav a:hover::after {
     background: var(--card-bg);
     box-shadow: var(--card-shadow);
 }
+
 .fireworks-container {
     position: fixed;
     top: 0;
@@ -1125,6 +1241,7 @@ nav a:hover::after {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    max-width: 600px;
     width: 100%;
 }
 
@@ -1207,17 +1324,4 @@ nav a:hover::after {
     outline:1px solid #ccc;
     border-radius:8px;
     cursor:pointer;
-}
-
-/* Glassmorphism cards - Moved here for correct specificity */
-.skills-list li,
-.work-item,
-.contact-form,
-.resume-preview-container {
-    background: var(--glass-bg);
-    border-radius: 18px;
-    box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: var(--glass-border);
 }
