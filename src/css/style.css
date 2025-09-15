@@ -443,7 +443,7 @@ nav a:hover::after {
         border-radius: 32px; /* Change to a rounded square on mobile */
     }
     .main-image-bg img {
-        width: 70%;
+        width: 90%;
         height: 100%;
         border-radius: 32px; /* Match the container's rounded square shape */
     }
