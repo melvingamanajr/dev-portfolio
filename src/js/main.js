@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // --- 1. Cache DOM Elements ---
     const navToggle = document.querySelector('.nav-toggle');
+    const header = document.querySelector('header');
     const navUl = document.querySelector('nav ul');
     const navLinks = document.querySelectorAll('nav a');
     const sections = document.querySelectorAll('.main-section');
@@ -36,9 +37,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to populate skills section
     function populateSkillsSection() {
         const skillsList = document.querySelector('.skills-list');
-        if (skillsList && window.skillsData) {
-            skillsList.innerHTML = window.skillsData.map(skill => `<li>${skill.name}</li>`).join('');
-        }
+        if (!skillsList || !window.skillsData) return;
+
+        skillsList.innerHTML = ''; // Clear existing content
+        window.skillsData.forEach(skill => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <div class="skill-header">
+                    <span class="skill-name"><img src="${skill.icon}" alt="${skill.name}" class="skill-icon"> ${skill.name}</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" data-level="${skill.level}" style="width: 0%;"></div>
+                </div>
+            `;
+            skillsList.appendChild(listItem);
+        });
     }
     populateAboutSection();
     populateSkillsSection();
@@ -46,9 +59,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- 3. Mobile Navigation ---
     if (navToggle && navUl) {
         navToggle.addEventListener('click', function () {
-            navUl.classList.toggle('open');
+            const isOpen = navUl.classList.toggle('open');
+            this.classList.toggle('close');
+            body.classList.toggle('no-scroll', isOpen);
+            this.setAttribute('aria-expanded', isOpen);
         });
-    }
+    };
 
     // --- 4. Smooth Scrolling Navigation ---
     navLinks.forEach(link => {
@@ -59,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (targetSection) {
                 window.scrollTo({
-                    top: targetSection.offsetTop - 70, // Offset for fixed header
+                    top: targetSection.offsetTop - 70, // Offset for sticky header
                     behavior: 'smooth'
                 });
             }
@@ -67,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Close mobile nav after click
             if (navUl && navUl.classList.contains('open')) {
                 navUl.classList.remove('open');
+                navToggle.classList.remove('close');
+                body.classList.remove('no-scroll');
             }
         });
     });
@@ -113,6 +131,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Animation finished, allow it to be re-triggered if the user scrolls away and back
                         setTimeout(() => jobTitle.dataset.animating = 'false', 2000);
                     }, 7500); // 5s from start + 2s deleting + 0.5s pause
+                }
+                // Animate progress bars when skills section is visible
+                if (entry.target.id === 'skills') {
+                    const progressBars = entry.target.querySelectorAll('.progress-bar');
+                    progressBars.forEach(bar => {
+                        bar.style.width = `${bar.dataset.level}%`;
+                    });
                 }
             } else {
                 entry.target.classList.remove('is-visible');
@@ -320,5 +345,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // --- 12. Header Scroll Effect ---
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) { // Add class after scrolling 50px
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
 
 });

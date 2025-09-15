@@ -62,8 +62,17 @@ body {
     padding: 0;
     background: var(--main-bg);
     color: var(--main-text); 
+    /* Add a subtle dot pattern */
+    background-image: radial-gradient(var(--secondary-text) 0.5px, transparent 0.5px);
+    background-size: 16px 16px;
+    background-attachment: fixed; /* Keep the pattern fixed during scroll */
     position: relative; /* Needed for the pseudo-element */
     transition: color 0.5s ease 0.2s; /* Delay text color change slightly */
+}
+
+/* Prevent scrolling when mobile menu is open */
+body.no-scroll {
+    overflow: hidden;
 }
 
 /* --- Theme Wipe Transition --- */
@@ -94,10 +103,10 @@ body.dark-theme::before {
 }
 
 header {
-    background: var(--card-bg); /* Revert to solid background */
+    background: var(--glass-bg); /* Use the semi-transparent glass background */
     border-radius: 20px 20px 0 0;
     transition: background-color 0.5s ease;
-    box-shadow: var(--card-shadow);
+    box-shadow: var(--glass-shadow);
     margin: 24px auto 0 auto;
     max-width: 1200px;
     width: 95vw;
@@ -105,6 +114,8 @@ header {
     position: sticky;
     top: 24px; /* Make it stick 24px from the top */
     z-index: 1000;
+    backdrop-filter: blur(12px); /* Apply the blur effect to the header */
+    -webkit-backdrop-filter: blur(12px); /* For Safari compatibility */
 }
 
 .header-container {
@@ -198,6 +209,21 @@ nav a:hover::after {
     transition: 0.3s;
 }
 
+/* Animate hamburger to 'X' when the .close class is added */
+.nav-toggle.close .bar:nth-child(1) {
+    transform: translateY(11px) rotate(45deg);
+    background-color: var(--main-text);
+}
+
+.nav-toggle.close .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.close .bar:nth-child(3) {
+    transform: translateY(-11px) rotate(-45deg);
+    background-color: var(--main-text);
+}
+
 @media (max-width: 900px) {
     .header-container {
         padding: 0 16px;
@@ -215,31 +241,58 @@ nav a:hover::after {
         padding: 0 10px;
     }
     nav ul {
-        display: none;
-        flex-direction: column;
-        gap: 0;
+        /* Fullscreen Overlay */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
         background-color: var(--card-bg);
-        position: absolute;
-        top: 60px;
-        right: 0;
-        min-width: 140px;
-        width: 180px; /* Make the menu wider */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        padding: 24px; /* Increase padding for more space */
-        transition: background-color 0.5s ease;
-        border-radius: 12px;
-        z-index: 100;
-        align-items: center; /* Center the list items horizontally */
-    }
-    nav ul li a {
-        font-size: 1.1rem; /* Make the font size of links larger */
-        padding: 12px 0; /* Add more vertical space to each link */
-    }
-    nav ul.open {
+        /* Layout for links */
         display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5rem;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        z-index: 999;
+        /* Animation: hide by default */
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
     }
+
+    nav ul.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    nav ul li a {
+        font-size: 2.2rem;
+        font-weight: 700;
+        padding: 1rem;
+        color: var(--secondary-text);
+    }
+
+    nav ul li a.active,
+    nav ul li a:hover {
+        color: var(--main-text);
+    }
+
+    /* Remove desktop underline style on mobile */
+    nav a.active::after,
+    nav a:hover::after {
+        display: none;
+    }
+
+    /* Keep the toggle button above the overlay */
     .nav-toggle {
         display: flex;
+        z-index: 1001;
     }
 }
 
@@ -252,10 +305,6 @@ nav a:hover::after {
     margin: 0 auto;
     background-color: var(--glass-bg); /* Use the semi-transparent background */
     border-radius: 0 0 24px 24px;
-    box-shadow: var(--glass-shadow); /* Use the glass shadow */
-    backdrop-filter: blur(12px); /* Apply the blur effect */
-    -webkit-backdrop-filter: blur(12px); /* For Safari compatibility */
-    border: var(--glass-border); /* Add the subtle glass border */
     padding: 0; /* Remove padding, will be on children */
     min-height: 100vh;
     margin-bottom: 40px;
@@ -555,50 +604,53 @@ nav a:hover::after {
 .skills-list li {
     background: var(--glass-bg);
     border-radius: 18px;
-    padding: 0; /* Remove padding from li, will be on content */
+    padding: 16px 20px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1.5px solid rgba(255, 255, 255, 0.28);
-    transition: box-shadow 0.2s, transform 0.2s;
     transition: background-color 0.5s ease, box-shadow 0.2s, transform 0.2s;
     position: relative;
     overflow: hidden;
-    min-width: 180px; /* Increased min-width to accommodate rating */
-    height: 60px; /* Set a fixed height */
-}
-
-.skill-content {
+    min-width: 220px;
     display: flex;
-    align-items: center;
-    width: 200%; /* Make container twice as wide to hold both states */
-    height: 100%;
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.skill-name, .skill-rating {
-    width: 50%; /* Each part takes up half of the .skill-content */
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    color: var(--main-text);
-}
-
-.skill-rating {
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--secondary-text); 
+    flex-direction: column;
+    gap: 10px;
 }
 
 .skills-list li:hover {
     box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.18);
     transform: translateY(-4px) scale(1.04);
 }
+.skill-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
 
-.skills-list li:hover .skill-content {
-    transform: translateX(-50%); /* Slide to the left on hover */
+.skill-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    color: var(--main-text);
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: var(--main-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0; /* Initial width is 0, will be animated by JS */
+    height: 100%;
+    background-color: var(--main-accent);
+    border-radius: 4px;
+    transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth animation */
 }
 
 .skill-icon {
@@ -638,7 +690,18 @@ nav a:hover::after {
 .work-item-image-part {
     flex: 0 0 200px; /* Fixed width for the image part */
     position: relative;
-    border-right: 2px dashed var(--secondary-text); /* The perforated line */
+    /* Create the perforated line using a background gradient instead of a border */
+    background-image: linear-gradient(to bottom, var(--secondary-text) 50%, transparent 50%);
+    background-position: right;
+    background-size: 2px 12px; /* width of the line, length of the dashes */
+    background-repeat: repeat-y;
+    transition: background-position 0.6s linear;
+}
+
+/* Animate the background position on hover to create the "marching ants" effect */
+.work-item:hover .work-item-image-part {
+    background-position: right 0px top 12px; /* Shift the gradient by the dash length */
+    transition: background-position 0.6s linear; /* Make the animation smooth */
 }
 
 .work-item-image-part img {
@@ -730,7 +793,11 @@ nav a:hover::after {
     .work-item-image-part {
         flex-basis: 150px; /* Set a height for the image on mobile */
         border-right: none;
-        border-bottom: 2px dashed var(--secondary-text); /* Move dashed line to the bottom */
+        /* Recreate the line for the bottom on mobile */
+        background-image: linear-gradient(to right, var(--secondary-text) 50%, transparent 50%);
+        background-position: bottom;
+        background-size: 12px 2px;
+        background-repeat: repeat-x;
     }
     .work-item-image-part::before, .work-item-image-part::after { display: none; } /* Hide cutouts on mobile */
 }
