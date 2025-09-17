@@ -1,3 +1,8 @@
+import { experienceData, projectsData } from '../data/works.js';
+import { certificationsData } from '../data/certifications.js';
+import { skillsData } from '../data/skills.js';
+import { contactData } from '../data/contact.js';
+
 document.addEventListener('DOMContentLoaded', function () {
     // --- 1. Cache DOM Elements ---
     const navToggle = document.querySelector('.nav-toggle');
@@ -30,18 +35,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to populate about section
     function populateAboutSection() {
         const aboutSection = document.querySelector('.about-section .section-content');
-        if (aboutSection && window.aboutData) {
-            aboutSection.innerHTML = `<h2>${window.aboutData.title}</h2><p>${window.aboutData.content}</p>`;
+        if (aboutSection && aboutData) {
+            aboutSection.innerHTML = `<h2>${aboutData.title}</h2><p>${aboutData.content}</p>`;
         }
     }
 
     // Function to populate skills section
     function populateSkillsSection() {
         const skillsList = document.querySelector('.skills-list');
-        if (!skillsList || !window.skillsData) return;
+        if (!skillsList || !skillsData) return;
 
         skillsList.innerHTML = ''; // Clear existing content
-        window.skillsData.forEach(skill => {
+        skillsData.forEach(skill => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `
                 <div class="skill-header">
@@ -59,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function populateContactSection() {
         const emailSpan = document.getElementById('email-address');
-        if (emailSpan && window.contactData && window.contactData.email) {
-            emailSpan.textContent = window.contactData.email;
+        if (emailSpan && contactData && contactData.email) {
+            emailSpan.textContent = contactData.email;
         }
     }
     populateContactSection();
@@ -196,13 +201,13 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!experienceList) return;
         experienceList.innerHTML = '';
 
-        if (window.experienceData && Array.isArray(window.experienceData)) {
-            window.experienceData.forEach(exp => {
+        if (experienceData && Array.isArray(experienceData)) {
+            experienceData.forEach(exp => {
                 const card = document.createElement('div');
                 card.className = 'work-item'; // Use the same class as projects for ticket styling
                 card.innerHTML = `
                     <div class="work-item-image-part">
-                        <img src="${exp.image}" alt="${exp.company} logo">
+                        <img src="${exp.image[0]}" alt="${exp.company} logo" data-images='${JSON.stringify(exp.image)}'>
                     </div>
                     <div class="work-item-details-part">
                         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
@@ -231,15 +236,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!projectsList) return;
         projectsList.innerHTML = '';
 
-        if (window.projectsData && Array.isArray(window.projectsData)) {
-            window.projectsData.forEach(project => {
+        if (projectsData && Array.isArray(projectsData)) {
+            projectsData.forEach(project => {
                 const card = document.createElement('div');
                 card.className = 'work-item';
 
                 if (project.active) {
                     card.innerHTML = `
                         <div class="work-item-image-part">
-                            <img src="${project.image}" alt="${project.title} preview">
+                            <img src="${project.image[0]}" alt="${project.title} preview" data-images='${JSON.stringify(project.image)}'>
                         </div>
                         <div class="work-item-details-part">
                             <div class="work-item-header">
@@ -270,8 +275,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!certificationsList) return;
         certificationsList.innerHTML = '';
 
-        if (window.certificationsData && Array.isArray(window.certificationsData)) {
-            window.certificationsData.forEach(cert => {
+        if (certificationsData && Array.isArray(certificationsData)) {
+            certificationsData.forEach(cert => {
                 const card = document.createElement('div');
                 card.className = 'certification-item';
 
@@ -422,4 +427,66 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // --- 16. Image Modal ---
+    const modal = document.getElementById("image-modal");
+    const modalImg = document.getElementById("modal-img");
+    const captionText = document.getElementById("modal-caption");
+    const prevBtn = document.querySelector('.prev-slide-btn');
+    const nextBtn = document.querySelector('.next-slide-btn');
+
+    let currentImageIndex = 0;
+    let currentImageSet = [];
+
+    function setupModalEventListeners() {
+        const clickableImages = document.querySelectorAll('.work-item-image-part');
+        clickableImages.forEach(container => {
+            container.onclick = function(){
+                const img = this.querySelector('img');
+                currentImageSet = JSON.parse(img.dataset.images);
+                currentImageIndex = 0;
+                updateModalImage();
+
+                modal.style.display = "block";
+                body.classList.add('no-scroll');
+            }
+        });
+    }
+
+    function updateModalImage() {
+        modalImg.src = currentImageSet[currentImageIndex];
+        captionText.innerHTML = `Image ${currentImageIndex + 1} of ${currentImageSet.length}`;
+        // Show or hide slider buttons based on the number of images
+        const showSlider = currentImageSet.length > 1;
+        prevBtn.style.display = showSlider ? 'block' : 'none';
+        nextBtn.style.display = showSlider ? 'block' : 'none';
+    }
+
+    function showNextImage() {
+        currentImageIndex = (currentImageIndex + 1) % currentImageSet.length;
+        updateModalImage();
+    }
+
+    function showPrevImage() {
+        currentImageIndex = (currentImageIndex - 1 + currentImageSet.length) % currentImageSet.length;
+        updateModalImage();
+    }
+
+    // Close the modal
+    const closeModal = () => {
+        modal.style.display = "none";
+        body.classList.remove('no-scroll');
+    }
+
+    if (modal) {
+        const span = document.getElementsByClassName("close-modal-btn")[0];
+        span.onclick = closeModal;
+        prevBtn.onclick = showPrevImage;
+        nextBtn.onclick = showNextImage;
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    }
+    setupModalEventListeners();
 });

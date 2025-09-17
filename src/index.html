@@ -28,10 +28,10 @@
                 </button>
                 <ul>
                     <li><a href="#home" class="active">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#skills">Skills</a></li>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#projects">Projects</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -64,84 +64,6 @@
         </div>
     </section>
 
-    <section class="main-section" id="about">
-        <h2>About</h2>
-        <div class="section-content">
-            <div class="about-image-container">
-                <img src="assets/aboutPic.jpg" alt="A professional headshot of Melvin" class="about-image">
-            </div>
-            <div class="about-text-container">
-                <p>
-                    Hi, I'm Melvin, a passionate software developer focused on building modern, efficient, and beautiful web applications. I love solving problems and collaborating with others to create impactful digital experiences.
-                    As a detail-oriented Software Developer, I specialize in transforming complex problems into elegant, high-performing web applications. With a strong foundation in modern technologies, I am dedicated to writing clean, maintainable code and collaborating effectively within teams to deliver exceptional digital products.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="main-section" id="skills">
-        <h2>Skills</h2>
-        <div class="section-content">
-            <ul class="skills-list">
-                <li>
-                    <div class="skill-content">
-                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="skill-icon"> JavaScript</span>
-                        <span class="skill-rating">9/10</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="skill-content">
-                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="skill-icon"> Python</span>
-                        <span class="skill-rating">7/10</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="skill-content">
-                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js" class="skill-icon"> Vue.js</span>
-                        <span class="skill-rating">8/10</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="skill-content">
-                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js" class="skill-icon"> React.js</span>
-                        <span class="skill-rating">7/10</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="skill-content">
-                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="skill-icon"> Java</span>
-                        <span class="skill-rating">6/10</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="skill-content">
-                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" class="skill-icon"> MongoDB</span>
-                        <span class="skill-rating">8/10</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="skill-content">
-                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="GIT" class="skill-icon"> GIT</span>
-                        <span class="skill-rating">9/10</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="skill-content">
-                        <span class="skill-name"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/subversion/subversion-original.svg" alt="SVN" class="skill-icon"> SVN</span>
-                        <span class="skill-rating">8/10</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    <section class="main-section" id="certifications">
-        <h2>Certifications</h2>
-        <div class="section-content">
-            <div class="certifications-list"></div>
-        </div>
-    </section>
-
     <section class="main-section" id="experience">
         <h2>Work Experience</h2>
         <div class="section-content">
@@ -153,6 +75,34 @@
         <h2>Projects</h2>
         <div class="section-content">
             <div class="projects-list works-list"></div>
+        </div>
+    </section>
+
+    <section class="main-section" id="skills">
+        <h2>Skills</h2>
+        <div class="section-content">
+            <ul class="skills-list"></ul>
+        </div>
+    </section>
+
+    <section class="main-section" id="about">
+        <h2>About</h2>
+        <div class="section-content">
+            <div class="about-image-container">
+                <img src="assets/aboutPic.jpg" alt="A professional headshot of Melvin" class="about-image">
+            </div>
+            <div class="about-text-container">
+                <p>
+                    As a detail-oriented Software Developer, I specialize in transforming complex problems into elegant, high-performing web applications. With a strong foundation in modern technologies, I am dedicated to writing clean, maintainable code and collaborating effectively within teams to deliver exceptional digital products. My passion lies in building modern, efficient, and beautiful applications that provide impactful user experiences.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="main-section" id="certifications">
+        <h2>Certifications</h2>
+        <div class="section-content">
+            <div class="certifications-list"></div>
         </div>
     </section>
 
@@ -218,10 +168,15 @@
     <!-- Back to Top Button -->
     <a href="#home" id="back-to-top-btn" class="main-btn" aria-label="Go back to top"><i class="fas fa-arrow-up"></i></a>
 
-    <script src="data/works.js"></script>
-    <script src="data/certifications.js"></script>
-    <script src="data/skills.js"></script>
-    <script src="data/contact.js"></script>
-    <script src="js/main.js"></script>
+    <!-- Image Modal -->
+    <div id="image-modal" class="image-modal">
+        <span class="close-modal-btn">&times;</span>
+        <img class="image-modal-content" id="modal-img">
+        <a class="prev-slide-btn">&#10094;</a>
+        <a class="next-slide-btn">&#10095;</a>
+        <div id="modal-caption"></div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
 </body>
 </html> 

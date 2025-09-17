@@ -1,6 +1,6 @@
 // src/data/certifications.js
 
-window.certificationsData = [
+export const certificationsData = [
     {
         title: "Certification in Cloud Computing",
         issuer: "Cloud Provider Inc.",

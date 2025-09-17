@@ -1,5 +1,5 @@
 // src/data/contact.js
 
-window.contactData = {
+export const contactData = {
     email: "melvingamanajr@gmail.com"
 };

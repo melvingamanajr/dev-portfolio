@@ -1,6 +1,6 @@
 // src/data/skills.js
 
-window.skillsData = [
+export const skillsData = [
     {
         name: "JavaScript",
         icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",

@@ -1,6 +1,6 @@
 // src/data/works.js
 
-window.experienceData = [
+export const experienceData = [
     {
         title: "Technical Specialist I",
         company: "Alliance Software Inc. – Cebu City, Philippines",
@@ -12,12 +12,15 @@ window.experienceData = [
             "Performed Unit, Integration, System and Mobile Testing to ensure cross-platform stability and reliability."
         ],
         period: "July 2024 – Current",
-        image: "assets/project_placeholder.png",
+        image: [
+            "assets/project_placeholder.png",
+            "assets/expenses-tracker_dark.png" // Example of a second image
+        ],
         active: true
     }
 ];
 
-window.projectsData = [
+export const projectsData = [
     {
         title: "Real-Time Employee Monitoring System with Face Recognition",
         company: "Capstone Project",
@@ -27,10 +30,12 @@ window.projectsData = [
             "Managed data persistence and retrieval using a MySQL database.",
             "Collaborated on the project using SVN for version control."
         ],
-        image: "assets/project_placeholder.png",
+        image: [
+            "assets/project_placeholder.png"
+        ],
         period: "2023",
-        liveUrl: "#", // Add live URL here
-        sourceUrl: "#", // Add source code URL here
+        liveUrl: "", // Add live URL here
+        sourceUrl: "", // Add source code URL here
         active: true,
         sharerable: false // This project's links will be disabled
     },
@@ -43,11 +48,32 @@ window.projectsData = [
             "Designed with a mobile-first approach to ensure a seamless experience across all devices.",
             "Structured the project with separate data files for easy updates to skills and work history."
         ],
-        image: "assets/project_placeholder.png",
+        image: [
+            "assets/project_placeholder.png"
+        ],
         period: "Auguest 2025 – Current",
         liveUrl: "https://melvingamanajr.github.io/dev-portfolio/src/index.html",
         sourceUrl: "https://github.com/melvingamanajr/dev-portfolio",
         active: true,
         sharerable: true // This project's links will be enabled
+    },
+    {
+        title: "Expenses Tracker Application",
+        company: "Personal Project",
+        description: [
+            "Built a comprehensive, client-side Expenses Tracker using vanilla HTML, CSS, and JavaScript.",
+            "Implemented data persistence using localStorage to save user data across sessions.",
+            "Integrated interactive charts to provide visual feedback on spending habits.",
+            "Designed a fully responsive and themeable interface for an excellent user experience."
+        ],
+        image: [
+            "assets/expenses-tracker_light.png",
+            "assets/expenses-tracker_dark.png"
+        ],
+        period: "2024",
+        liveUrl: "https://melvingamanajr.github.io/expenses-tracker/src/index.html", // Add live URL here
+        sourceUrl: "https://github.com/melvingamanajr/expenses-tracker", // Add source code URL here
+        active: true,
+        sharerable: true
     }
 ];
