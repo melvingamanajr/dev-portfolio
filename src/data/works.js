@@ -29,7 +29,10 @@ window.projectsData = [
         ],
         image: "assets/project_placeholder.png",
         period: "2023",
-        active: true
+        liveUrl: "#", // Add live URL here
+        sourceUrl: "#", // Add source code URL here
+        active: true,
+        sharerable: false // This project's links will be disabled
     },
     {
         title: "Personal Portfolio Website",
@@ -42,6 +45,9 @@ window.projectsData = [
         ],
         image: "assets/project_placeholder.png",
         period: "Auguest 2025 – Current",
-        active: true
+        liveUrl: "https://melvingamanajr.github.io/dev-portfolio/src/index.html",
+        sourceUrl: "https://github.com/melvingamanajr/dev-portfolio",
+        active: true,
+        sharerable: true // This project's links will be enabled
     }
 ];

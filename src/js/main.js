@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const themeLightBtn = document.getElementById('theme-light');
     const themeDarkBtn = document.getElementById('theme-dark');
     const body = document.body;
+    const backToTopBtn = document.getElementById('back-to-top-btn');
     const jobTitle = document.querySelector('.job-title');
 
     // --- 2. Loading Spinner ---
@@ -55,6 +56,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     populateAboutSection();
     populateSkillsSection();
+
+    function populateContactSection() {
+        const emailSpan = document.getElementById('email-address');
+        if (emailSpan && window.contactData && window.contactData.email) {
+            emailSpan.textContent = window.contactData.email;
+        }
+    }
+    populateContactSection();
 
     // --- 3. Mobile Navigation ---
     if (navToggle && navUl) {
@@ -240,6 +249,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             <ul>
                                 ${Array.isArray(project.description) ? project.description.map(item => `<li>${item}</li>`).join('') : ""}
                             </ul>
+                            <div class="work-item-buttons">
+                                ${project.liveUrl ? `<a href="${project.sharerable ? project.liveUrl : '#'}" target="_blank" class="work-btn live-btn ${!project.sharerable ? 'disabled' : ''}"><i class="fas fa-eye"></i> View Live</a>` : ''}
+                                ${project.sourceUrl ? `<a href="${project.sharerable ? project.sourceUrl : '#'}" target="_blank" class="work-btn source-btn ${!project.sharerable ? 'disabled' : ''}"><i class="fab fa-github"></i> Source Code</a>` : ''}
+                            </div>
                         </div>
                     `;
                 } else {
@@ -353,5 +366,60 @@ document.addEventListener('DOMContentLoaded', function () {
             header.classList.remove('scrolled');
         }
     });
+
+    // --- 13. Back to Top Button ---
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            // Show button after scrolling down 400px
+            backToTopBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+    }
+
+    // --- 14. Parallax Effect for Ticket Images ---
+    const parallaxImages = document.querySelectorAll('.work-item-image-part img');
+
+    function handleParallax() {
+        const scrollY = window.scrollY;
+
+        parallaxImages.forEach(img => {
+            // The 'strength' of the parallax effect. Higher number = more movement.
+            const parallaxStrength = 15;
+            // Get the position of the image's container
+            const rect = img.parentElement.getBoundingClientRect();
+            // Calculate the vertical center of the image container relative to the viewport
+            const elementCenterY = rect.top + rect.height / 2;
+            // Calculate the distance from the viewport center
+            const distance = (window.innerHeight / 2) - elementCenterY;
+            // Calculate the transform value
+            const translateY = (distance / (window.innerHeight / 2)) * parallaxStrength;
+
+            img.style.transform = `translateY(${translateY}px) scale(1.1)`;
+        });
+    }
+
+    window.addEventListener('scroll', () => requestAnimationFrame(handleParallax));
+
+    // --- 15. Copy Email to Clipboard ---
+    const copyEmailBtn = document.getElementById('copy-email-btn');
+    const emailAddressSpan = document.getElementById('email-address');
+
+    if (copyEmailBtn && emailAddressSpan) {
+        copyEmailBtn.addEventListener('click', () => {
+            const email = emailAddressSpan.textContent;
+            navigator.clipboard.writeText(email).then(() => {
+                // Success! Change icon to a checkmark
+                copyEmailBtn.innerHTML = '<i class="fas fa-check"></i>';
+                copyEmailBtn.style.color = 'var(--main-accent)';
+
+                // Revert icon back after 2 seconds
+                setTimeout(() => {
+                    copyEmailBtn.innerHTML = '<i class="far fa-copy"></i>';
+                    copyEmailBtn.style.color = 'var(--secondary-text)';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy email: ', err);
+            });
+        });
+    }
 
 });

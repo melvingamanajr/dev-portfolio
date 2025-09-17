@@ -103,10 +103,10 @@ body.dark-theme::before {
 }
 
 header {
-    background: var(--glass-bg); /* Use the semi-transparent glass background */
+    background: var(--card-bg); /* Use card background by default */
     border-radius: 20px 20px 0 0;
-    transition: background-color 0.5s ease;
-    box-shadow: var(--glass-shadow);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: var(--card-shadow); /* Use card shadow by default */
     margin: 24px auto 0 auto;
     max-width: 1200px;
     width: 95vw;
@@ -114,8 +114,14 @@ header {
     position: sticky;
     top: 24px; /* Make it stick 24px from the top */
     z-index: 1000;
-    backdrop-filter: blur(12px); /* Apply the blur effect to the header */
-    -webkit-backdrop-filter: blur(12px); /* For Safari compatibility */
+}
+
+/* Styles for when the header is scrolled */
+header.scrolled {
+    background: var(--glass-bg);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .header-container {
@@ -123,7 +129,8 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 0 40px;
-    min-height: 70px;
+    min-height: 80px;
+    transition: min-height 0.3s ease; /* Add transition for smooth shrinking */
 }
 
 header h1,
@@ -135,6 +142,11 @@ header .dev {
     letter-spacing: 1px;
     font-family: var(--main-font);
 }
+/* Shrink the header container when scrolled */
+header.scrolled .header-container {
+    min-height: 60px;
+}
+
 
 header .melvin {
     color: var(--main-accent);
@@ -248,6 +260,8 @@ nav a:hover::after {
         width: 100vw;
         height: 100vh;
         background-color: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         /* Layout for links */
         display: flex;
         flex-direction: column;
@@ -690,6 +704,7 @@ nav a:hover::after {
 .work-item-image-part {
     flex: 0 0 200px; /* Fixed width for the image part */
     position: relative;
+    overflow: hidden; /* Hide the parts of the scaled image that go outside the container */
     /* Create the perforated line using a background gradient instead of a border */
     background-image: linear-gradient(to bottom, var(--secondary-text) 50%, transparent 50%);
     background-position: right;
@@ -709,6 +724,8 @@ nav a:hover::after {
     height: 100%;
     object-fit: cover;
     display: block;
+    transform: scale(1.1); /* Scale the image up slightly to allow for movement */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth transition for the effect */
 }
 
 /* The circular cutouts for the ticket effect */
@@ -786,6 +803,53 @@ nav a:hover::after {
     min-width: 120px;
 }
 
+.work-item-buttons {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.work-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.live-btn {
+    background-color: var(--main-accent);
+    color: var(--main-text);
+}
+.live-btn:hover {
+    background-color: var(--main-accent-dark);
+    color: #fff;
+}
+
+.source-btn {
+    background-color: transparent;
+    color: var(--secondary-text);
+    border-color: var(--secondary-text);
+}
+.source-btn:hover {
+    background-color: var(--secondary-text);
+    color: var(--card-bg);
+}
+
+.work-btn.disabled {
+    background-color: var(--secondary-text) !important;
+    color: var(--main-bg) !important;
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: transparent !important;
+}
+
 @media (max-width: 600px) {
     .work-item {
         flex-direction: column; /* Stack image and details on mobile */
@@ -851,6 +915,46 @@ nav a:hover::after {
 .certification-issuer {
     font-size: 1rem;
     color: var(--secondary-text);
+}
+
+/* --- Email Copy Section --- */
+.email-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--main-bg);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border: 1px solid var(--glass-border);
+}
+
+#email-address {
+    font-weight: 600;
+    color: var(--secondary-text);
+}
+
+#copy-email-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-text);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 4px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+#copy-email-btn:hover {
+    color: var(--main-accent);
+    transform: scale(1.1);
+}
+
+.contact-divider {
+    font-weight: 600;
+    color: var(--secondary-text);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
 
@@ -995,16 +1099,6 @@ nav a:hover::after {
 
     header h1, header .melvin, header .dev {
         font-size: 1.05rem;
-    }
-
-    nav ul {
-        top: 48px;
-        right: 0;
-        min-width: 120px;
-        padding: 10px 8px;
-        border-radius: 10px;
-        font-size: 1rem;
-        gap: 0;
     }
 
     .main-section {
@@ -1391,4 +1485,31 @@ nav a:hover::after {
     outline:1px solid #ccc;
     border-radius:8px;
     cursor:pointer;
+}
+
+/* --- Back to Top Button --- */
+#back-to-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    /* Hide by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(10px);
+}
+
+#back-to-top-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
 }
