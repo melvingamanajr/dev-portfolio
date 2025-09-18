@@ -14,7 +14,6 @@ export const experienceData = [
         period: "July 2024 – Current",
         image: [
             "assets/project_placeholder.png",
-            "assets/expenses-tracker_dark.png" // Example of a second image
         ],
         active: true
     }
@@ -73,6 +72,24 @@ export const projectsData = [
         period: "2024",
         liveUrl: "https://melvingamanajr.github.io/expenses-tracker/src/index.html", // Add live URL here
         sourceUrl: "https://github.com/melvingamanajr/expenses-tracker", // Add source code URL here
+        active: true,
+        sharerable: true
+    },
+    {
+        title: "Hangman Game",
+        company: "Personal Project",
+        description: [
+            "A modern, feature-rich implementation of the classic Hangman game.",
+            "Built with vanilla JavaScript, HTML, and CSS.",
+            "Designed to be a clean, responsive, and engaging experience for players on any device."
+        ],
+        image: [
+            "assets/hangman_game_light.png",
+            "assets/hangman_game_dark.png"
+        ],
+        period: "2024",
+        liveUrl: "https://melvingamanajr.github.io/hangman-game/src/index.html",
+        sourceUrl: "https://github.com/melvingamanajr/hangman-game",
         active: true,
         sharerable: true
     }
