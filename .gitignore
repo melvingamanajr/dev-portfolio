@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.sites-runtime/
+.cache/
+coverage/
+test-results/
+playwright-report/
+*.log

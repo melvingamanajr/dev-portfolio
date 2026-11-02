@@ -1,49 +1,13 @@
-# Melvin Dev Portfolio
+# Melvin Gamana Jr. — Personal Portfolio
 
-Welcome to the Melvin Dev Portfolio project! This repository contains the source code for a personal portfolio website showcasing the work and skills of Melvin Dev.
+The implemented website is in [`melvin-portfolio/`](melvin-portfolio/README.md).
 
-Click Me! [https://melvingamanajr.github.io/dev-portfolio/src/index.html]
-
-## Project Structure
-
-```
-melvin_dev-portfolio
-├── src
-│   ├── index.html        # Main HTML document for the portfolio
-│   ├── css
-│   │   └── style.css     # Styles for the portfolio website
-│   ├── js
-│   │   └── main.js       # JavaScript for interactive features
-│   └── assets            # Directory for images and media files
-└── README.md             # Project documentation
+```powershell
+cd melvin-portfolio
+npm install
+npm run dev
 ```
 
-## Features
+Open the local address printed by the preview server (normally http://127.0.0.1:4173).
 
-- Responsive design that adapts to various screen sizes.
-- Sections for About, Projects, and Contact information.
-- Interactive elements powered by JavaScript.
-
-## Setup Instructions
-
-1. Clone the repository to your local machine:
-   ```
-   git clone https://github.com/yourusername/melvin_dev-portfolio.git
-   ```
-
-2. Navigate to the project directory:
-   ```
-   cd melvin_dev-portfolio
-   ```
-
-3. Open the `src/index.html` file in your web browser to view the portfolio.
-
-## Technologies Used
-
-- HTML5
-- CSS3
-- JavaScript
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
+The website itself has no runtime dependencies and needs no build: serve `melvin-portfolio/dist/` on a static host. `dist/index.html` contains the markup, styling, data, and application logic.
