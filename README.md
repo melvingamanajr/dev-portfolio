@@ -3,7 +3,7 @@
 The implemented website is in [`melvin-portfolio/`](melvin-portfolio/README.md).
 
 ```powershell
-cd melvin-portfolio
+cd dev-portfolio
 npm install
 npm run dev
 ```
