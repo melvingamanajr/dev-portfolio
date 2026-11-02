@@ -6,7 +6,7 @@
   <meta name="description" content="Melvin Gamana Jr. is a software engineer building thoughtful web applications with Vue, TypeScript, and Java. Explore his work, experience, and approach.">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#111715">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-mGGE0B1nuUqR3ZnGEXAIEvMfShqol0KokCkRSC6sYnc=' 'sha256-NQv5xzw2d848t/SAj385j3JVIDm7P2E+Tt9s08ZkuNs='; style-src 'sha256-zseWgxK+UofLrKLVbdw7V3bu/ryS2C3WmHrLwxN9Rlw='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-mGGE0B1nuUqR3ZnGEXAIEvMfShqol0KokCkRSC6sYnc=' 'sha256-oD3EtsvpHkeI/ddUfi9Edxl6BxYkDixQW6cE71O/8XU='; style-src 'sha256-3k/88UFWKcLDFOVburi/eu6PUlDBx9txjxfetZk5SE4='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="Melvin Gamana Jr. — Software Engineer">
   <meta property="og:description" content="Thoughtful code. Meaningful impact. Explore my projects, experience, and approach to building reliable software.">
   <meta property="og:type" content="website">
@@ -44,16 +44,32 @@
     .hero-art .art-node>div{min-width:0}.hero-art .art-node strong{font-size:11px;line-height:1.4}.hero-art .art-node small{display:block;font-size:8px;line-height:1.5;margin-top:3px}
     .hero-art .art-node .node-symbol{flex:none;width:28px;height:28px;font-size:10px}
     .hero-art .art-dot{z-index:0}.hero-art .art-caption{bottom:0;right:0;font-size:8px}
-    .orbit-toggle{position:absolute;left:0;bottom:-5px;width:32px;height:32px;z-index:4;background:var(--bg)}
-    .orbit-toggle .icon{width:14px;height:14px}.orbit-toggle .orbit-play-icon{display:none}
-    .orbit-paused .orbit-turn,.orbit-paused .art-node{animation-play-state:paused}
-    .orbit-paused .orbit-pause-icon{display:none}.orbit-paused .orbit-play-icon{display:block}
     @keyframes toolkit-orbit{to{transform:rotate(360deg)}}
     @keyframes toolkit-upright{to{transform:rotate(-360deg)}}
     @media(max-width:1100px){.hero-art .art-node{padding:9px;gap:7px}.hero-art .art-node strong{font-size:10px}.hero-art .art-node small{font-size:7px}.hero-art .art-node .node-symbol{width:23px;height:23px}.hero-art .art-core span{font-size:40px}}
     @media(max-width:850px){.hero-art .art-node{padding:8px;gap:6px}.hero-art .art-node strong{font-size:9px}.hero-art .art-node .node-symbol{width:20px;height:20px;font-size:9px}.hero-art .art-core span{font-size:32px;letter-spacing:-5px;padding-right:5px}.hero-art .art-caption{font-size:6px}}
     @media(max-width:640px){.hero-art-wrap{max-width:350px;margin-block:8px 10px}.hero-art .art-node strong{font-size:10px}.hero-art .art-caption{font-size:7px}.hero-art .art-core span{font-size:36px}}
-    @media(prefers-reduced-motion:reduce){.orbit-toggle{display:none}}
+    .hero-art .art-core:after{content:"";position:absolute;inset:-12px;border:1px solid var(--accent);border-radius:inherit;opacity:.12;pointer-events:none}
+    @keyframes section-reveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes core-radiance{0%,100%{opacity:.08;transform:scale(.96)}50%{opacity:.24;transform:scale(1.08)}}
+    @media(prefers-reduced-motion:no-preference){
+      .reveal-enter{animation:section-reveal 1.1s cubic-bezier(.4,0,.2,1)}
+      .hero-art .art-core:after{animation:core-radiance 4.8s ease-in-out infinite}
+    }
+    @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+      .project-card{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+      .project-card:hover,.project-card:focus-within{transform:translateY(-4px);border-color:var(--tint);box-shadow:0 14px 36px #0002}
+      .project-screenshot img,.face-diagram{transition:transform .6s cubic-bezier(.2,.65,.3,1)}
+      .project-card:hover .project-screenshot img,.project-card:hover .face-diagram{transform:scale(1.025)}
+    }
+    .skill-pill[draggable="true"]{position:relative;cursor:grab;user-select:none;touch-action:pan-y}
+    .skill-pill[draggable="true"]:active{cursor:grabbing}
+    .skill-pill.is-dragging{opacity:.4;border-style:dashed}
+    .skill-pills.is-sorting{outline:1px dashed var(--tint);outline-offset:8px;border-radius:4px}
+    .skill-pill.drop-before:before,.skill-pill.drop-after:after{content:"";position:absolute;top:3px;bottom:3px;width:2px;border-radius:2px;background:var(--accent);pointer-events:none}
+    .skill-pill.drop-before:before{left:-7px}.skill-pill.drop-after:after{right:-7px}
+    .skill-panel>.skill-reorder-note{margin:17px 0 0;font-size:10px;line-height:1.7;color:var(--muted)}
+    @media(hover:hover) and (pointer:fine){.skill-pill[draggable="true"]:hover{border-color:var(--tint)}}
   </style>
 </head>
 <body>
@@ -108,7 +124,6 @@
             <div class="art-core"><span>&lt;/&gt;</span></div><span class="art-dot"></span>
             <div class="art-caption">THE DETAILS MAKE THE DIFFERENCE</div>
           </div>
-          <button class="icon-button orbit-toggle js-only" type="button" data-orbit-toggle aria-controls="toolkit-system" aria-label="Pause orbit animation" title="Pause orbit animation"><svg class="icon orbit-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><svg class="icon orbit-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z"/></svg></button>
         </div>
       </div>
       <div class="hero-bottom" aria-label="Selected results from my work">
@@ -195,13 +210,39 @@
       mediaTheme.addEventListener('change', (event) => { if (!explicitTheme) setTheme(event.matches ? 'light' : 'dark'); });
       $('#year').textContent = String(new Date().getFullYear());
 
-      const orbitToggle = $('[data-orbit-toggle]');
-      orbitToggle.addEventListener('click', () => {
-        const paused = $('.hero-art-wrap').classList.toggle('orbit-paused');
-        const label = paused ? 'Resume orbit animation' : 'Pause orbit animation';
-        orbitToggle.setAttribute('aria-label', label);
-        orbitToggle.title = label;
-      });
+      // Reveal once when scrolled into view; content is never hidden while waiting.
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if ('IntersectionObserver' in window) {
+        const revealTargets = $$('.section-head, .project-card, .experience-aside, .experience-item, .about-top > div, .about-principles > article, .skills-layout, .learning-grid > div, .contact-layout > div, .contact-form');
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(({ target, isIntersecting }) => {
+            if (!isIntersecting) return;
+            revealObserver.unobserve(target);
+            const directDestination = target.closest('section')?.id === window.location.hash.slice(1);
+            if (reducedMotion.matches || directDestination || target.contains(document.activeElement)) return;
+            target.classList.add('reveal-enter');
+            target.addEventListener('animationend', () => target.classList.remove('reveal-enter'), { once: true });
+          });
+        }, { threshold: .08 });
+        revealTargets.forEach((target) => {
+          if (target.getBoundingClientRect().top >= window.innerHeight) revealObserver.observe(target);
+        });
+        document.addEventListener('focusin', (event) => {
+          revealTargets.filter((target) => target.contains(event.target)).forEach((target) => {
+            revealObserver.unobserve(target);
+            target.classList.remove('reveal-enter');
+          });
+        });
+        window.addEventListener('hashchange', () => {
+          const destination = document.getElementById(window.location.hash.slice(1));
+          const section = destination?.closest('section') || destination;
+          if (!section) return;
+          revealTargets.filter((target) => section.contains(target)).forEach((target) => {
+            revealObserver.unobserve(target);
+            target.classList.remove('reveal-enter');
+          });
+        });
+      }
 
       const menuButton = $('[data-menu-toggle]');
       const nav = $('#primary-nav');
@@ -264,8 +305,120 @@
 
       const tabs = $$('.skill-tab');
       const tablist = $('.skill-tabs');
-      data.skills.forEach((skill) => { let panel = $(`#panel-${skill.id}`); if (!panel) { panel = create('div', 'skill-panel'); panel.id = `panel-${skill.id}`; panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', `tab-${skill.id}`); panel.tabIndex = 0; panel.hidden = true; $('#skill-panels').append(panel); } panel.replaceChildren(create('h3', '', skill.title), create('p', '', skill.description)); const pills = create('div', 'skill-pills'); skill.items.forEach((item) => pills.append(create('span', 'skill-pill', item))); panel.append(pills); });
-      const activateTab = (tab, focus = false) => { tabs.forEach((item) => { const selected = item === tab; item.setAttribute('aria-selected', String(selected)); item.tabIndex = selected ? 0 : -1; $(`#${item.getAttribute('aria-controls')}`).hidden = !selected; }); if (focus) tab.focus(); };
+      const skillSortStatus = create('p', 'visually-hidden');
+      skillSortStatus.id = 'skill-sort-status';
+      skillSortStatus.setAttribute('role', 'status');
+      skillSortStatus.setAttribute('aria-live', 'polite');
+      skillSortStatus.setAttribute('aria-atomic', 'true');
+      $('.skills-layout').after(skillSortStatus);
+      let skillDrag = null;
+      const updateSkillPositions = (container) => {
+        const pills = $$('.skill-pill', container);
+        pills.forEach((pill, index) => pill.setAttribute('aria-label', `${pill.textContent}, position ${index + 1} of ${pills.length}`));
+      };
+      const clearSkillMarkers = () => $$('.skill-pill.drop-before, .skill-pill.drop-after').forEach((pill) => pill.classList.remove('drop-before', 'drop-after'));
+      const announceSkillPosition = (pill, container) => {
+        const pills = $$('.skill-pill', container);
+        skillSortStatus.textContent = `${pill.textContent} is now at position ${pills.indexOf(pill) + 1} of ${pills.length}.`;
+      };
+      const finishSkillDrag = (commit = false) => {
+        if (!skillDrag) return;
+        const { pill, container, reference, valid } = skillDrag;
+        if (commit && valid && reference !== pill) container.insertBefore(pill, reference);
+        pill.classList.remove('is-dragging');
+        container.classList.remove('is-sorting');
+        clearSkillMarkers();
+        updateSkillPositions(container);
+        skillDrag = null;
+        pill.focus({ preventScroll: true });
+        if (commit && valid) announceSkillPosition(pill, container);
+        else skillSortStatus.textContent = 'Rearrangement canceled.';
+      };
+      const markSkillInsertion = (container, x, y) => {
+        clearSkillMarkers();
+        const candidates = $$('.skill-pill', container).filter((pill) => pill !== skillDrag.pill).map((pill) => ({ pill, box: pill.getBoundingClientRect() }));
+        if (!candidates.length) return null;
+        const nearestRow = candidates.reduce((nearest, item) => Math.abs(y - item.box.top - item.box.height / 2) < Math.abs(y - nearest.box.top - nearest.box.height / 2) ? item : nearest);
+        const row = candidates.filter(({ box }) => Math.abs(box.top - nearestRow.box.top) < 3);
+        const before = row.find(({ box }) => x < box.left + box.width / 2);
+        if (before) { before.pill.classList.add('drop-before'); return before.pill; }
+        const last = row[row.length - 1].pill;
+        last.classList.add('drop-after');
+        return last.nextElementSibling;
+      };
+      data.skills.forEach((skill) => {
+        let panel = $(`#panel-${skill.id}`);
+        if (!panel) {
+          panel = create('div', 'skill-panel');
+          panel.id = `panel-${skill.id}`;
+          panel.setAttribute('role', 'tabpanel');
+          panel.setAttribute('aria-labelledby', `tab-${skill.id}`);
+          panel.tabIndex = 0;
+          panel.hidden = true;
+          $('#skill-panels').append(panel);
+        }
+        panel.replaceChildren(create('h3', '', skill.title), create('p', '', skill.description));
+        const pills = create('div', 'skill-pills');
+        const help = create('p', 'skill-reorder-note', 'Drag to rearrange. Keyboard: focus a skill, then use Alt + arrow keys.');
+        help.id = `skill-help-${skill.id}`;
+        pills.setAttribute('role', 'group');
+        pills.setAttribute('aria-label', `${$(`#tab-${skill.id}`).textContent.trim()} skills`);
+        pills.setAttribute('aria-describedby', help.id);
+        skill.items.forEach((item) => {
+          const pill = create('button', 'skill-pill', item);
+          pill.type = 'button';
+          pill.draggable = true;
+          pill.setAttribute('aria-keyshortcuts', 'Alt+ArrowLeft Alt+ArrowRight Alt+ArrowUp Alt+ArrowDown');
+          pill.addEventListener('dragstart', (event) => {
+            finishSkillDrag();
+            skillDrag = { pill, container: pills, reference: null, valid: false };
+            if (event.dataTransfer) { event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('text/plain', pill.textContent); }
+            pill.classList.add('is-dragging');
+            pills.classList.add('is-sorting');
+            skillSortStatus.textContent = `Picked up ${pill.textContent}. Drop it at the insertion marker to rearrange.`;
+          });
+          pill.addEventListener('dragend', () => { if (skillDrag?.pill === pill) finishSkillDrag(); });
+          pill.addEventListener('keydown', (event) => {
+            if (!event.altKey || event.ctrlKey || event.metaKey || skillDrag) return;
+            const direction = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[event.key];
+            if (!direction) return;
+            event.preventDefault();
+            const order = $$('.skill-pill', pills);
+            const index = order.indexOf(pill);
+            const next = index + direction;
+            if (next >= 0 && next < order.length) pills.insertBefore(pill, direction < 0 ? order[next] : order[next].nextElementSibling);
+            updateSkillPositions(pills);
+            pill.focus({ preventScroll: true });
+            announceSkillPosition(pill, pills);
+          });
+          pills.append(pill);
+        });
+        pills.addEventListener('dragover', (event) => {
+          if (!skillDrag || skillDrag.container !== pills) return;
+          event.preventDefault();
+          if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+          skillDrag.reference = markSkillInsertion(pills, event.clientX, event.clientY);
+          skillDrag.valid = true;
+        });
+        pills.addEventListener('drop', (event) => {
+          if (!skillDrag || skillDrag.container !== pills) return;
+          event.preventDefault();
+          event.stopPropagation();
+          finishSkillDrag(true);
+        });
+        panel.append(pills, help);
+        updateSkillPositions(pills);
+      });
+      document.addEventListener('dragover', (event) => {
+        if (!skillDrag || skillDrag.container.contains(event.target)) return;
+        event.preventDefault();
+        if (event.dataTransfer) event.dataTransfer.dropEffect = 'none';
+        skillDrag.valid = false;
+        clearSkillMarkers();
+      });
+      document.addEventListener('drop', (event) => { if (skillDrag) { event.preventDefault(); finishSkillDrag(); } });
+      document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && skillDrag) { event.preventDefault(); finishSkillDrag(); } });
+      const activateTab = (tab, focus = false) => { finishSkillDrag(); tabs.forEach((item) => { const selected = item === tab; item.setAttribute('aria-selected', String(selected)); item.tabIndex = selected ? 0 : -1; $(`#${item.getAttribute('aria-controls')}`).hidden = !selected; }); if (focus) tab.focus(); };
       const updateTabOrientation = () => tablist.setAttribute('aria-orientation', mobileViewport.matches ? 'horizontal' : 'vertical'); updateTabOrientation(); mobileViewport.addEventListener('change', updateTabOrientation);
       tabs.forEach((tab, index) => { tab.addEventListener('click', () => activateTab(tab)); tab.addEventListener('keydown', (event) => { const horizontal = tablist.getAttribute('aria-orientation') === 'horizontal'; const previous = horizontal ? 'ArrowLeft' : 'ArrowUp'; const next = horizontal ? 'ArrowRight' : 'ArrowDown'; let target; if (event.key === next) target = (index + 1) % tabs.length; else if (event.key === previous) target = (index - 1 + tabs.length) % tabs.length; else if (event.key === 'Home') target = 0; else if (event.key === 'End') target = tabs.length - 1; if (target !== undefined) { event.preventDefault(); activateTab(tabs[target], true); } }); });
 
