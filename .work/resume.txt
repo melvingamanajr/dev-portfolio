@@ -1,0 +1,129 @@
+PAGE 1
+MELVIN GAMANA JR
+Software 
+Engineer
+| Software 
+Developer
+| Full
+-
+Stack Developer
+09
+773366514
+| 
+melvingamanajr@gmail.com
+| 
+github.com/melvingamanajr
+| 
+l
+inkedin.com/in/melvingamanajr/
+PROFESSIONAL SUMMARY
+Software Developer with 2 years of experience building web applications, fixing code, and managing databases. 
+Proficient in 
+Java EE, Jakarta EE, and Spring, alongside modern frontend frameworks like
+Vue 3, TypeScript, and connecting website systems, 
+with a strong history of making web pages load 20% faster and reducing system bugs by 30%. Experienced in training new team 
+members, writing clean code, and working with teams to launch successful new features. Dedicated to using strong problem
+-
+solving skills to build fast, reliable, and helpful software for top companies.
+WORK EXPERIENCE
+S
+oftware Developer
+July 2024 
+–
+Presen
+t
+Alliance Software Inc.
+•
+Successfully migrated and refactored old codebases from KnockoutJS and Vue 2 to Vue 3. Used Composition API and Pinia 
+to make the app faster and easier to maintain.
+•
+Designed, configured, tested, debugged, and maintained robust web service applications and backend workflows utilizing 
+Java EE, Jakarta EE, and Spring, implementing secure controllers and robust mock controllers for efficient unit testing and 
+high availability.
+•
+Built responsive, user
+-
+friendly interfaces with Vue 3
+,
+decreasing page load time by 20%.
+•
+Collaborated with cross
+-
+functional teams to launch five new features, raising user satisfaction by 15%.
+•
+Integrated RESTful APIs and backend services into frontend architectures efficiently.
+•
+Mentored 2 junior developers on code standards and modern framework patterns, improving team code quality by 10% and 
+accelerating onboarding timelines.
+•
+Reduced bug incidents by 30% through proactive debugging, refactoring, and performance optimization.
+•
+Enforced clean, reusable, and scalable code practices following industry standards.
+Web Developer 
+Intern
+January 2024 
+–
+May 2024
+Municipality of San Juan, Southern Leyte
+•
+Helped make and fix programs and databases for town offices.
+•
+Worked with PHP, MySQL, JavaScript, HTML, 
+and 
+CSS in creating system features and user interfaces
+.
+•
+Collaborated with staff and team members to improve system performance and usability
+.
+PROJECTS
+Real
+-
+Time Attendance Monitoring System 
+–
+Face Recognition (Capstone)
+January 2023 
+–
+June 2024
+•
+Designed and developed a web
+-
+based system that automates attendance tracking using facial recognition technology.
+•
+Optimized database queries reducing data retrieval time by 35%.
+•
+Conducted comprehensive testing to ensure accuracy and system reliability.
+TECHNICAL SKILLS
+•
+Frontend: 
+Vue.js,
+HTML, CSS, JavaScript, TypeScript, Vue 3, Vite, Pinia
+•
+Backend, Databases & Languages: 
+Java (Java EE, Jakarta EE), Python,
+jQuery,
+Java, PHP, C#, MySQL, REST API Integration
+•
+Testing & Tools: 
+Unit Testing (Playwright),
+Git, GitHub, VS Code, Postman
+•
+Other: 
+Responsive Web Design, Debugging, Problem Solving, Agile, Software Maintenance
+EDUCATION
+Bachelor of Science in Information Technology 
+-
+Programming
+August 2020 
+–
+June 2024
+Southern Leyte State University 
+–
+San Juan
+CERTIFICATIONS
+Google Advance Data Analytics Specialization
+Google Data Analytics Specialization
+Google Cybersecurity
+Amazon Junior Software Developer
+Microsoft Front
+-
+End Developer

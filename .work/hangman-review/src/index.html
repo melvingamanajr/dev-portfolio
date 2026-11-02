@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111923">
+    <meta name="description" content="A little wordplay for your day. Play classic Hangman, race the clock, or take on today's challenge.">
+    <title>Hangman · A little wordplay</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23b8e986'/%3E%3Ctext x='13' y='47' font-size='44' font-family='sans-serif' fill='%23111923'%3EH%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="./" aria-label="Hangman home"><span class="brand-mark" aria-hidden="true">h.</span> hangman<span class="brand-dot">.</span></a>
+        <div class="header-tools">
+            <button id="how-to-play-btn" class="btn-icon" aria-label="How to play">?</button>
+            <button id="stats-btn" class="btn-icon" aria-label="Statistics">▥</button>
+            <button id="settings-btn" class="btn-icon" aria-label="Sound settings">⚙</button>
+            <button id="mute-btn" class="btn-icon" aria-label="Mute sound" aria-pressed="false">♪</button>
+            <label class="theme-switcher" title="Toggle light theme"><input type="checkbox" id="theme-toggle" aria-label="Light theme"><span aria-hidden="true">☼</span></label>
+        </div>
+    </header>
+    <main class="app-shell">
+        <section id="intro-screen" class="screen active" aria-labelledby="intro-title">
+            <div class="intro-copy"><p class="eyebrow"><span class="status-dot"></span> A LITTLE WORDPLAY FOR YOUR DAY</p>
+                <h1 id="intro-title" tabindex="-1">Good guesses.<br><span>Great escapes.</span></h1>
+                <p class="lead">One hidden word. Six chances to save the day.<br>How far will your vocabulary take you?</p>
+                <button id="start-game-btn" class="btn-primary">Let’s play <span aria-hidden="true">↗</span></button>
+                <p class="micro-copy">Pick a category. Find your rhythm. Keep your streak.</p>
+            </div>
+            <div class="intro-art" aria-hidden="true"><span class="art-tag">EVERY LETTER COUNTS</span><svg viewBox="0 0 300 245"><path class="gallows" d="M45 220H180M80 220V30H210V65M80 65L115 30"/><g class="art-person"><circle cx="210" cy="88" r="23"/><path d="M210 111V166M210 127L180 149M210 127L241 105M210 166L190 198M210 166L232 198"/><path class="art-smile" d="M200 93Q210 102 220 93"/><path d="M202 82h1M217 82h1"/></g></svg><div class="art-tiles"><span>P</span><span>L</span><span>A</span><span>Y</span><span class="empty">?</span></div><span class="art-note">Your next “aha!” is one letter away.</span></div>
+            <div class="mode-grid">
+                <button id="timed-rush-btn" class="mode-card"><span class="mode-icon blue" aria-hidden="true">◷</span><span><strong>Timed Rush</strong><small>3 minutes. As many words as you can.</small></span><span class="card-arrow" aria-hidden="true">↗</span></button>
+                <button id="daily-challenge-btn" class="mode-card"><span class="mode-icon gold" aria-hidden="true">✧</span><span><strong class="btn-text">Daily Challenge</strong><small>One word a day. Build your streak.</small></span><span class="card-arrow" aria-hidden="true">↗</span></button>
+            </div>
+            <div class="score-container"><span><strong id="high-score">0</strong> personal best</span><span><strong id="daily-streak">0</strong> day streak <span aria-hidden="true">✦</span></span><span class="local-note">Your progress, saved on this device</span></div>
+        </section>
+        <section id="category-screen" class="screen" aria-labelledby="category-title" hidden>
+            <button id="back-to-intro-btn" class="btn-return">← <span>Main menu</span></button>
+            <p class="eyebrow">CLASSIC MODE · STEP 01 / 02</p><h1 id="category-title" tabindex="-1">Choose your territory<span class="accent">.</span></h1><p class="lead">A familiar subject or something unexpected?</p>
+            <div id="category-buttons-container" class="category-buttons"></div>
+        </section>
+        <section id="difficulty-screen" class="screen" aria-labelledby="difficulty-title" hidden>
+            <button id="back-to-category-btn" class="btn-return">← <span>Categories</span></button>
+            <p class="eyebrow">CLASSIC MODE · STEP 02 / 02</p><h1 id="difficulty-title" tabindex="-1">Find your pace<span class="accent">.</span></h1><p class="lead" id="difficulty-description">Six incorrect guesses in every mode. You choose the pressure.</p>
+            <div id="difficulty-buttons" class="category-buttons difficulty-buttons"></div>
+        </section>
+        <section id="game-screen" class="screen" aria-labelledby="game-title" hidden>
+            <div class="game-topline"><button id="quit-game-btn" class="btn-return">← <span>Leave game</span></button><span id="round-mode" class="eyebrow">CLASSIC</span><button id="pause-game-btn" class="btn-quiet">Ⅱ Pause</button></div>
+            <div class="game-content-wrapper">
+                <div class="game-info-container"><div class="info-item"><span class="info-label">Session score</span><span id="current-score" class="info-value">0</span></div><div class="info-item"><span class="info-label">Category</span><span id="category-hint" class="info-value"></span></div><div class="info-item" id="timed-rush-streak-container" hidden><span class="info-label">Streak</span><span id="timed-rush-streak" class="info-value">0</span></div><div class="info-item" id="round-timer-container"><span class="info-label">Time left</span><span id="timer" class="info-value">2:00</span></div><div class="info-item" id="timed-rush-timer-container" hidden><span class="info-label">Rush time</span><span id="timed-rush-timer" class="info-value">3:00</span></div></div>
+                <div class="timer-track" aria-hidden="true"><div id="timer-progress"></div></div>
+                <div class="puzzle-stage"><div class="figure-panel"><svg viewBox="0 0 200 250" class="hangman-figure" aria-hidden="true"><path class="gallows" d="M20 230H110M60 230V20H140V50M60 55L95 20"/><g id="figure-head" class="figure-part"><circle cx="140" cy="70" r="20"/></g><path d="M140 90V150" class="figure-part"/><path d="M140 110L108 132" class="figure-part"/><path d="M140 110L172 132" class="figure-part"/><path d="M140 150L115 185" class="figure-part"/><path d="M140 150L165 185" class="figure-part"/></svg><div class="lives" id="lives-display" aria-label="6 guesses remaining"></div></div><div class="puzzle-panel"><p class="eyebrow" id="word-length">THE HIDDEN WORD</p><h1 id="game-title" class="game-title" tabindex="-1">Make your next guess.</h1><div class="word-clue" role="note" aria-labelledby="clue-label"><p id="clue-label" class="clue-label">Description</p><p id="word-description" aria-live="polite"></p><p id="clue-timing" class="clue-timing"></p></div><div class="word-display" role="group" aria-label="Hidden word"></div><p id="guess-feedback" class="guess-feedback" role="status" aria-live="polite">A good place to start? Try a vowel.</p></div></div>
+                <div class="keyboard" role="group" aria-label="Letter keyboard"></div>
+                <div class="keyboard-legend"><span><i class="legend-dot correct"></i> Correct</span><span><i class="legend-dot incorrect"></i> Missed</span><span>Type on your keyboard or tap a letter</span></div>
+                <div class="hint-button-container"><button id="hint-button" class="btn-action">✧ Reveal a letter <span>1 available</span></button><button id="reveal-word-btn" class="btn-quiet">Give up & reveal</button></div>
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer"><span>Made for curious minds.</span><span>Created by Melvin <span class="accent">↗</span></span></footer>
+    <div class="modal-container" id="modal-container"><div class="modal" id="modal-content" role="dialog" aria-modal="true" aria-label="Game dialog" tabindex="-1"></div></div>
+    <script type="module" src="js/script.js"></script>
+</body>
+</html>
