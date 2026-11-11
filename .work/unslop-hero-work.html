@@ -1,0 +1,56 @@
+    <section class="hero container" id="home" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-title">Software Engineer building Vue interfaces and Java services.</h1>
+          <p class="hero-description">I modernize existing applications, develop REST integrations, and improve performance across the stack.</p>
+          <div class="hero-buttons">
+            <a class="button primary" href="#work">View projects <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="button hero-resume" href="assets/Melvin-Gamana-Jr-Resume.pdf" download>Download résumé <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></a>
+            <a class="text-link" href="#contact">Contact me</a>
+          </div>
+        </div>
+        <div class="hero-aside">
+          <p>Currently at<strong>Alliance Software Inc.</strong></p>
+          <p class="hero-details"><span>Cebu City, Philippines</span><span>Prefers on-site work</span></p>
+          <div class="hero-socials">
+            <a href="https://github.com/melvingamanajr" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub<span class="visually-hidden"> (opens in a new tab)</span></a>
+            <a href="https://linkedin.com/in/melvingamanajr/" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section work-section" id="work" aria-labelledby="work-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="work-title">Selected projects</h2>
+          <a class="text-link" href="https://github.com/melvingamanajr" target="_blank" rel="noopener noreferrer">GitHub repositories <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
+        </div>
+        <div id="projects-gallery">
+          <article class="project-card featured-project" data-project-card="hangman">
+            <div class="project-copy">
+              <div><h3>Hangman: three ways to play</h3><p class="project-tech">HTML, CSS, JavaScript</p></div>
+              <div class="project-description">
+                <p>A browser word game with Classic, Timed Rush, and Daily Challenge modes. Choose a category, play against the clock, and save progress on your device.</p>
+                <div class="project-actions">
+                  <a class="button primary" href="https://melvingamanajr.github.io/hangman-game/src/index.html" target="_blank" rel="noopener noreferrer">Play game <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
+                  <a class="text-link" href="https://github.com/melvingamanajr/hangman-game" target="_blank" rel="noopener noreferrer">Source code <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
+                  <button class="text-link js-only" data-project="hangman" aria-haspopup="dialog">Project details <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-frame" data-preview>
+              <img data-preview-image src="assets/hangman-preview.png" width="1100" height="760" loading="eager" fetchpriority="high" decoding="async" alt="Actual Hangman gameplay showing a hidden word, countdown timer, score, and on-screen letter keyboard.">
+              <p class="preview-status" data-preview-status role="status" aria-live="polite" hidden>Loading game preview…</p>
+              <p class="preview-error" data-preview-error hidden>The game preview couldn’t load. You can still play the game using the link above.</p>
+            </div>
+          </article>
+          <article class="project-card case-study" data-project-card="attendance">
+            <div><h3>Face recognition attendance system</h3><p class="project-period">Capstone project · 2023–2024</p></div>
+            <div>
+              <p>A web-based system that automates attendance check-ins using face recognition. Query optimization reduced database retrieval time by 35%.</p>
+              <button class="text-link js-only" data-project="attendance" aria-haspopup="dialog">Read case study <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
