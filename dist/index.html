@@ -6,7 +6,7 @@
   <meta name="description" content="Melvin Gamana Jr. is a software engineer building thoughtful web applications with Vue, TypeScript, and Java. Explore his work, experience, and approach.">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#111715">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-xHfGU1NWyDUG2Or8/hS1RlQh8FL5Lo+wVL395Nq3NYU='; style-src 'sha256-7db6+jX/Wjw77JLtbBNvQHBjk3/k7otrIH3NBX+ysFA='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-xHfGU1NWyDUG2Or8/hS1RlQh8FL5Lo+wVL395Nq3NYU='; style-src 'sha256-RK8mnTVCNT2QD7r0ELQKeK9ukI4QhYjNMS+p8VibuKQ='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="Melvin Gamana Jr. — Software Engineer">
   <meta property="og:description" content="Software Engineer building Vue interfaces and Java services. Explore my work modernizing web applications and improving performance.">
   <meta property="og:type" content="website">
@@ -23,6 +23,8 @@
   --muted: #bec9bf;
   --line: #405045;
   --contour-opacity: .32;
+  --contour-size: 900px;
+  --contour-duration: 480s;
   --accent: #cdfa8c;
   --accent-ink: #18270f;
   --error: #ffb4ab;
@@ -60,16 +62,26 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 104px; }
 body { margin: 0; isolation: isolate; background: var(--bg); color: var(--text); font: 16px/1.7 var(--sans); font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
-/* Static topographic contours fade behind the main reading area. */
+/* Contours ripple independently beneath a fixed reading-area mask. */
 body:before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: url("assets/contour-lines.svg") center top / 900px 900px repeat;
+  background: url("assets/contour-lines.svg") center top / var(--contour-size) var(--contour-size) repeat;
   opacity: var(--contour-opacity);
   mask-image: linear-gradient(90deg, #000, #0008 30%, #0004 55%, #000);
+}
+@keyframes contour-drift {
+  from { background-position: 50% 0; }
+  to { background-position: calc(50% + var(--contour-size)) var(--contour-size); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  body:before {
+    background-image: url("assets/contour-waves.svg");
+    animation: contour-drift var(--contour-duration) linear infinite;
+  }
 }
 body.dialog-open { overflow: hidden; }
 ::selection { background: var(--accent); color: var(--accent-ink); }
