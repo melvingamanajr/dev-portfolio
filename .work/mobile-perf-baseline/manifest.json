@@ -1,0 +1,17 @@
+[
+  {
+    "file": "index.html",
+    "bytes": 69745,
+    "sha256": "aa873956c233b3d02ae72fcc824df8f5e87d084109e5e9a9c7ff1f555620229f"
+  },
+  {
+    "file": "assets/contour-lines.svg",
+    "bytes": 54186,
+    "sha256": "cf975f97f0ad4cc2dfa13a2a8c2a02e2a1aaa0995d20142af36d3e957a583b2c"
+  },
+  {
+    "file": "assets/contour-waves.svg",
+    "bytes": 323936,
+    "sha256": "417a75b81081f15b2309a8fa5bf4221dd8e8693baf0cd1b683a8e75e55f5646c"
+  }
+]
