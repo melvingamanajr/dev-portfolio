@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFile, access } from 'node:fs/promises';
 import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { Script } from 'node:vm';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const html = await readFile(resolve(root, 'index.html'), 'utf8');
@@ -43,6 +44,15 @@ check('Inline scripts and styles match the Content Security Policy hashes', () =
     const attrs = attributes(tag);
     assert.notEqual(attrs.rel, 'stylesheet', 'All runtime CSS must be embedded in the standalone HTML');
   }
+});
+
+check('Inline JavaScript parses successfully', () => {
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+  scripts.forEach(([, rawAttributes, content], index) => {
+    const { type } = attributes(rawAttributes);
+    if (type && /json$/i.test(type)) return;
+    new Script(content, { filename: `portfolio-inline-${index}.js` });
+  });
 });
 
 check('Unique IDs, valid fragment targets, and safe external links', () => {
