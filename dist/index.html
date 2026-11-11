@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Melvin Gamana Jr. is a software engineer building thoughtful web applications with Vue, TypeScript, and Java. Explore his work, experience, and approach.">
   <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#111715">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-xHfGU1NWyDUG2Or8/hS1RlQh8FL5Lo+wVL395Nq3NYU='; style-src 'sha256-r+lWgqfjL+QunyfPJpLX1IJq71LdPeh5Wt3ghnAUEuw='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="theme-color" content="#191b1e">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-zFMjPIKKYN1SNZ0SAAjWP/NuxIaY8Af+8IvJnGuofB4='; style-src 'sha256-8gJ5Og1mip4pbKUC85JcjlN3k8jC3VRypvE5lKt6UdI='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="Melvin Gamana Jr. — Software Engineer">
   <meta property="og:description" content="Software Engineer building Vue interfaces and Java services. Explore my work modernizing web applications and improving performance.">
   <meta property="og:type" content="website">
@@ -16,12 +16,13 @@
   <style>
 :root {
   color-scheme: dark;
-  --bg: #111715;
-  --surface: #19221d;
-  --raised: #26352b;
+  --bg: #191b1e;
+  --surface: #222529;
+  --raised: #303438;
   --text: #f2f5ee;
-  --muted: #bec9bf;
-  --line: #405045;
+  --muted: #c0c6c8;
+  --line: #4b5357;
+  --grain-opacity: .5;
   --accent: #cdfa8c;
   --accent-ink: #18270f;
   --error: #ffb4ab;
@@ -54,10 +55,13 @@
   --accent: #315e21;
   --accent-ink: #ffffff;
   --error: #a92523;
+  --grain-opacity: .16;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 104px; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 var(--sans); font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
+body { margin: 0; isolation: isolate; background: var(--bg); color: var(--text); font: 16px/1.7 var(--sans); font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
+/* Static graphite grain stays behind content and never intercepts interaction. */
+body:before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: url("assets/speckled-graphite.svg") repeat; background-size: 320px 320px; opacity: var(--grain-opacity); }
 body.dialog-open { overflow: hidden; }
 ::selection { background: var(--accent); color: var(--accent-ink); }
 a { color: inherit; text-decoration: none; }
@@ -466,7 +470,7 @@ dialog::backdrop { background: #07110dbd; }
       const mediaTheme = window.matchMedia('(prefers-color-scheme: light)');
       let explicitTheme = null;
       try { explicitTheme = localStorage.getItem('portfolio-theme'); } catch { /* Storage is optional. */ }
-      const setTheme = (theme) => { document.documentElement.dataset.theme = theme; themeButton.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`); $('meta[name="theme-color"]').content = theme === 'dark' ? '#111715' : '#f6f7f0'; };
+      const setTheme = (theme) => { document.documentElement.dataset.theme = theme; themeButton.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`); $('meta[name="theme-color"]').content = theme === 'dark' ? '#191b1e' : '#f6f7f0'; };
       setTheme(['dark', 'light'].includes(explicitTheme) ? explicitTheme : mediaTheme.matches ? 'light' : 'dark');
       themeButton.addEventListener('click', () => { explicitTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; setTheme(explicitTheme); try { localStorage.setItem('portfolio-theme', explicitTheme); } catch { /* Keep the theme for this page only. */ } });
       mediaTheme.addEventListener('change', (event) => { if (!explicitTheme) setTheme(event.matches ? 'light' : 'dark'); });
