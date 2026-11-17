@@ -38,49 +38,72 @@ async function availableExecutable(name, engine) {
 
 async function audit(page, browserName, theme) {
   const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
-  await writeFile(resolve(resultsDir, `sections-axe-${browserName}-${theme}.json`), JSON.stringify(result, null, 2));
+  await writeFile(resolve(resultsDir, `scrolling-axe-${browserName}-${theme}.json`), JSON.stringify(result, null, 2));
   assert.equal(result.violations.length, 0, `${theme} accessibility violations: ${result.violations.map(({ id, nodes }) => `${id} (${nodes.map(({ target }) => target.join(', ')).join('; ')})`).join('\n')}`);
 }
 
 const viewIds = ['home', 'work', 'experience', 'about', 'skills', 'contact'];
+async function allSectionsRendered(page) {
+  const shown = await page.locator('#main > section').evaluateAll((sections) => sections.filter((section) => section.getClientRects().length && !section.hidden).map((section) => section.id));
+  assert.deepEqual(shown, viewIds, 'Every portfolio section should remain in the scrolling document');
+}
+async function sectionInViewport(page, id) {
+  await page.waitForFunction((sectionId) => {
+    const section = document.getElementById(sectionId);
+    const header = document.querySelector('.site-header').getBoundingClientRect();
+    const bounds = section?.getBoundingClientRect();
+    return bounds && bounds.top < innerHeight && bounds.bottom > header.bottom;
+  }, id);
+  await allSectionsRendered(page);
+}
 async function goView(page, id) {
-  await page.evaluate((view) => { location.hash = view; }, id);
-  await page.waitForFunction((view) => document.body.dataset.view === view, id);
-  const shown = await page.locator('#main > section').evaluateAll((sections) => sections.filter((section) => section.getClientRects().length).map((section) => section.id));
-  assert.deepEqual(shown, [id], 'Only the selected section should be displayed');
+  await page.evaluate((sectionId) => {
+    location.hash = sectionId;
+    // The same fragment is also used after interacting lower down in a section.
+    document.getElementById(sectionId).scrollIntoView({ behavior: 'instant', block: 'start' });
+  }, id);
+  await sectionInViewport(page, id);
 }
 async function clickView(page, id) {
   const link = page.locator(`#primary-nav a[href="#${id}"]`);
   if (!await link.isVisible()) await page.locator('[data-menu-toggle]').click();
   await link.click();
-  await page.waitForFunction((view) => document.body.dataset.view === view, id);
-  assert.ok(await page.locator(`#${id} h1, #${id} h2`).first().evaluate((heading) => heading === document.activeElement), 'Navigation should focus the selected heading');
-  assert.equal(await link.getAttribute('aria-current'), 'page', 'Navigation should identify the selected page');
+  await page.waitForFunction((sectionId) => location.hash === `#${sectionId}`, id);
+  await sectionInViewport(page, id);
+  await page.waitForFunction((sectionId) => document.querySelector(`#${sectionId} h1, #${sectionId} h2`) === document.activeElement, id);
   assert.equal(await page.locator('[data-menu-toggle]').getAttribute('aria-expanded'), 'false', 'Navigation should close the mobile menu');
-  const shown = await page.locator('#main > section').evaluateAll((sections) => sections.filter((section) => section.getClientRects().length).map((section) => section.id));
-  assert.deepEqual(shown, [id]);
 }
 async function navigationBehavior(page) {
   await page.goto(url, { waitUntil: 'networkidle' });
-  assert.equal(await page.evaluate(() => document.body.dataset.view), 'home', 'The initial page should show Home');
-  for (const id of viewIds.slice(1)) assert.ok(!await page.locator(`#${id}`).isVisible(), `${id} must not appear on the initial Home screen`);
+  await allSectionsRendered(page);
+  assert.equal(await page.evaluate(() => window.scrollY), 0, 'The initial page should start at Home');
   const height = await page.locator('#home').evaluate((home) => ({ home: home.getBoundingClientRect().height, header: document.querySelector('.site-header').getBoundingClientRect().height, viewport: innerHeight }));
   assert.ok(height.home >= height.viewport - height.header - 1, 'Home should fill the viewport below the header');
-  assert.ok(!await page.locator('.site-footer').isVisible(), 'The Home screen should not reveal the footer');
+  assert.ok(await page.locator('#work').evaluate((work) => work.getBoundingClientRect().top >= innerHeight - 1), 'Work should begin below the initial Home viewport');
+  assert.ok(await page.locator('.site-footer').evaluate((footer) => footer.getBoundingClientRect().top >= innerHeight), 'The initial Home viewport should keep the footer below the fold');
+  await page.mouse.move(200, 300);
+  await page.mouse.wheel(0, height.home);
+  await page.waitForFunction(() => window.scrollY > 100 && document.getElementById('work').getBoundingClientRect().top < innerHeight);
+  await allSectionsRendered(page);
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  await page.waitForFunction(() => document.querySelector('.site-footer').getBoundingClientRect().top < innerHeight);
+  await allSectionsRendered(page);
   await page.setViewportSize({ width: 1440, height: 1000 });
   await clickView(page, 'work');
   await clickView(page, 'experience');
   await page.goBack();
-  await page.waitForFunction(() => document.body.dataset.view === 'work');
+  await page.waitForFunction(() => location.hash === '#work');
+  await sectionInViewport(page, 'work');
   await page.goForward();
-  await page.waitForFunction(() => document.body.dataset.view === 'experience');
+  await page.waitForFunction(() => location.hash === '#experience');
+  await sectionInViewport(page, 'experience');
   await page.reload({ waitUntil: 'networkidle' });
-  assert.equal(await page.evaluate(() => document.body.dataset.view), 'experience', 'Reload should honor the selected section URL');
+  await sectionInViewport(page, 'experience');
   for (const id of viewIds) await clickView(page, id);
   await page.goto(`${url}/#not-a-section`, { waitUntil: 'networkidle' });
-  assert.equal(await page.evaluate(() => document.body.dataset.view), 'home', 'Invalid routes should fall back to Home');
+  await allSectionsRendered(page);
   await page.goto(`${url}/#skills`, { waitUntil: 'networkidle' });
-  assert.ok(await page.locator('#skills').isVisible(), 'Direct Skills links should work on first load');
+  await sectionInViewport(page, 'skills');
   await page.setViewportSize({ width: 390, height: 844 });
   await clickView(page, 'experience');
   await page.locator('[data-menu-toggle]').click();
@@ -88,22 +111,26 @@ async function navigationBehavior(page) {
   assert.equal(await page.locator('[data-menu-toggle]').getAttribute('aria-expanded'), 'false');
   await page.locator('.skip-link').focus();
   await page.keyboard.press('Enter');
-  assert.equal(await page.evaluate(() => document.activeElement.id), 'main', 'Skip link should focus the current main content');
-  assert.equal(await page.evaluate(() => document.body.dataset.view), 'experience');
+  assert.equal(await page.evaluate(() => document.activeElement.id), 'main', 'Skip link should focus the main content');
+  await allSectionsRendered(page);
   await page.goto(`${url}/#panel-backend`, { waitUntil: 'networkidle' });
-  assert.equal(await page.evaluate(() => document.body.dataset.view), 'skills', 'Nested skill links should resolve after panels are created');
   assert.ok(await page.locator('#panel-backend').isVisible(), 'A linked skill panel should be selected');
+  assert.equal(await page.locator('#tab-backend').getAttribute('aria-selected'), 'true', 'Nested skill links should activate the matching tab');
+  await sectionInViewport(page, 'skills');
   await page.goto(`${url}/#name`, { waitUntil: 'networkidle' });
-  assert.equal(await page.evaluate(() => document.body.dataset.view), 'contact', 'Nested contact links should open Contact');
+  await sectionInViewport(page, 'contact');
+  assert.ok(await page.locator('#name').evaluate((input) => { const bounds = input.getBoundingClientRect(); return bounds.top < innerHeight && bounds.bottom > document.querySelector('.site-header').getBoundingClientRect().bottom; }), 'A nested contact link should scroll its field into view');
   await page.goto(`${url}/#work`, { waitUntil: 'networkidle' });
-  await page.evaluate(() => window.scrollTo(0, 400));
+  await sectionInViewport(page, 'work');
   await clickView(page, 'experience');
   await page.goBack();
-  await page.waitForFunction(() => document.body.dataset.view === 'work');
-  await page.waitForFunction(() => window.scrollY === 0);
-  await page.evaluate(() => window.scrollTo(0, 400));
+  await page.waitForFunction(() => location.hash === '#work');
+  await sectionInViewport(page, 'work');
+  assert.ok(await page.locator('#work-title').evaluate((heading) => { const bounds = heading.getBoundingClientRect(); return bounds.top >= document.querySelector('.site-header').getBoundingClientRect().bottom && bounds.bottom < innerHeight; }), 'Back should return to the Work introduction');
+  await page.evaluate(() => window.scrollBy({ top: 400, behavior: 'instant' }));
   await clickView(page, 'work');
-  assert.equal(await page.evaluate(() => window.scrollY), 0, 'The active section link should return to the top');
+  await page.waitForFunction(() => Math.abs(document.getElementById('work').getBoundingClientRect().top - parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)) < 2);
+  await sectionInViewport(page, 'work');
 }
 
 async function previewLoaded(page) {
@@ -372,7 +399,7 @@ try {
             if (view === 'home') {
               const bounds = await page.locator('#home').boundingBox();
               assert.ok(bounds.height >= (width < 768 ? 844 : 1000) - (width <= 640 ? 72 : 80) - 1, 'Home must fill the initial viewport');
-              assert.ok(!await page.locator('#work').isVisible(), 'Home must not reveal Work');
+              assert.ok(await page.locator('#work').evaluate((work) => work.getBoundingClientRect().top >= innerHeight - 1), 'Home must keep Work below the initial viewport');
             }
             if (view === 'work') {
               await previewLoaded(page);
@@ -380,15 +407,14 @@ try {
               assert.ok(image && image.width > 0 && image.x >= -1 && image.x + image.width <= width + 1, 'Project screenshot must remain in bounds');
               assert.ok(Math.abs(image.width / image.height - 1100 / 760) < .02, 'Project screenshot must preserve its aspect ratio');
             }
-            if ([390, 1440].includes(width)) {
-              await audit(page, `${name}-${width}-${view}`, theme);
-              if (['home', 'work', 'experience'].includes(view)) {
-                const path = resolve(resultsDir, `sections-${name}-${width}-${theme}-${view}.png`);
-                await captureScreenshot(page, { path, fullPage: true });
-                report.screenshots.push(path);
-              }
+            if ([390, 1440].includes(width) && ['home', 'work', 'experience'].includes(view)) {
+              const path = resolve(resultsDir, `scrolling-${name}-${width}-${theme}-${view}.png`);
+              await captureScreenshot(page, { path });
+              report.screenshots.push(path);
             }
           }
+          // All six sections are displayed, so one audit covers the full document.
+          if ([390, 1440].includes(width)) await audit(page, `${name}-${width}`, theme);
         }
       }
       await page.setViewportSize({ width: 1440, height: 1000 });
@@ -403,12 +429,12 @@ try {
       await previewAlreadyComplete(context);
       await interactions(page);
       assert.deepEqual(errors, [], 'Browser errors or failed resources');
-      report.browsers.push({ name, status: 'passed', harnessWarnings, checks: ['Home and six exclusive views at 320/390/768/1440px in both themes', 'WCAG AA audit of every view at mobile and desktop sizes in both themes', 'real product image bounds and aspect ratio', 'product loading success, reload, already-complete initialization, and isolated resource failure', 'theme persistence', 'mobile menu', 'filters and decorative orbit removed; both projects visible', 'modal focus', 'skills keyboard tabs and keyboard/mouse rearrangement', 'experience disclosure', 'contact validation, honest draft state, and edit reset', 'privacy dialog', 'no application console errors or CSP violations outside screenshot capture'] });
+      report.browsers.push({ name, status: 'passed', harnessWarnings, checks: ['Full-height Home and six continuously scrolling sections at 320/390/768/1440px in both themes', 'Wheel scrolling from Home to Work and a reachable footer', 'Native section anchors, direct and nested links, reload, and browser Back/Forward', 'WCAG AA audit of the full document at mobile and desktop sizes in both themes', 'real product image bounds and aspect ratio', 'product loading success, reload, already-complete initialization, and isolated resource failure', 'theme persistence', 'mobile menu', 'filters and decorative orbit removed; both projects visible', 'modal focus', 'skills keyboard tabs and keyboard/mouse rearrangement', 'experience disclosure', 'contact validation, honest draft state, and edit reset', 'privacy dialog', 'no application console errors or CSP violations outside screenshot capture'] });
       console.log(`PASS ${name}: responsive layout, accessibility, product preview states, keyboard and mouse, themes, navigation, projects, contact`);
     } catch (error) {
       failures.push(`${name}: ${error.stack || error}`);
       report.browsers.push({ name, status: 'failed', reason: String(error) });
-      await captureScreenshot(page, { path: resolve(resultsDir, `sections-${name}-failure.png`), fullPage: true }).catch(() => {});
+      await captureScreenshot(page, { path: resolve(resultsDir, `scrolling-${name}-failure.png`), fullPage: true }).catch(() => {});
       console.error(`FAIL ${name}: ${error.message}`);
     } finally {
       await browser.close();
@@ -417,7 +443,7 @@ try {
   if (failures.length) throw new Error(failures.join('\n\n'));
   assert.ok(report.browsers.some(({ status }) => status === 'passed'), 'No browser successfully completed the checks');
 } finally {
-  await writeFile(resolve(resultsDir, requestedBrowser ? `sections-qa-report-${requestedBrowser}.json` : 'sections-qa-report.json'), JSON.stringify(report, null, 2));
+  await writeFile(resolve(resultsDir, requestedBrowser ? `scrolling-qa-report-${requestedBrowser}.json` : 'scrolling-qa-report.json'), JSON.stringify(report, null, 2));
   await new Promise((accept) => server.close(accept));
 }
 console.log(`QA artifacts: ${resultsDir}`);

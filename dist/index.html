@@ -6,7 +6,7 @@
   <meta name="description" content="Melvin Gamana Jr. is a software engineer building thoughtful web applications with Vue, TypeScript, and Java. Explore his work, experience, and approach.">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#111715">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-pFi5zOs07fwD/H5tpJJXq87PBUy4PObJ4U8Vpf+Hs70=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-adHbcV6WGcfxXuQBBhMcCHxORI/5GGaw1dWyRk6uYco='; style-src 'sha256-G1G28/aqf5AX6J3eO7zisng86z1weqMsjOH95XxDwf8='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-cOiSk/iQtnrHHmck6vK0whqi6fF10BTL++J/R2miiTM='; style-src 'sha256-0BsdRrUTA19zq5B2qgFGbhrWPlukc4dpky3ATOr/THc='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="Melvin Gamana Jr. — Software Engineer">
   <meta property="og:description" content="Software Engineer building Vue interfaces and Java services. Explore my work modernizing web applications and improving performance.">
   <meta property="og:type" content="website">
@@ -16,12 +16,8 @@
   <script>
     (() => {
       const root = document.documentElement;
-      const views = ['home', 'work', 'experience', 'about', 'skills', 'contact'];
-      let initial = 'home';
-      try { const id = decodeURIComponent(location.hash.slice(1)); if (views.includes(id)) initial = id; } catch { /* Invalid fragments open Home. */ }
-      root.dataset.view = initial;
       root.classList.add('js');
-      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
       try {
         const saved = localStorage.getItem('portfolio-theme');
         root.dataset.theme = ['dark', 'light'].includes(saved) ? saved : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
@@ -374,20 +370,10 @@ dialog::backdrop { background: #07110dbd; }
 }
 
 
-/* Each route occupies its own screen; only the selected section is rendered. */
+/* Keep the introduction full height while every section stays in the page flow. */
 :root { --header-height: 80px; }
-html[data-view] #main > section { display: none; }
-html[data-view="home"] #main > #home,
-html[data-view="work"] #main > #work,
-html[data-view="experience"] #main > #experience,
-html[data-view="about"] #main > #about,
-html[data-view="skills"] #main > #skills,
-html[data-view="contact"] #main > #contact { display: block; }
-html[data-view] #main > section { min-height: calc(100svh - var(--header-height)); }
-html[data-view="home"] .site-footer { display: none; }
-.primary-nav a[aria-current="page"] { color: var(--accent); }
-.screen-home.hero,
-html[data-view="home"] #main > #home {
+#main > section { min-height: calc(100svh - var(--header-height)); }
+.screen-home.hero {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -414,8 +400,6 @@ html[data-view="home"] #main > #home {
 .home-bottom p { font-size: 14px; }
 .home-bottom p > span { padding-inline: 9px; }
 .home-bottom .text-link { white-space: nowrap; }
-@keyframes view-enter { from { opacity: .6; } to { opacity: 1; } }
-@media (prefers-reduced-motion: no-preference) { .view-enter { animation: view-enter 160ms ease-out; } }
 @media (max-width: 1000px) {
   .home-stage { grid-template-columns: minmax(0, 1fr) 200px; gap: 32px; }
   .screen-home.hero h1 { font-size: clamp(48px, 6.7vw, 70px); }
@@ -431,8 +415,7 @@ html[data-view="home"] #main > #home {
 @media (max-width: 640px) {
   :root { --header-height: 72px; }
   .primary-nav { max-height: calc(100dvh - var(--header-height)); overflow-y: auto; }
-  .screen-home.hero,
-  html[data-view="home"] #main > #home { padding-block: 28px; gap: 32px; }
+  .screen-home.hero { padding-block: 28px; gap: 32px; }
   .home-intro { gap: 12px; }
   .home-intro .text-link { font-size: 14px; }
   .home-name { font-size: 14px; }
@@ -649,60 +632,30 @@ html[data-view="home"] #main > #home {
       const menuButton = $('[data-menu-toggle]');
       const nav = $('#primary-nav');
       const mobileViewport = window.matchMedia('(max-width: 640px)');
-      const views = new Map($$('#main > section[id]').map((section) => [section.id, section]));
-      const viewTitles = { home: 'Melvin Gamana Jr. — Software Engineer', work: 'Work — Melvin Gamana Jr.', experience: 'Experience — Melvin Gamana Jr.', about: 'About — Melvin Gamana Jr.', skills: 'Skills — Melvin Gamana Jr.', contact: 'Contact — Melvin Gamana Jr.' };
-      let lastViewUrl = '';
-      let viewTimer;
+      const sections = $$('#main > section[id]');
       const closeMenu = (restoreFocus = false) => {
         nav.classList.remove('is-open');
         menuButton.setAttribute('aria-expanded', 'false');
         menuButton.setAttribute('aria-label', 'Open navigation');
         if (restoreFocus) menuButton.focus();
       };
-      const resolveView = (hash) => {
-        let id;
-        try { id = decodeURIComponent(hash.replace(/^#/, '')); } catch { return null; }
-        if (!id || id === 'top') return { section: views.get('home'), target: views.get('home') };
-        if (id === 'main') return { skip: true };
-        const target = document.getElementById(id);
-        const section = target?.closest('#main > section');
-        return section && views.has(section.id) ? { section, target } : null;
+      const fragmentTarget = (hash) => {
+        try { return document.getElementById(decodeURIComponent(hash.slice(1))); } catch { return null; }
       };
-      const showView = (resolved, { focus = false, animate = false } = {}) => {
-        const section = resolved?.section || views.get('home');
-        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-        clearTimeout(viewTimer);
-        $$('dialog[open]').forEach((dialog) => dialog.close());
-        views.forEach((candidate) => {
-          const selected = candidate === section;
-          candidate.classList.remove('view-enter');
-          candidate.hidden = !selected;
-          candidate.classList.toggle('is-active', selected);
-        });
-        document.documentElement.dataset.view = section.id;
-        document.body.dataset.view = section.id;
-        document.title = viewTitles[section.id];
-        const panel = resolved?.target?.closest('.skill-panel');
-        const tab = resolved?.target?.matches('.skill-tab') ? resolved.target : panel && document.getElementById(panel.getAttribute('aria-labelledby'));
+      const revealSkillTarget = (target) => {
+        const panel = target?.closest('.skill-panel');
+        const tab = target?.matches('.skill-tab') ? target : panel && document.getElementById(panel.getAttribute('aria-labelledby'));
+        const wasHidden = panel?.hidden;
         if (tab) activateTab(tab);
+        return wasHidden;
+      };
+      const updateNavigation = () => {
+        const marker = window.innerHeight * .35;
+        const active = sections.filter((section) => section.getBoundingClientRect().top <= marker).at(-1) || sections[0];
         $$('a', nav).forEach((link) => {
-          if (resolveView(link.hash)?.section === section) link.setAttribute('aria-current', 'page');
+          if (link.hash === `#${active.id}`) link.setAttribute('aria-current', 'location');
           else link.removeAttribute('aria-current');
         });
-        closeMenu();
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        if (animate) {
-          section.classList.add('view-enter');
-          viewTimer = setTimeout(() => section.classList.remove('view-enter'), 220);
-        }
-        if (focus) {
-          const heading = $('h1, h2', section) || section;
-          let target = resolved?.target === section ? heading : resolved?.target || heading;
-          if (!target.getClientRects().length) target = heading;
-          if (!target.matches('a[href], button, input, textarea, select, [tabindex]')) target.tabIndex = -1;
-          target.focus({ preventScroll: true });
-        }
-        lastViewUrl = location.href;
       };
       menuButton.addEventListener('click', () => {
         const open = menuButton.getAttribute('aria-expanded') !== 'true';
@@ -723,27 +676,24 @@ html[data-view="home"] #main > #home {
         if (!link || link.hasAttribute('download') || (link.target && link.target.toLowerCase() !== '_self')) return;
         const url = new URL(link.href, location.href);
         if (url.origin !== location.origin || url.pathname !== location.pathname || url.search !== location.search || !link.getAttribute('href').includes('#')) return;
-        const resolved = resolveView(url.hash);
-        if (!resolved) return;
-        event.preventDefault();
-        if (resolved.skip) {
-          closeMenu();
-          $('#main').tabIndex = -1;
-          $('#main').focus({ preventScroll: true });
-          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-          return;
-        }
-        if (url.href !== location.href) history.pushState(null, '', url.href);
-        showView(resolved, { focus: true, animate: true });
+        const target = fragmentTarget(url.hash);
+        if (!target) return;
+        revealSkillTarget(target);
+        closeMenu();
+        const focusTarget = target.matches('#main > section') ? $('h1, h2', target) || target : target;
+        if (!focusTarget.matches('a[href], button, input, textarea, select, [tabindex]')) focusTarget.tabIndex = -1;
+        requestAnimationFrame(() => focusTarget.focus({ preventScroll: true }));
+        // Native anchors retain smooth scrolling, deep links, and browser history.
       });
-      const handleViewHistory = () => {
-        if (lastViewUrl === location.href) return;
-        const resolved = resolveView(location.hash);
-        if (resolved?.skip) { lastViewUrl = location.href; return; }
-        showView(resolved, { focus: true, animate: true });
+      const revealHashTarget = () => {
+        const target = fragmentTarget(location.hash);
+        if (target && revealSkillTarget(target)) target.scrollIntoView({ block: 'start' });
       };
-      window.addEventListener('popstate', handleViewHistory);
-      window.addEventListener('hashchange', handleViewHistory);
+      window.addEventListener('hashchange', revealHashTarget);
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(updateNavigation, { rootMargin: '-35% 0px -64% 0px', threshold: 0 });
+        sections.forEach((section) => observer.observe(section));
+      }
 
 
       const openers = new WeakMap();
@@ -984,8 +934,9 @@ html[data-view="home"] #main > #home {
       $('#draft-result').addEventListener('animationend', (event) => { if (event.target === event.currentTarget) event.currentTarget.classList.remove('feedback-enter'); });
       const copyDraft = $('#copy-draft');
       copyDraft.addEventListener('click', () => { if (draftText) copyText(draftText, $('#draft-copy-status'), 'Message copied. You can paste it into your email app.', copyDraft); });
-      // Resolve after skill panels exist so nested links select their section.
-      showView(resolveView(location.hash));
+      // Resolve nested skill links after their panels have been created.
+      revealHashTarget();
+      updateNavigation();
     })();
 
   </script>
