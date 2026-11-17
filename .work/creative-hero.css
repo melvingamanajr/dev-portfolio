@@ -1,0 +1,29 @@
+/* A small interface-to-data schematic. No animation runs on touch screens. */
+.stack-art { width: 100%; max-width: 360px; margin: 0 0 26px; color: var(--text); }
+.stack-art__scene { display: block; width: 100%; height: auto; overflow: visible; }
+.stack-art__panel { fill: var(--surface); stroke: var(--line); }
+.stack-art__rule, .stack-art__track, .stack-art__quiet, .stack-art__outline { stroke: var(--line); stroke-linecap: round; }
+.stack-art__track { stroke-width: 1.5; }
+.stack-art__quiet { stroke-width: 2; }
+.stack-art__soft { fill: var(--bg); }
+.stack-art__outline { fill: none; }
+.stack-art__accent-soft { fill: var(--accent); opacity: .22; }
+.stack-art__vue { fill: var(--accent); }
+.stack-art__code, .stack-art__mini-chart { stroke: var(--accent); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.stack-art__label { fill: var(--text); font-family: var(--sans); font-size: 12px; font-weight: 600; }
+.stack-art__caption { fill: var(--muted); font-family: var(--sans); font-size: 10px; }
+.stack-art__junction { fill: var(--line); }
+.stack-art__port { fill: var(--surface); stroke: var(--accent); stroke-width: 1.5; }
+.stack-art__signal { opacity: 0; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 7 93; }
+@media (min-width: 851px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .stack-art__signal { opacity: .9; animation: stack-signal 8s linear infinite; animation-play-state: paused; }
+  .stack-art__signal--data { animation-delay: -4s; }
+  .stack-art__interface { animation: stack-interface-breathe 8s ease-in-out infinite; animation-play-state: paused; }
+  .stack-art.is-in-view .stack-art__signal, .stack-art.is-in-view .stack-art__interface { animation-play-state: running; }
+}
+@keyframes stack-signal { to { stroke-dashoffset: -100; } }
+@keyframes stack-interface-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .88; } }
+@media (max-width: 850px) {
+  .stack-art { max-width: 300px; margin: 0; }
+  .stack-art__scene { height: 180px; }
+}
