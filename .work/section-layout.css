@@ -1,0 +1,78 @@
+/* Each route occupies its own screen; only the selected section is rendered. */
+:root { --header-height: 80px; }
+html[data-view] #main > section { display: none; }
+html[data-view="home"] #main > #home,
+html[data-view="work"] #main > #work,
+html[data-view="experience"] #main > #experience,
+html[data-view="about"] #main > #about,
+html[data-view="skills"] #main > #skills,
+html[data-view="contact"] #main > #contact { display: block; }
+html[data-view] #main > section { min-height: calc(100svh - var(--header-height)); }
+html[data-view="home"] .site-footer { display: none; }
+.primary-nav a[aria-current="page"] { color: var(--accent); }
+.screen-home.hero,
+html[data-view="home"] #main > #home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  min-height: calc(100svh - var(--header-height));
+  padding-block: clamp(32px, 5svh, 64px);
+}
+.home-intro, .home-bottom { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.home-intro p, .home-bottom p { margin: 0; }
+.home-name { display: block; font-size: 16px; font-weight: 600; }
+.home-role { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+.home-stage { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 64px; align-items: end; }
+.screen-home.hero h1 { font-size: clamp(54px, 7.1vw, 104px); max-width: none; line-height: 1.03; letter-spacing: -.052em; }
+.screen-home h1 > span { display: block; }
+.home-accent { color: var(--accent); }
+.screen-home .hero-description { max-width: 590px; font-size: 17px; margin-top: 28px; }
+.screen-home .hero-buttons { margin-top: 28px; }
+.screen-home .hero-aside { display: block; font-size: 15px; padding-bottom: 4px; }
+.home-profile { margin: 0; display: grid; gap: 28px; }
+.home-profile dt { font-size: 13px; color: var(--muted); margin-bottom: 5px; }
+.home-profile dd { margin: 0; font-size: 15px; color: var(--text); }
+.screen-home .hero-socials { margin-top: 28px; }
+.home-bottom { padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); }
+.home-bottom p { font-size: 14px; }
+.home-bottom p > span { padding-inline: 9px; }
+.home-bottom .text-link { white-space: nowrap; }
+@keyframes view-enter { from { opacity: .6; } to { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) { .view-enter { animation: view-enter 160ms ease-out; } }
+@media (max-width: 1000px) {
+  .home-stage { grid-template-columns: minmax(0, 1fr) 200px; gap: 32px; }
+  .screen-home.hero h1 { font-size: clamp(48px, 6.7vw, 70px); }
+  .header-inner { gap: 18px; }
+  .primary-nav { gap: 16px; }
+}
+@media (max-width: 850px) {
+  .home-stage { grid-template-columns: 1fr; gap: 40px; }
+  .screen-home .hero-aside { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px; }
+  .home-profile { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; flex: 1; }
+  .screen-home .hero-socials { margin-top: 0; }
+}
+@media (max-width: 640px) {
+  :root { --header-height: 72px; }
+  .primary-nav { max-height: calc(100dvh - var(--header-height)); overflow-y: auto; }
+  .screen-home.hero,
+  html[data-view="home"] #main > #home { padding-block: 28px; gap: 32px; }
+  .home-intro { gap: 12px; }
+  .home-intro .text-link { font-size: 14px; }
+  .home-name { font-size: 14px; }
+  .home-role { font-size: 13px; }
+  .screen-home.hero h1 { font-size: clamp(40px, 11.8vw, 64px); line-height: 1.06; letter-spacing: -.045em; }
+  .screen-home .hero-description { font-size: 15px; margin-top: 22px; }
+  .screen-home .hero-buttons { margin-top: 24px; gap: 10px; }
+  .screen-home .hero-buttons .button { padding-inline: 14px; font-size: 13px; gap: 8px; }
+  .home-stage { gap: 32px; }
+  .home-profile { flex-basis: 100%; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .home-profile > div:last-child { grid-column: 1 / -1; }
+  .home-profile dd { font-size: 14px; }
+  .home-profile dt { font-size: 12px; }
+  .screen-home .hero-aside { gap: 12px; }
+  .home-bottom { flex-wrap: wrap; gap: 8px; padding-top: 20px; }
+  .home-bottom p { font-size: 12px; }
+  .home-bottom p > span { padding-inline: 6px; }
+  .home-bottom .text-link { font-size: 13px; }
+}
