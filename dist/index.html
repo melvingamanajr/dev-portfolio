@@ -6,7 +6,7 @@
   <meta name="description" content="Melvin Gamana Jr. is a software engineer building thoughtful web applications with Vue, TypeScript, and Java. Explore his work, experience, and approach.">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#111715">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-cOiSk/iQtnrHHmck6vK0whqi6fF10BTL++J/R2miiTM='; style-src 'sha256-0BsdRrUTA19zq5B2qgFGbhrWPlukc4dpky3ATOr/THc='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-JJw2AG/bOmpIVUgv0ykPeOtKQSI10PaIhxBi2umg/ac='; style-src 'sha256-v3myTGa6tOFPmAH8k+wk+4EpdmKTavV98yI9idpybVg='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="Melvin Gamana Jr. — Software Engineer">
   <meta property="og:description" content="Software Engineer building Vue interfaces and Java services. Explore my work modernizing web applications and improving performance.">
   <meta property="og:type" content="website">
@@ -372,7 +372,6 @@ dialog::backdrop { background: #07110dbd; }
 
 /* Keep the introduction full height while every section stays in the page flow. */
 :root { --header-height: 80px; }
-#main > section { min-height: calc(100svh - var(--header-height)); }
 .screen-home.hero {
   display: flex;
   flex-direction: column;
@@ -436,6 +435,85 @@ dialog::backdrop { background: #07110dbd; }
   .home-bottom .text-link { font-size: 13px; }
 }
 
+/* A small interface-to-data schematic. No animation runs on touch screens. */
+.stack-art { width: 100%; max-width: 360px; margin: 0 0 26px; color: var(--text); }
+.stack-art__scene { display: block; width: 100%; height: auto; overflow: visible; }
+.stack-art__panel { fill: var(--surface); stroke: var(--line); }
+.stack-art__rule, .stack-art__track, .stack-art__quiet, .stack-art__outline { stroke: var(--line); stroke-linecap: round; }
+.stack-art__track { stroke-width: 1.5; }
+.stack-art__quiet { stroke-width: 2; }
+.stack-art__soft { fill: var(--bg); }
+.stack-art__outline { fill: none; }
+.stack-art__accent-soft { fill: var(--accent); opacity: .22; }
+.stack-art__vue { fill: var(--accent); }
+.stack-art__code, .stack-art__mini-chart { stroke: var(--accent); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.stack-art__label { fill: var(--text); font-family: var(--sans); font-size: 12px; font-weight: 600; }
+.stack-art__caption { fill: var(--muted); font-family: var(--sans); font-size: 10px; }
+.stack-art__junction { fill: var(--line); }
+.stack-art__port { fill: var(--surface); stroke: var(--accent); stroke-width: 1.5; }
+.stack-art__signal { opacity: 0; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 7 93; }
+@media (min-width: 851px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .stack-art__signal { opacity: .9; animation: stack-signal 8s linear infinite; animation-play-state: paused; }
+  .stack-art__signal--data { animation-delay: -4s; }
+  .stack-art__interface { animation: stack-interface-breathe 8s ease-in-out infinite; animation-play-state: paused; }
+  .stack-art.is-in-view .stack-art__signal, .stack-art.is-in-view .stack-art__interface { animation-play-state: running; }
+}
+@keyframes stack-signal { to { stroke-dashoffset: -100; } }
+@keyframes stack-interface-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .88; } }
+@media (max-width: 850px) {
+  .stack-art { max-width: 300px; margin: 0; }
+  .stack-art__scene { height: 180px; }
+}
+
+/* Motion follows the reading flow; the content remains a normal scrolling page. */
+.scroll-progress { position: absolute; inset: auto 0 -1px; height: 2px; pointer-events: none; overflow: hidden; }
+.scroll-progress > span { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+.primary-nav a { position: relative; }
+.primary-nav a:after { content: ""; position: absolute; bottom: 5px; inset-inline: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 180ms ease; }
+.primary-nav a[aria-current="location"]:after, .primary-nav a:focus-visible:after { transform: scaleX(1); }
+.home-stage { grid-template-columns: minmax(0, 1fr) 360px; gap: 48px; align-items: center; }
+.screen-home.hero h1 { font-size: clamp(54px, 6.5vw, 96px); }
+.home-profile { grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.screen-home .hero-socials { margin-top: 18px; gap: 22px; }
+.motion-reveal { transition: opacity 600ms ease, transform 600ms cubic-bezier(.2,.7,.2,1); }
+.reveal-instant { transition: none !important; }
+@keyframes home-arrive { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-pending { opacity: 0; transform: translateY(16px); }
+  .reveal-pending:focus-within { opacity: 1; transform: none; transition: none; }
+  #hero-title > span { animation: home-arrive 650ms cubic-bezier(.2,.7,.2,1) both; }
+  #hero-title > span:nth-child(2) { animation-delay: 80ms; }
+  #hero-title > span:nth-child(3) { animation-delay: 160ms; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .button { transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+  .button:hover { transform: translateY(-2px); }
+  .button.primary:hover { box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 18%, transparent); }
+  .button .icon, .text-link .icon { transition: transform 180ms ease; }
+  .button:hover .icon, .text-link:hover .icon { transform: translateX(3px); }
+  .primary-nav a:hover:after { transform: scaleX(1); }
+  .product-frame { transition: transform 260ms ease, border-color 260ms ease; }
+  .product-frame:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .experience-item summary:hover h3, .case-study:hover h3 { color: var(--accent); }
+}
+@media (max-width: 1100px) and (min-width: 851px) {
+  .home-stage { grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; }
+  .screen-home.hero h1 { font-size: clamp(50px, 6.1vw, 72px); }
+  .home-profile { grid-template-columns: 1fr; gap: 12px; }
+}
+@media (max-width: 850px) {
+  .home-stage { grid-template-columns: 1fr; gap: 32px; }
+  .screen-home .hero-aside { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 16px 24px; align-items: center; }
+  .stack-art { grid-row: span 2; }
+  .home-profile { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .screen-home .hero-socials { margin-top: 0; }
+}
+@media (max-width: 640px) {
+  .screen-home.hero h1 { font-size: clamp(40px, 11.8vw, 64px); }
+  .screen-home .hero-aside { grid-template-columns: 1fr; gap: 20px; }
+  .stack-art { grid-row: auto; justify-self: center; }
+}
+
   </style>
 </head>
 <body>
@@ -458,7 +536,8 @@ dialog::backdrop { background: #07110dbd; }
     <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 20V4m-6 6 6-6 6 6"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></symbol>
   </defs></svg>
-  <header class="site-header">
+<header class="site-header">
+    <div class="scroll-progress" aria-hidden="true"><span></span></div>
     <div class="container header-inner">
       <a class="brand" href="#home" aria-label="Melvin Gamana Jr., home">Melvin Gamana Jr.</a>
       <nav class="primary-nav" id="primary-nav" aria-label="Main navigation">
@@ -490,7 +569,53 @@ dialog::backdrop { background: #07110dbd; }
             <a class="button hero-resume" href="assets/Melvin-Gamana-Jr-Resume.pdf" download>Download résumé <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></a>
           </div>
         </div>
-        <aside class="hero-aside" aria-label="Profile details">
+<aside class="hero-aside" aria-label="Profile details">
+<div class="stack-art" data-hero-art aria-hidden="true" inert>
+  <svg class="stack-art__scene" viewBox="0 0 360 260" fill="none" focusable="false">
+    <path class="stack-art__track" d="M242 91H286V148M286 220V242H156V218"/>
+    <path class="stack-art__signal stack-art__signal--request" pathLength="100" d="M242 91H286V148"/>
+    <path class="stack-art__signal stack-art__signal--data" pathLength="100" d="M286 220V242H156V218"/>
+    <circle class="stack-art__junction" cx="286" cy="119" r="3"/>
+    <circle class="stack-art__junction" cx="203" cy="242" r="3"/>
+
+    <g class="stack-art__interface">
+      <rect class="stack-art__panel" x="8.5" y="18.5" width="234" height="145" rx="15"/>
+      <path class="stack-art__rule" d="M9 57.5H242"/>
+      <path class="stack-art__vue" d="M25 32H30L35 41L40 32H45L35 49Z"/>
+      <text class="stack-art__label" x="54" y="43">Vue interface</text>
+      <path class="stack-art__quiet" d="M211 35H226M211 41H226M211 47H220"/>
+      <rect class="stack-art__soft" x="24" y="73" width="45" height="74" rx="6"/>
+      <path class="stack-art__quiet" d="M35 86H58M35 100H51M35 114H58M35 128H50"/>
+      <rect class="stack-art__outline" x="82.5" y="73.5" width="143" height="29" rx="5"/>
+      <rect class="stack-art__accent-soft" x="92" y="83" width="33" height="10" rx="3"/>
+      <path class="stack-art__quiet" d="M136 88H213"/>
+      <rect class="stack-art__outline" x="82.5" y="112.5" width="65" height="34" rx="5"/>
+      <rect class="stack-art__outline" x="160.5" y="112.5" width="65" height="34" rx="5"/>
+      <path class="stack-art__mini-chart" d="M93 137L104 130L115 133L136 122M171 135H179V128H190V133H201V122H214"/>
+      <circle class="stack-art__port" cx="242.5" cy="91" r="4"/>
+    </g>
+
+    <g class="stack-art__service">
+      <rect class="stack-art__panel" x="224.5" y="148.5" width="123" height="71" rx="12"/>
+      <path class="stack-art__code" d="M239 165L234 170L239 175M252 165L257 170L252 175M248 162L243 178"/>
+      <text class="stack-art__label" x="268" y="175">Java</text>
+      <path class="stack-art__rule" d="M236 188.5H336"/>
+      <text class="stack-art__caption" x="238" y="205">REST service</text>
+      <circle class="stack-art__port" cx="286" cy="148.5" r="4"/>
+      <circle class="stack-art__port" cx="286" cy="219.5" r="4"/>
+    </g>
+
+    <g class="stack-art__database">
+      <rect class="stack-art__panel" x="24.5" y="190.5" width="132" height="55" rx="12"/>
+      <ellipse class="stack-art__code" cx="47" cy="208" rx="9" ry="3.5"/>
+      <path class="stack-art__code" d="M38 208V223C38 225 42 226.5 47 226.5S56 225 56 223V208M38 215.5C38 217.5 42 219 47 219S56 217.5 56 215.5"/>
+      <text class="stack-art__label" x="70" y="214">SQL</text>
+      <text class="stack-art__caption" x="70" y="231">Data layer</text>
+      <circle class="stack-art__port" cx="156.5" cy="218" r="4"/>
+    </g>
+  </svg>
+</div>
+
           <dl class="home-profile">
             <div><dt>Currently at</dt><dd>Alliance Software Inc.</dd></div>
             <div><dt>Based in</dt><dd>Cebu City, Philippines</dd></div>
@@ -937,6 +1062,66 @@ dialog::backdrop { background: #07110dbd; }
       // Resolve nested skill links after their panels have been created.
       revealHashTarget();
       updateNavigation();
+
+      // One-time reveals use a single observer and never delay keyboard access.
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const revealTargets = $$('.section-head, .project-copy, .product-frame, .case-study, .experience-aside, .experience-item, .about-top, .skills-layout, .learning-grid, .contact-layout > div, .contact-form');
+      const revealElement = (element, instant = false) => {
+        if (instant) element.classList.add('reveal-instant');
+        element.classList.remove('reveal-pending');
+      };
+      if ('IntersectionObserver' in window && !reducedMotion.matches) {
+        const reveals = new IntersectionObserver((entries) => {
+          entries.forEach(({ target, isIntersecting }) => {
+            if (!isIntersecting) return;
+            revealElement(target);
+            reveals.unobserve(target);
+          });
+        }, { rootMargin: '0px 0px -24px 0px', threshold: 0 });
+        revealTargets.forEach((element) => {
+          if (element.getBoundingClientRect().top < window.innerHeight || element.contains(document.activeElement)) return;
+          element.classList.add('motion-reveal', 'reveal-pending');
+          reveals.observe(element);
+        });
+      }
+      document.addEventListener('focusin', (event) => {
+        const target = event.target.closest('.reveal-pending');
+        if (target) revealElement(target, true);
+      });
+      reducedMotion.addEventListener('change', () => {
+        if (reducedMotion.matches) $$('.reveal-pending').forEach((element) => revealElement(element, true));
+      });
+
+      // The small desktop schematic sleeps when it leaves the screen or tab.
+      const heroArt = $('[data-hero-art]');
+      const fineMotion = window.matchMedia('(min-width: 851px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+      let artVisible = heroArt.getBoundingClientRect().bottom > 0 && heroArt.getBoundingClientRect().top < window.innerHeight;
+      const updateArtMotion = () => heroArt.classList.toggle('is-in-view', artVisible && fineMotion.matches && !document.hidden);
+      if ('IntersectionObserver' in window) {
+        const artObserver = new IntersectionObserver(([entry]) => { artVisible = entry.isIntersecting; updateArtMotion(); });
+        artObserver.observe(heroArt);
+      }
+      fineMotion.addEventListener('change', updateArtMotion);
+      document.addEventListener('visibilitychange', updateArtMotion);
+      updateArtMotion();
+
+      // A transform-only line quietly shows progress through the full portfolio.
+      const progressFill = $('.scroll-progress > span');
+      let progressFrame = 0;
+      const requestProgress = () => {
+        if (progressFrame) return;
+        progressFrame = requestAnimationFrame(() => {
+          progressFrame = 0;
+          const distance = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = distance > 0 ? Math.max(0, Math.min(1, window.scrollY / distance)) : 0;
+          progressFill.style.transform = `scaleX(${progress})`;
+        });
+      };
+      window.addEventListener('scroll', requestProgress, { passive: true });
+      window.addEventListener('resize', requestProgress);
+      if ('ResizeObserver' in window) new ResizeObserver(requestProgress).observe(document.body);
+      requestProgress();
+
     })();
 
   </script>
