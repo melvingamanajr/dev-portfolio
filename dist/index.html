@@ -6,7 +6,7 @@
   <meta name="description" content="Melvin Gamana Jr. is a software engineer building thoughtful web applications with Vue, TypeScript, and Java. Explore his work, experience, and approach.">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#111715">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-t7R9Bu/O+tBf2XY10rUJujK1/+YLb9qS68XhwEXCMeg=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-SgT4J27VcaNerzPX6I0+eTWfvlB7unqwSUd49LpKDRs='; style-src 'sha256-G1G28/aqf5AX6J3eO7zisng86z1weqMsjOH95XxDwf8='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-pFi5zOs07fwD/H5tpJJXq87PBUy4PObJ4U8Vpf+Hs70=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-adHbcV6WGcfxXuQBBhMcCHxORI/5GGaw1dWyRk6uYco='; style-src 'sha256-G1G28/aqf5AX6J3eO7zisng86z1weqMsjOH95XxDwf8='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="Melvin Gamana Jr. — Software Engineer">
   <meta property="og:description" content="Software Engineer building Vue interfaces and Java services. Explore my work modernizing web applications and improving performance.">
   <meta property="og:type" content="website">
@@ -21,6 +21,7 @@
       try { const id = decodeURIComponent(location.hash.slice(1)); if (views.includes(id)) initial = id; } catch { /* Invalid fragments open Home. */ }
       root.dataset.view = initial;
       root.classList.add('js');
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       try {
         const saved = localStorage.getItem('portfolio-theme');
         root.dataset.theme = ['dark', 'light'].includes(saved) ? saved : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
@@ -669,6 +670,7 @@ html[data-view="home"] #main > #home {
       };
       const showView = (resolved, { focus = false, animate = false } = {}) => {
         const section = resolved?.section || views.get('home');
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
         clearTimeout(viewTimer);
         $$('dialog[open]').forEach((dialog) => dialog.close());
         views.forEach((candidate) => {
@@ -680,6 +682,9 @@ html[data-view="home"] #main > #home {
         document.documentElement.dataset.view = section.id;
         document.body.dataset.view = section.id;
         document.title = viewTitles[section.id];
+        const panel = resolved?.target?.closest('.skill-panel');
+        const tab = resolved?.target?.matches('.skill-tab') ? resolved.target : panel && document.getElementById(panel.getAttribute('aria-labelledby'));
+        if (tab) activateTab(tab);
         $$('a', nav).forEach((link) => {
           if (resolveView(link.hash)?.section === section) link.setAttribute('aria-current', 'page');
           else link.removeAttribute('aria-current');
@@ -739,7 +744,6 @@ html[data-view="home"] #main > #home {
       };
       window.addEventListener('popstate', handleViewHistory);
       window.addEventListener('hashchange', handleViewHistory);
-      showView(resolveView(location.hash));
 
 
       const openers = new WeakMap();
@@ -980,6 +984,8 @@ html[data-view="home"] #main > #home {
       $('#draft-result').addEventListener('animationend', (event) => { if (event.target === event.currentTarget) event.currentTarget.classList.remove('feedback-enter'); });
       const copyDraft = $('#copy-draft');
       copyDraft.addEventListener('click', () => { if (draftText) copyText(draftText, $('#draft-copy-status'), 'Message copied. You can paste it into your email app.', copyDraft); });
+      // Resolve after skill panels exist so nested links select their section.
+      showView(resolveView(location.hash));
     })();
 
   </script>

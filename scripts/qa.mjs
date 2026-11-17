@@ -87,9 +87,23 @@ async function navigationBehavior(page) {
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('[data-menu-toggle]').getAttribute('aria-expanded'), 'false');
   await page.locator('.skip-link').focus();
-  await page.locator('.skip-link').click();
+  await page.keyboard.press('Enter');
   assert.equal(await page.evaluate(() => document.activeElement.id), 'main', 'Skip link should focus the current main content');
   assert.equal(await page.evaluate(() => document.body.dataset.view), 'experience');
+  await page.goto(`${url}/#panel-backend`, { waitUntil: 'networkidle' });
+  assert.equal(await page.evaluate(() => document.body.dataset.view), 'skills', 'Nested skill links should resolve after panels are created');
+  assert.ok(await page.locator('#panel-backend').isVisible(), 'A linked skill panel should be selected');
+  await page.goto(`${url}/#name`, { waitUntil: 'networkidle' });
+  assert.equal(await page.evaluate(() => document.body.dataset.view), 'contact', 'Nested contact links should open Contact');
+  await page.goto(`${url}/#work`, { waitUntil: 'networkidle' });
+  await page.evaluate(() => window.scrollTo(0, 400));
+  await clickView(page, 'experience');
+  await page.goBack();
+  await page.waitForFunction(() => document.body.dataset.view === 'work');
+  await page.waitForFunction(() => window.scrollY === 0);
+  await page.evaluate(() => window.scrollTo(0, 400));
+  await clickView(page, 'work');
+  assert.equal(await page.evaluate(() => window.scrollY), 0, 'The active section link should return to the top');
 }
 
 async function previewLoaded(page) {
