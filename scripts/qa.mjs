@@ -38,11 +38,62 @@ async function availableExecutable(name, engine) {
 
 async function audit(page, browserName, theme) {
   const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
-  await writeFile(resolve(resultsDir, `unslop-axe-${browserName}-${theme}.json`), JSON.stringify(result, null, 2));
+  await writeFile(resolve(resultsDir, `sections-axe-${browserName}-${theme}.json`), JSON.stringify(result, null, 2));
   assert.equal(result.violations.length, 0, `${theme} accessibility violations: ${result.violations.map(({ id, nodes }) => `${id} (${nodes.map(({ target }) => target.join(', ')).join('; ')})`).join('\n')}`);
 }
 
+const viewIds = ['home', 'work', 'experience', 'about', 'skills', 'contact'];
+async function goView(page, id) {
+  await page.evaluate((view) => { location.hash = view; }, id);
+  await page.waitForFunction((view) => document.body.dataset.view === view, id);
+  const shown = await page.locator('#main > section').evaluateAll((sections) => sections.filter((section) => section.getClientRects().length).map((section) => section.id));
+  assert.deepEqual(shown, [id], 'Only the selected section should be displayed');
+}
+async function clickView(page, id) {
+  const link = page.locator(`#primary-nav a[href="#${id}"]`);
+  if (!await link.isVisible()) await page.locator('[data-menu-toggle]').click();
+  await link.click();
+  await page.waitForFunction((view) => document.body.dataset.view === view, id);
+  assert.ok(await page.locator(`#${id} h1, #${id} h2`).first().evaluate((heading) => heading === document.activeElement), 'Navigation should focus the selected heading');
+  assert.equal(await link.getAttribute('aria-current'), 'page', 'Navigation should identify the selected page');
+  assert.equal(await page.locator('[data-menu-toggle]').getAttribute('aria-expanded'), 'false', 'Navigation should close the mobile menu');
+  const shown = await page.locator('#main > section').evaluateAll((sections) => sections.filter((section) => section.getClientRects().length).map((section) => section.id));
+  assert.deepEqual(shown, [id]);
+}
+async function navigationBehavior(page) {
+  await page.goto(url, { waitUntil: 'networkidle' });
+  assert.equal(await page.evaluate(() => document.body.dataset.view), 'home', 'The initial page should show Home');
+  for (const id of viewIds.slice(1)) assert.ok(!await page.locator(`#${id}`).isVisible(), `${id} must not appear on the initial Home screen`);
+  const height = await page.locator('#home').evaluate((home) => ({ home: home.getBoundingClientRect().height, header: document.querySelector('.site-header').getBoundingClientRect().height, viewport: innerHeight }));
+  assert.ok(height.home >= height.viewport - height.header - 1, 'Home should fill the viewport below the header');
+  assert.ok(!await page.locator('.site-footer').isVisible(), 'The Home screen should not reveal the footer');
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await clickView(page, 'work');
+  await clickView(page, 'experience');
+  await page.goBack();
+  await page.waitForFunction(() => document.body.dataset.view === 'work');
+  await page.goForward();
+  await page.waitForFunction(() => document.body.dataset.view === 'experience');
+  await page.reload({ waitUntil: 'networkidle' });
+  assert.equal(await page.evaluate(() => document.body.dataset.view), 'experience', 'Reload should honor the selected section URL');
+  for (const id of viewIds) await clickView(page, id);
+  await page.goto(`${url}/#not-a-section`, { waitUntil: 'networkidle' });
+  assert.equal(await page.evaluate(() => document.body.dataset.view), 'home', 'Invalid routes should fall back to Home');
+  await page.goto(`${url}/#skills`, { waitUntil: 'networkidle' });
+  assert.ok(await page.locator('#skills').isVisible(), 'Direct Skills links should work on first load');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await clickView(page, 'experience');
+  await page.locator('[data-menu-toggle]').click();
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('[data-menu-toggle]').getAttribute('aria-expanded'), 'false');
+  await page.locator('.skip-link').focus();
+  await page.locator('.skip-link').click();
+  assert.equal(await page.evaluate(() => document.activeElement.id), 'main', 'Skip link should focus the current main content');
+  assert.equal(await page.evaluate(() => document.body.dataset.view), 'experience');
+}
+
 async function previewLoaded(page) {
+  await goView(page, 'work');
   const image = page.locator('[data-preview-image]');
   await image.scrollIntoViewIfNeeded();
   await page.waitForFunction(() => {
@@ -59,7 +110,7 @@ async function previewFailure(context) {
   const failedPage = await context.newPage();
   try {
     await failedPage.route('**/assets/hangman-preview.*', (route) => route.abort('failed'));
-    await failedPage.goto(url, { waitUntil: 'networkidle' });
+    await failedPage.goto(`${url}/#work`, { waitUntil: 'networkidle' });
     await failedPage.locator('[data-preview]').scrollIntoViewIfNeeded();
     await failedPage.waitForFunction(() => {
       const preview = document.querySelector('[data-preview]');
@@ -91,7 +142,7 @@ async function previewAlreadyComplete(context) {
       assert.ok(deferred, 'Already-complete preview check must defer the actual application runtime');
       await route.fulfill({ response, body });
     });
-    await cachedPage.goto(url, { waitUntil: 'networkidle' });
+    await cachedPage.goto(`${url}/#work`, { waitUntil: 'networkidle' });
     await cachedPage.locator('[data-preview-image]').scrollIntoViewIfNeeded();
     await cachedPage.waitForFunction(() => {
       const image = document.querySelector('[data-preview-image]');
@@ -123,6 +174,7 @@ async function mouseDrag(page, source, target, side = 'after', cancel = false) {
 }
 
 async function skillReordering(page) {
+  await goView(page, 'skills');
   await page.locator('#tab-frontend').click();
   const container = page.locator('#panel-frontend .skill-pills');
   await container.scrollIntoViewIfNeeded();
@@ -166,6 +218,7 @@ async function interactions(page) {
     assert.equal(await menu.getAttribute('aria-expanded'), 'false', 'Selecting mobile navigation should close the menu');
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
+  await goView(page, 'work');
   assert.equal(await page.locator('[data-filter]').count(), 0, 'Project filter badges should be removed');
   for (const project of ['attendance', 'hangman']) {
     assert.ok(await page.locator(`[data-project-card="${project}"]`).isVisible(), `${project} should remain available without filtering`);
@@ -185,6 +238,7 @@ async function interactions(page) {
   assert.ok(!await dialog.isVisible(), 'Escape should dismiss project details');
   assert.ok(await actualOpener.evaluate((element) => element === document.activeElement), 'Closing a dialog must restore opener focus');
 
+  await goView(page, 'skills');
   const tabs = page.getByRole('tab');
   assert.ok(await tabs.count() >= 2, 'Skills must expose multiple accessible tabs');
   await tabs.first().focus();
@@ -198,12 +252,18 @@ async function interactions(page) {
   assert.ok(panelId && await page.locator(`[id="${panelId}"]`).isVisible(), 'Selected skills panel should be visible');
   await skillReordering(page);
 
+  const skillOrder = await page.locator('#panel-frontend .skill-pill').allTextContents();
+  await goView(page, 'about');
+  await goView(page, 'skills');
+  assert.deepEqual(await page.locator('#panel-frontend .skill-pill').allTextContents(), skillOrder, 'Skill order must survive navigation');
+  await goView(page, 'experience');
   const details = page.locator('details').first();
   assert.ok(await details.count(), 'Experience should offer an expandable disclosure');
   const original = await details.getAttribute('open');
   await details.locator('summary').click();
   assert.notEqual(await details.getAttribute('open'), original, 'Experience disclosure should expand or collapse');
 
+  await goView(page, 'contact');
   const form = page.locator('#contact-form');
   assert.ok(!await form.evaluate((element) => element.checkValidity()), 'Contact form must require its essential fields');
   await form.locator('[name="name"]').fill('QA Visitor');
@@ -228,6 +288,9 @@ async function interactions(page) {
   assert.ok(page.url().startsWith(url), 'Preparing an email must keep the visitor on the page');
   assert.ok(await form.locator('button[type="submit"]').isDisabled(), 'Ready draft should prevent duplicate preparation until an edit');
   assert.match(await page.locator('#draft-result').textContent(), /not.*sent|no message has been sent/i, 'Draft result should honestly explain that no message has been sent');
+  await goView(page, 'experience');
+  await goView(page, 'contact');
+  assert.equal(await draft.getAttribute('href'), mailto, 'Prepared draft must survive navigation');
   const storedData = await page.evaluate(() => JSON.stringify({ local: { ...localStorage }, session: { ...sessionStorage } }));
   assert.ok(!/QA Visitor|visitor@example\.com|A portfolio QA message/.test(storedData), 'Contact details must not be persisted in browser storage');
   await form.locator('[name="message"]').fill('An edited message should invalidate the prepared draft.');
@@ -282,31 +345,34 @@ try {
       await page.goto(url, { waitUntil: 'networkidle' });
       assert.ok(await page.title(), 'Page title is required');
       assert.equal(await page.locator('h1').count(), 1, 'Portfolio must have one primary heading');
+      await navigationBehavior(page);
       await previewLoaded(page);
       for (const theme of ['light', 'dark']) {
         if (await page.evaluate(() => document.documentElement.dataset.theme) !== theme) await page.locator('[data-theme-toggle]').click();
-        assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), theme, `Theme control must expose ${theme} mode`);
         for (const width of [320, 390, 768, 1440]) {
           await page.setViewportSize({ width, height: width < 768 ? 844 : 1000 });
-          const dimensions = await page.evaluate(() => {
-            const image = document.querySelector('[data-preview-image]');
-            const bounds = image.getBoundingClientRect();
-            return { content: document.documentElement.scrollWidth, viewport: innerWidth, image: { left: bounds.left, right: bounds.right, width: bounds.width, height: bounds.height, sourceWidth: image.naturalWidth, sourceHeight: image.naturalHeight } };
-          });
-          assert.ok(dimensions.content <= dimensions.viewport + 1, `${theme} horizontal overflow at ${width}px (${dimensions.content}px)`);
-          assert.ok(dimensions.image.width > 0 && dimensions.image.height > 0 && dimensions.image.left >= -1 && dimensions.image.right <= width + 1, `${theme} product image should stay in bounds at ${width}px: ${JSON.stringify(dimensions.image)}`);
-          const ratio = dimensions.image.sourceWidth / dimensions.image.sourceHeight;
-          assert.ok(Math.abs(dimensions.image.width / dimensions.image.height - ratio) < .02, `${theme} product screenshot should preserve its original aspect ratio at ${width}px`);
-          await page.evaluate(() => scrollTo(0, 0));
-          await audit(page, `${name}-${width}`, theme);
-          const path = resolve(resultsDir, `unslop-${name}-${width}-${theme}.png`);
-          await captureScreenshot(page, { path, fullPage: true });
-          report.screenshots.push(path);
-          if ([390, 1440].includes(width)) {
-            for (const [region, selector] of [['hero', '.hero'], ['product', '[data-project-card="hangman"]']]) {
-              const regionPath = resolve(resultsDir, `unslop-${name}-${width}-${theme}-${region}.png`);
-              await captureScreenshot(page, { path: regionPath }, page.locator(selector));
-              report.screenshots.push(regionPath);
+          for (const view of viewIds) {
+            await goView(page, view);
+            const layout = await page.evaluate(() => ({ content: document.documentElement.scrollWidth, viewport: innerWidth }));
+            assert.ok(layout.content <= layout.viewport + 1, `${view}/${theme} horizontal overflow at ${width}px`);
+            if (view === 'home') {
+              const bounds = await page.locator('#home').boundingBox();
+              assert.ok(bounds.height >= (width < 768 ? 844 : 1000) - (width <= 640 ? 72 : 80) - 1, 'Home must fill the initial viewport');
+              assert.ok(!await page.locator('#work').isVisible(), 'Home must not reveal Work');
+            }
+            if (view === 'work') {
+              await previewLoaded(page);
+              const image = await page.locator('[data-preview-image]').boundingBox();
+              assert.ok(image && image.width > 0 && image.x >= -1 && image.x + image.width <= width + 1, 'Project screenshot must remain in bounds');
+              assert.ok(Math.abs(image.width / image.height - 1100 / 760) < .02, 'Project screenshot must preserve its aspect ratio');
+            }
+            if ([390, 1440].includes(width)) {
+              await audit(page, `${name}-${width}-${view}`, theme);
+              if (['home', 'work', 'experience'].includes(view)) {
+                const path = resolve(resultsDir, `sections-${name}-${width}-${theme}-${view}.png`);
+                await captureScreenshot(page, { path, fullPage: true });
+                report.screenshots.push(path);
+              }
             }
           }
         }
@@ -323,12 +389,12 @@ try {
       await previewAlreadyComplete(context);
       await interactions(page);
       assert.deepEqual(errors, [], 'Browser errors or failed resources');
-      report.browsers.push({ name, status: 'passed', harnessWarnings, checks: ['320/390/768/1440px in both themes', 'WCAG AA audit at all eight layouts', 'real product image bounds and aspect ratio', 'product loading success, reload, already-complete initialization, and isolated resource failure', 'theme persistence', 'mobile menu', 'filters and decorative orbit removed; both projects visible', 'modal focus', 'skills keyboard tabs and keyboard/mouse rearrangement', 'experience disclosure', 'contact validation, honest draft state, and edit reset', 'privacy dialog', 'no application console errors or CSP violations outside screenshot capture'] });
+      report.browsers.push({ name, status: 'passed', harnessWarnings, checks: ['Home and six exclusive views at 320/390/768/1440px in both themes', 'WCAG AA audit of every view at mobile and desktop sizes in both themes', 'real product image bounds and aspect ratio', 'product loading success, reload, already-complete initialization, and isolated resource failure', 'theme persistence', 'mobile menu', 'filters and decorative orbit removed; both projects visible', 'modal focus', 'skills keyboard tabs and keyboard/mouse rearrangement', 'experience disclosure', 'contact validation, honest draft state, and edit reset', 'privacy dialog', 'no application console errors or CSP violations outside screenshot capture'] });
       console.log(`PASS ${name}: responsive layout, accessibility, product preview states, keyboard and mouse, themes, navigation, projects, contact`);
     } catch (error) {
       failures.push(`${name}: ${error.stack || error}`);
       report.browsers.push({ name, status: 'failed', reason: String(error) });
-      await captureScreenshot(page, { path: resolve(resultsDir, `unslop-${name}-failure.png`), fullPage: true }).catch(() => {});
+      await captureScreenshot(page, { path: resolve(resultsDir, `sections-${name}-failure.png`), fullPage: true }).catch(() => {});
       console.error(`FAIL ${name}: ${error.message}`);
     } finally {
       await browser.close();
@@ -337,7 +403,7 @@ try {
   if (failures.length) throw new Error(failures.join('\n\n'));
   assert.ok(report.browsers.some(({ status }) => status === 'passed'), 'No browser successfully completed the checks');
 } finally {
-  await writeFile(resolve(resultsDir, requestedBrowser ? `unslop-qa-report-${requestedBrowser}.json` : 'unslop-qa-report.json'), JSON.stringify(report, null, 2));
+  await writeFile(resolve(resultsDir, requestedBrowser ? `sections-qa-report-${requestedBrowser}.json` : 'sections-qa-report.json'), JSON.stringify(report, null, 2));
   await new Promise((accept) => server.close(accept));
 }
 console.log(`QA artifacts: ${resultsDir}`);
