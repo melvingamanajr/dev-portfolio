@@ -6,7 +6,7 @@
   <meta name="description" content="Melvin Gamana Jr. is a software engineer building thoughtful web applications with Vue, TypeScript, and Java. Explore his work, experience, and approach.">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#111715">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-JJw2AG/bOmpIVUgv0ykPeOtKQSI10PaIhxBi2umg/ac='; style-src 'sha256-v3myTGa6tOFPmAH8k+wk+4EpdmKTavV98yI9idpybVg='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-FWAFxPy88fknFv9OmuGHieuC7NwvhJ5GBeOzyBWSGhk='; style-src 'sha256-Qz1RRe0MLKX33g9nlc7u3xss9ZBkEQwxGYE1ks9jw94='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="Melvin Gamana Jr. — Software Engineer">
   <meta property="og:description" content="Software Engineer building Vue interfaces and Java services. Explore my work modernizing web applications and improving performance.">
   <meta property="og:type" content="website">
@@ -181,18 +181,44 @@ a, button, input, textarea, summary { outline-offset: 5px; }
 .project-copy h3 { font-size: clamp(26px, 2.6vw, 34px); max-width: 24ch; }
 .project-tech, .project-period { margin: var(--space-3) 0 0; color: var(--muted); font-size: 14px; }
 .project-description > p { margin: 0; color: var(--muted); font-size: 16px; }
+.project-story { display: grid; gap: 14px; margin: 24px 0 0; }
+.project-story > div { display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: 16px; }
+.project-story dt { color: var(--text); font-size: 13px; font-weight: 600; }
+.project-story dd { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.project-story strong { color: var(--text); }
 .project-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3) var(--space-6); margin-top: var(--space-6); }
 .product-frame { position: relative; padding: var(--frame-padding); border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
-.product-frame img { width: 100%; height: auto; aspect-ratio: 1100 / 760; border-radius: var(--frame-inner-radius); background: #111923; transition: opacity var(--duration); }
+.product-frame:before { content: ""; display: block; aspect-ratio: 1100 / 760; }
+.product-frame img { position: absolute; inset: var(--frame-padding); width: calc(100% - 2 * var(--frame-padding)); height: calc(100% - 2 * var(--frame-padding)); object-fit: contain; aspect-ratio: 1100 / 760; border-radius: var(--frame-inner-radius); background: #111923; transition: opacity var(--duration); }
 .product-frame.is-loading img { opacity: 0; }
-.preview-status { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: var(--space-3); margin: 0; padding: var(--space-6); background: var(--surface); color: var(--muted); border-radius: inherit; }
-.preview-status:before, .icon-button[aria-busy="true"]:before { content: ""; width: 18px; height: 18px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: busy-spin .8s linear infinite; }
+.preview-status { position: absolute; inset: auto var(--frame-padding) var(--frame-padding); margin: 0; padding: 12px; color: var(--muted); font-size: 14px; text-align: center; }
+.preview-skeleton { position: absolute; inset: var(--frame-padding); padding: clamp(16px, 4vw, 48px) clamp(16px, 5vw, 60px) 48px; border-radius: var(--frame-inner-radius); background: var(--surface); }
+.skeleton-content { display: flex; flex-direction: column; gap: clamp(12px, 3vw, 32px); height: 100%; }
+.skeleton-bar, .skeleton-tile, .skeleton-board { background: color-mix(in srgb, var(--line) 34%, var(--surface)); border-radius: 6px; }
+.skeleton-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.skeleton-toolbar .skeleton-bar { width: 24%; height: clamp(10px, 1.5vw, 18px); }
+.skeleton-tools { display: flex; gap: 8px; }
+.skeleton-tools .skeleton-tile { width: clamp(14px, 3vw, 30px); aspect-ratio: 1; }
+.skeleton-play { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(16px, 4vw, 48px); flex: 1; min-height: 0; }
+.skeleton-board { min-height: 0; }
+.skeleton-game { display: flex; flex-direction: column; justify-content: center; gap: clamp(12px, 3vw, 28px); min-width: 0; }
+.skeleton-game > .skeleton-bar { width: 58%; height: clamp(8px, 1.5vw, 16px); }
+.skeleton-word { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; }
+.skeleton-word .skeleton-tile { aspect-ratio: .85; }
+.skeleton-keyboard { display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; }
+.skeleton-keyboard .skeleton-tile { aspect-ratio: 1.2; }
+@keyframes skeleton-breathe { 0%, 100% { opacity: .5; } 50% { opacity: .85; } }
+@media (min-width: 851px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .is-loading .skeleton-content { animation: skeleton-breathe 1.8s ease-in-out infinite; }
+}
+.icon-button[aria-busy="true"]:before { content: ""; width: 18px; height: 18px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: busy-spin .8s linear infinite; }
 .icon-button[aria-busy="true"] .icon { display: none; }
 .preview-error { position: absolute; inset: var(--frame-padding); display: grid; place-content: center; margin: 0; padding: var(--space-6); border-radius: var(--frame-inner-radius); background: var(--surface); color: var(--muted); text-align: center; }
 .product-frame.is-error img { visibility: hidden; }
 .case-study { display: grid; grid-template-columns: .9fr 1.1fr; gap: var(--space-12); padding-top: var(--space-12); border-top: 1px solid var(--line); }
 .case-study h3 { max-width: 27ch; font-size: 27px; }
 .case-study p { color: var(--muted); }
+.case-study .project-story { margin-bottom: 20px; }
 .experience-layout { display: grid; grid-template-columns: .75fr 1.25fr; gap: var(--space-16); }
 .experience-aside p { margin: var(--space-6) 0; color: var(--muted); max-width: 330px; }
 .experience-item { padding-bottom: var(--space-8); margin-bottom: var(--space-8); border-bottom: 1px solid var(--line); }
@@ -644,7 +670,12 @@ dialog::backdrop { background: #07110dbd; }
             <div class="project-copy">
               <div><h3>Hangman: three ways to play</h3><p class="project-tech">HTML, CSS, JavaScript</p></div>
               <div class="project-description">
-                <p>A browser word game with Classic, Timed Rush, and Daily Challenge modes. Choose a category, play against the clock, and save progress on your device.</p>
+                <p>A personal project focused on game state, keyboard controls, and browser storage.</p>
+                <dl class="project-story">
+                  <div><dt>Challenge</dt><dd>Make a classic word game replayable across casual and timed sessions.</dd></div>
+                  <div><dt>Approach</dt><dd>Built Classic, Timed Rush, and Daily Challenge modes, with keyboard controls and progress saved on the player’s device.</dd></div>
+                  <div><dt>Outcome</dt><dd>A playable browser game with <strong>three modes</strong>, no build step, and no runtime dependencies.</dd></div>
+                </dl>
                 <div class="project-actions">
                   <a class="button primary" href="https://melvingamanajr.github.io/hangman-game/src/index.html" target="_blank" rel="noopener noreferrer">Play game <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
                   <a class="text-link" href="https://github.com/melvingamanajr/hangman-game" target="_blank" rel="noopener noreferrer">Source code <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
@@ -654,6 +685,16 @@ dialog::backdrop { background: #07110dbd; }
             </div>
             <div class="product-frame" data-preview>
               <img data-preview-image src="assets/hangman-preview.png" width="1100" height="760" loading="lazy" fetchpriority="auto" decoding="async" alt="Actual Hangman gameplay showing a hidden word, countdown timer, score, and on-screen letter keyboard.">
+              <div class="preview-skeleton" data-preview-skeleton aria-hidden="true" hidden>
+                <div class="skeleton-content">
+                  <div class="skeleton-toolbar"><span class="skeleton-bar"></span><div class="skeleton-tools"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div></div>
+                  <div class="skeleton-play">
+                    <div class="skeleton-board"></div>
+                    <div class="skeleton-game"><span class="skeleton-bar"></span><div class="skeleton-word"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div><span class="skeleton-bar"></span></div>
+                  </div>
+                  <div class="skeleton-keyboard"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div>
+                </div>
+              </div>
               <p class="preview-status" data-preview-status role="status" aria-live="polite" hidden>Loading game preview…</p>
               <p class="preview-error" data-preview-error hidden>The game preview couldn’t load. You can still play the game using the link above.</p>
             </div>
@@ -661,7 +702,12 @@ dialog::backdrop { background: #07110dbd; }
           <article class="project-card case-study" data-project-card="attendance">
             <div><h3>Face recognition attendance system</h3><p class="project-period">Capstone project · 2023–2024</p></div>
             <div>
-              <p>A web-based system that automates attendance check-ins using face recognition. Query optimization reduced database retrieval time by 35%.</p>
+              <p>A web application that automates attendance check-ins using face recognition.</p>
+              <dl class="project-story">
+                <div><dt>Challenge</dt><dd>Reduce manual recording and the risk of attendance errors.</dd></div>
+                <div><dt>Approach</dt><dd>Developed the application, optimized database queries, and tested recognition accuracy and system reliability.</dd></div>
+                <div><dt>Outcome</dt><dd>A <strong>35% reduction in database retrieval time</strong> through query optimization.</dd></div>
+              </dl>
               <button class="text-link js-only" data-project="attendance" aria-haspopup="dialog">Read case study <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
             </div>
           </article>
@@ -687,8 +733,8 @@ dialog::backdrop { background: #07110dbd; }
       <div class="learning-grid"><div class="education"><h3>Education</h3><p>Bachelor of Science in Information Technology<br>Specialization in Programming</p><p>Southern Leyte State University — San Juan</p><span class="date">AUG 2020 — JUN 2024</span></div><div><h3>Certifications</h3><ul class="cert-list" id="certifications"><li><a href="https://coursera.org/share/ee0b6241abb6415d14d475175b99be43" target="_blank" rel="noopener noreferrer">Google Advanced Data Analytics <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li><li><a href="https://coursera.org/share/378ab96ea63f6f5e3efb97a313aa6636" target="_blank" rel="noopener noreferrer">Google Data Analytics <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li><li><a href="https://coursera.org/share/f813bc2dca2a417418ec25a97329db8e" target="_blank" rel="noopener noreferrer">Google Cybersecurity <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li><li><a href="https://coursera-certificate-images.s3.amazonaws.com/C3967D1WRD6I" target="_blank" rel="noopener noreferrer">Amazon Junior Software Developer <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li><li><a href="https://coursera-certificate-images.s3.amazonaws.com/FAT1VJNHFIIW" target="_blank" rel="noopener noreferrer">Microsoft Front-End Developer <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li><li><span class="unlinked-credential">Rapid Mendix Certification</span></li></ul></div></div>
     </div></section>
     <section class="section" id="contact" aria-labelledby="contact-title"><div class="container contact-layout">
-      <div><h2 class="contact-title" id="contact-title">Contact me</h2><p class="contact-description">Have a software engineering role or a web project in mind? Email me directly or prepare a draft below.</p><div class="contact-email"><a href="mailto:melvingamanajr@gmail.com">melvingamanajr@gmail.com</a><button class="icon-button js-only" id="copy-email" aria-label="Copy email address" title="Copy email address"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg></button></div><p class="copy-status" id="copy-status" role="status" aria-live="polite"></p><div class="contact-links"><a href="https://github.com/melvingamanajr" target="_blank" rel="noopener noreferrer">GitHub <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a><a href="https://linkedin.com/in/melvingamanajr/" target="_blank" rel="noopener noreferrer">LinkedIn <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a><a href="tel:+639773366514">Call me <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></a></div></div>
-      <form class="contact-form js-only" id="contact-form" novalidate><div class="form-row"><div class="field"><label for="name">Your name <span>(required)</span></label><input id="name" name="name" autocomplete="name" placeholder="Alex Rivera" required maxlength="100" aria-describedby="name-error"><span class="field-error" id="name-error"></span></div><div class="field"><label for="email">Email address <span>(required)</span></label><input id="email" name="email" type="email" autocomplete="email" placeholder="alex@company.com" required maxlength="254" aria-describedby="email-error"><span class="field-error" id="email-error"></span></div></div><div class="field"><label for="message">What do you have in mind? <span>(required)</span></label><textarea id="message" name="message" rows="5" placeholder="Tell me a little about your idea, project, or opportunity…" required minlength="10" maxlength="2000" aria-describedby="message-error"></textarea><span class="field-error" id="message-error"></span></div><button class="button primary" type="submit">Prepare email <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button><p class="form-note">This prepares a draft in your email app. Your details stay in this browser until you choose to send. <button class="privacy-button" data-privacy aria-controls="privacy-dialog" type="button" aria-haspopup="dialog">Privacy details</button></p><div class="draft-result" id="draft-result" hidden role="status" aria-live="polite"><h3>Your email draft is ready.</h3><p>Open it in your email app, review it, and send when you’re ready. No message has been sent yet.</p><div class="draft-actions"><a class="button primary" id="email-draft" href="mailto:melvingamanajr@gmail.com">Open email app <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></a><button class="button" id="copy-draft" type="button">Copy message</button></div><span class="draft-copy-status" id="draft-copy-status"></span></div></form>
+      <div><h2 class="contact-title" id="contact-title">Let’s talk about your next project.</h2><p class="contact-description">Hiring for Vue or Java development, or improving an existing web application? Share the role or project, what you need help with, and your timeline.</p><div class="contact-email"><a href="mailto:melvingamanajr@gmail.com">melvingamanajr@gmail.com</a><button class="icon-button js-only" id="copy-email" aria-label="Copy email address" title="Copy email address"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg></button></div><p class="copy-status" id="copy-status" role="status" aria-live="polite"></p><div class="contact-links"><a href="https://github.com/melvingamanajr" target="_blank" rel="noopener noreferrer">GitHub <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a><a href="https://linkedin.com/in/melvingamanajr/" target="_blank" rel="noopener noreferrer">LinkedIn <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a><a href="tel:+639773366514">Call me <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></a></div></div>
+      <form class="contact-form js-only" id="contact-form" novalidate><div class="form-row"><div class="field"><label for="name">Your name <span>(required)</span></label><input id="name" name="name" autocomplete="name" placeholder="Alex Rivera" required maxlength="100" aria-describedby="name-error"><span class="field-error" id="name-error"></span></div><div class="field"><label for="email">Email address <span>(required)</span></label><input id="email" name="email" type="email" autocomplete="email" placeholder="alex@company.com" required maxlength="254" aria-describedby="email-error"><span class="field-error" id="email-error"></span></div></div><div class="field"><label for="message">What do you have in mind? <span>(required)</span></label><textarea id="message" name="message" rows="5" placeholder="Share the role or project, what you need help with, and your timeline…" required minlength="10" maxlength="2000" aria-describedby="message-error"></textarea><span class="field-error" id="message-error"></span></div><button class="button primary" type="submit">Prepare email <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button><p class="form-note">This prepares a draft in your email app. Your details stay in this browser until you choose to send. <button class="privacy-button" data-privacy aria-controls="privacy-dialog" type="button" aria-haspopup="dialog">Privacy details</button></p><div class="draft-result" id="draft-result" hidden role="status" aria-live="polite"><h3>Your email draft is ready.</h3><p>Open it in your email app, review it, and send when you’re ready. No message has been sent yet.</p><div class="draft-actions"><a class="button primary" id="email-draft" href="mailto:melvingamanajr@gmail.com">Open email app <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></a><button class="button" id="copy-draft" type="button">Copy message</button></div><span class="draft-copy-status" id="draft-copy-status"></span></div></form>
       <noscript><p class="no-script">You can reach me directly at <a class="text-link" href="mailto:melvingamanajr@gmail.com">melvingamanajr@gmail.com</a>. Enable JavaScript to use the email draft form, project details, and theme controls.</p></noscript>
     </div></section>
   </main>
@@ -738,6 +784,7 @@ dialog::backdrop { background: #07110dbd; }
       // Preview feedback reflects the real image request, including cached loads.
       $$('[data-preview]').forEach((preview) => {
         const image = $('[data-preview-image]', preview);
+        const skeleton = $('[data-preview-skeleton]', preview);
         const status = $('[data-preview-status]', preview);
         const error = $('[data-preview-error]', preview);
         if (!image || !status || !error) return;
@@ -746,10 +793,14 @@ dialog::backdrop { background: #07110dbd; }
           preview.classList.toggle('is-loaded', state === 'loaded');
           preview.classList.toggle('is-error', state === 'error');
           preview.setAttribute('aria-busy', String(state === 'loading'));
+          if (skeleton) skeleton.hidden = state !== 'loading';
           status.hidden = state !== 'loading';
           error.hidden = state !== 'error';
         };
-        image.addEventListener('load', () => setPreviewState('loaded'));
+        image.addEventListener('load', async () => {
+          try { await image.decode(); } catch { /* Some browsers decode during painting instead. */ }
+          setPreviewState(image.naturalWidth > 0 ? 'loaded' : 'error');
+        });
         image.addEventListener('error', () => setPreviewState('error'));
         setPreviewState(image.complete ? image.naturalWidth > 0 ? 'loaded' : 'error' : 'loading');
       });

@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-JJw2AG/bOmpIVUgv0ykPeOtKQSI10PaIhxBi2umg/ac='; style-src 'sha256-v3myTGa6tOFPmAH8k+wk+4EpdmKTavV98yI9idpybVg='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-FWAFxPy88fknFv9OmuGHieuC7NwvhJ5GBeOzyBWSGhk='; style-src 'sha256-Qz1RRe0MLKX33g9nlc7u3xss9ZBkEQwxGYE1ks9jw94='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
