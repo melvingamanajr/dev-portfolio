@@ -1,0 +1,79 @@
+/* Two projects, each presented through the evidence it can show. */
+#projects-gallery { gap: 32px; }
+.project-feature, .project-outcome {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+}
+.project-feature { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+.project-media {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 24px;
+  background: color-mix(in srgb, var(--raised) 64%, var(--surface));
+}
+.project-media .product-frame { flex: 1; min-width: 0; border-radius: 16px; }
+.project-media .product-frame img, .project-media .preview-skeleton, .project-media .preview-error { border-radius: 8px; }
+.project-editorial-copy { min-width: 0; padding: clamp(28px, 3vw, 40px); }
+.project-kind { margin: 0 0 24px; color: var(--muted); font-size: 14px; }
+.project-editorial-copy h3 { max-width: 20ch; font-size: clamp(28px, 2.7vw, 38px); line-height: 1.1; letter-spacing: -.04em; }
+.project-lead { margin: 20px 0 12px; color: var(--text); font-size: 17px; line-height: 1.55; text-wrap: pretty; }
+.project-contribution { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
+.project-editorial-copy .project-tech { margin-top: 20px; font-size: 13px; }
+.project-editorial-copy .project-actions { gap: 12px 20px; margin-top: 24px; }
+.project-process { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); }
+.project-process summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 32px; cursor: pointer; list-style: none; color: var(--muted); font-size: 14px; }
+.project-process summary::-webkit-details-marker { display: none; }
+.project-process summary:hover { color: var(--text); }
+.project-process summary .icon { width: 16px; height: 16px; transition: transform var(--duration); }
+.project-process[open] summary .icon { transform: rotate(45deg); }
+.project-process .project-story { gap: 16px; margin-top: 20px; }
+.project-process .project-story > div { display: block; }
+.project-process .project-story dt { margin-bottom: 4px; font-size: 14px; }
+.project-process .project-story dd { font-size: 15px; }
+.project-process .text-link { margin-top: 16px; }
+.project-details-link { margin-top: 8px; }
+.project-outcome { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); width: 88%; margin-left: auto; }
+.project-outcome .project-editorial-copy { padding: 40px; }
+.project-outcome .project-editorial-copy h3 { max-width: 21ch; }
+.project-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 40px;
+  border-left: 1px solid var(--line);
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+}
+.project-result-number { margin: 0 0 16px; color: var(--accent); font-size: clamp(88px, 9vw, 128px); font-weight: 500; letter-spacing: -.075em; line-height: .95; font-variant-numeric: tabular-nums; }
+.project-result-number span { display: inline-block; margin-left: 5px; font-size: .45em; vertical-align: top; line-height: 1.2; letter-spacing: -.04em; }
+.project-result-description { max-width: 17ch; margin: 0; color: var(--text); font-size: 20px; line-height: 1.35; letter-spacing: -.015em; }
+.project-result-method { margin: 24px 0 0; color: var(--muted); font-size: 14px; }
+@media (max-width: 1000px) and (min-width: 851px) {
+  .project-feature { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .project-media { padding: 16px; }
+  .project-editorial-copy { padding: 28px; }
+  .project-outcome { width: 94%; }
+  .project-outcome .project-editorial-copy, .project-result { padding: 32px; }
+}
+@media (max-width: 850px) {
+  .project-feature, .project-outcome { grid-template-columns: minmax(0, 1fr); width: 100%; }
+  .project-media { padding: 20px; }
+  .project-editorial-copy, .project-outcome .project-editorial-copy { padding: 28px; }
+  .project-kind { margin-bottom: 20px; }
+  .project-editorial-copy h3 { max-width: 24ch; font-size: clamp(28px, 5.5vw, 38px); }
+  .project-result { padding: 32px 28px; border-top: 1px solid var(--line); border-left: 0; }
+  .project-result-number { font-size: 104px; }
+  .project-result-description { max-width: 24ch; }
+}
+@media (max-width: 480px) {
+  #projects-gallery { gap: 24px; }
+  .project-media { padding: 12px; }
+  .project-editorial-copy, .project-outcome .project-editorial-copy { padding: 24px; }
+  .project-result { padding: 28px 24px; }
+  .project-editorial-copy .project-actions { gap: 12px 16px; }
+}
