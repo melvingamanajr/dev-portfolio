@@ -6,7 +6,7 @@
   <meta name="description" content="Melvin Gamana Jr. is a software engineer building thoughtful web applications with Vue, TypeScript, and Java. Explore his work, experience, and approach.">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#111715">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-FWAFxPy88fknFv9OmuGHieuC7NwvhJ5GBeOzyBWSGhk='; style-src 'sha256-Qz1RRe0MLKX33g9nlc7u3xss9ZBkEQwxGYE1ks9jw94='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-sL3zeQKxOsanMqJekzwWjXU/79JeQNZQiAp6s5IEwZo=' 'sha256-kV5aghkXhTAtBXgcjRrhFRbqRyo7WbX7nPOWYn68fBQ=' 'sha256-1nnuVCrqkq18hszl19GOoOmt2nRHHZDg+4q/hFklCVE='; style-src 'sha256-MezqnIrbm6r1VF84Gl65AwlXy2IekyQAFYEOsiZYYYg='; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="Melvin Gamana Jr. — Software Engineer">
   <meta property="og:description" content="Software Engineer building Vue interfaces and Java services. Explore my work modernizing web applications and improving performance.">
   <meta property="og:type" content="website">
@@ -540,6 +540,170 @@ dialog::backdrop { background: #07110dbd; }
   .stack-art { grid-row: auto; justify-self: center; }
 }
 
+/* Editorial hierarchy and a consistent frame for the engineering work. */
+:root {
+  --sans: "Segoe UI Variable Text", "Segoe UI", Arial, sans-serif;
+  --contour-opacity: .18;
+  --section-space: clamp(64px, 8vw, 112px);
+}
+[data-theme="light"] { --contour-opacity: .14; }
+.container { width: min(1120px, calc(100% - 96px)); }
+.section { padding-block: var(--section-space); }
+h2 { font-size: clamp(32px, 3.5vw, 48px); font-weight: 550; line-height: 1.12; letter-spacing: -.045em; }
+.section-head { align-items: end; margin-bottom: 40px; }
+.primary-nav a { font-size: 13px; }
+.home-intro .home-role { margin: 0; font-size: 16px; color: var(--text); }
+.home-stage { grid-template-columns: minmax(0, 1fr) 360px; gap: 48px; }
+.screen-home.hero h1 { font-size: clamp(56px, 6.9vw, 100px); font-weight: 550; line-height: 1.02; letter-spacing: -.055em; }
+.screen-home .hero-description { max-width: 49ch; font-size: 17px; line-height: 1.75; }
+.screen-home .hero-aside { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.hero-aside .stack-art__panel { fill: var(--bg); }
+.home-profile { padding-top: 20px; border-top: 1px solid var(--line); }
+.home-profile dt { font-size: 12px; }
+.home-profile dd { font-size: 14px; }
+.screen-home .hero-socials { gap: 20px; margin-top: 18px; }
+.home-bottom { padding-top: 20px; }
+.home-bottom p { font-size: 13px; }
+.experience-layout, .about-top { grid-template-columns: .7fr 1.3fr; gap: 72px; }
+.experience-aside p { max-width: 29ch; font-size: 16px; }
+.timeline { padding-left: 28px; border-left: 1px solid var(--line); }
+.experience-item { position: relative; padding-bottom: 32px; margin-bottom: 32px; }
+.experience-item:before { content: ""; position: absolute; top: 10px; left: -34px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--accent); background: var(--bg); }
+.experience-item h3 { font-size: 26px; font-weight: 550; }
+.date { font: 12px/1.6 var(--mono); letter-spacing: .02em; }
+.company { font-size: 15px; }
+.experience-body { padding-top: 24px; }
+.experience-body ul { font-size: 15px; line-height: 1.85; }
+.about-copy { max-width: 64ch; }
+.about-copy p:first-child { font-size: clamp(20px, 2vw, 25px); line-height: 1.55; letter-spacing: -.025em; color: var(--text); }
+.skills-layout { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); gap: 36px; }
+.skill-tab { border-radius: var(--radius-sm); }
+.skill-tab[aria-selected="true"] { background: var(--raised); }
+.skill-pill { background: var(--bg); }
+.learning-grid { margin-top: 56px; padding-top: 40px; }
+.learning-grid h3 { font-size: 24px; font-weight: 550; }
+#contact { background: var(--surface); }
+.contact-title { max-width: 15ch; font-size: clamp(34px, 3.8vw, 52px); }
+.contact-description { max-width: 43ch; }
+.contact-form { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg); }
+.field input, .field textarea { background: var(--surface); }
+.contact-layout { grid-template-columns: .9fr 1.1fr; gap: 56px; }
+.site-footer { background: var(--bg); }
+@media (max-width: 1100px) and (min-width: 851px) {
+  .home-stage { grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; }
+  .screen-home.hero h1 { font-size: clamp(50px, 6.2vw, 76px); }
+  .screen-home .hero-aside { padding: 20px; }
+  .experience-layout, .about-top { gap: 40px; }
+}
+@media (max-width: 1000px) {
+  .container { width: min(1120px, calc(100% - 64px)); }
+  .contact-layout { gap: 32px; }
+  .skills-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 24px; }
+}
+@media (max-width: 850px) {
+  .home-stage { grid-template-columns: 1fr; gap: 32px; }
+  .screen-home .hero-aside { grid-template-columns: minmax(0, 250px) minmax(0, 1fr); }
+  .home-profile { padding-top: 0; border-top: 0; }
+  .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+  .contact-title { max-width: 24ch; }
+}
+@media (max-width: 640px) {
+  .container { width: calc(100% - 40px); }
+  .home-intro .home-role { font-size: 14px; }
+  .screen-home.hero h1 { font-size: clamp(40px, 11.8vw, 64px); line-height: 1.06; letter-spacing: -.045em; }
+  .screen-home .hero-description { font-size: 15px; }
+  .screen-home .hero-aside { grid-template-columns: 1fr; padding: 20px; }
+  .home-profile { padding-top: 20px; border-top: 1px solid var(--line); }
+  .experience-layout, .about-top { grid-template-columns: 1fr; gap: 32px; }
+  .experience-item h3 { font-size: 23px; }
+  .timeline { padding-left: 22px; }
+  .experience-item:before { left: -28px; }
+  .skills-layout { grid-template-columns: 1fr; padding: 20px; gap: 24px; }
+  .skill-tabs { margin: -6px -4px; }
+  .contact-form { padding: 20px; }
+  .contact-title { font-size: 34px; max-width: 17ch; }
+}
+
+/* Two projects, each presented through the evidence it can show. */
+#projects-gallery { gap: 32px; }
+.project-feature, .project-outcome {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+}
+.project-feature { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+.project-media {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 24px;
+  background: color-mix(in srgb, var(--raised) 64%, var(--surface));
+}
+.project-media .product-frame { flex: 1; min-width: 0; border-radius: 16px; }
+.project-media .product-frame img, .project-media .preview-skeleton, .project-media .preview-error { border-radius: 8px; }
+.project-editorial-copy { min-width: 0; padding: clamp(28px, 3vw, 40px); }
+.project-kind { margin: 0 0 24px; color: var(--muted); font-size: 14px; }
+.project-editorial-copy h3 { max-width: 20ch; font-size: clamp(28px, 2.7vw, 38px); line-height: 1.1; letter-spacing: -.04em; }
+.project-lead { margin: 20px 0 12px; color: var(--text); font-size: 17px; line-height: 1.55; text-wrap: pretty; }
+.project-contribution { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
+.project-editorial-copy .project-tech { margin-top: 20px; font-size: 13px; }
+.project-editorial-copy .project-actions { gap: 12px 20px; margin-top: 24px; }
+.project-process { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); }
+.project-process summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 32px; cursor: pointer; list-style: none; color: var(--muted); font-size: 14px; }
+.project-process summary::-webkit-details-marker { display: none; }
+.project-process summary:hover { color: var(--text); }
+.project-process summary .icon { width: 16px; height: 16px; transition: transform var(--duration); }
+.project-process[open] summary .icon { transform: rotate(45deg); }
+.project-process .project-story { gap: 16px; margin-top: 20px; }
+.project-process .project-story > div { display: block; }
+.project-process .project-story dt { margin-bottom: 4px; font-size: 14px; }
+.project-process .project-story dd { font-size: 15px; }
+.project-process .text-link { margin-top: 16px; }
+.project-details-link { margin-top: 8px; }
+.project-outcome { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); width: 88%; margin-left: auto; }
+.project-outcome .project-editorial-copy { padding: 40px; }
+.project-outcome .project-editorial-copy h3 { max-width: 21ch; }
+.project-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 40px;
+  border-left: 1px solid var(--line);
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+}
+.project-result-number { margin: 0 0 16px; color: var(--accent); font-size: clamp(88px, 9vw, 128px); font-weight: 500; letter-spacing: -.075em; line-height: .95; font-variant-numeric: tabular-nums; }
+.project-result-number span { display: inline-block; margin-left: 5px; font-size: .45em; vertical-align: top; line-height: 1.2; letter-spacing: -.04em; }
+.project-result-description { max-width: 17ch; margin: 0; color: var(--text); font-size: 20px; line-height: 1.35; letter-spacing: -.015em; }
+.project-result-method { margin: 24px 0 0; color: var(--muted); font-size: 14px; }
+@media (max-width: 1000px) and (min-width: 851px) {
+  .project-feature { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .project-media { padding: 16px; }
+  .project-editorial-copy { padding: 28px; }
+  .project-outcome { width: 94%; }
+  .project-outcome .project-editorial-copy, .project-result { padding: 32px; }
+}
+@media (max-width: 850px) {
+  .project-feature, .project-outcome { grid-template-columns: minmax(0, 1fr); width: 100%; }
+  .project-media { padding: 20px; }
+  .project-editorial-copy, .project-outcome .project-editorial-copy { padding: 28px; }
+  .project-kind { margin-bottom: 20px; }
+  .project-editorial-copy h3 { max-width: 24ch; font-size: clamp(28px, 5.5vw, 38px); }
+  .project-result { padding: 32px 28px; border-top: 1px solid var(--line); border-left: 0; }
+  .project-result-number { font-size: 104px; }
+  .project-result-description { max-width: 24ch; }
+}
+@media (max-width: 480px) {
+  #projects-gallery { gap: 24px; }
+  .project-media { padding: 12px; }
+  .project-editorial-copy, .project-outcome .project-editorial-copy { padding: 24px; }
+  .project-result { padding: 28px 24px; }
+  .project-editorial-copy .project-actions { gap: 12px 16px; }
+}
+
   </style>
 </head>
 <body>
@@ -579,7 +743,7 @@ dialog::backdrop { background: #07110dbd; }
   <main id="main">
     <section class="hero screen-home container" id="home" aria-labelledby="hero-title">
       <div class="home-intro">
-        <p><span class="home-name">Melvin Gamana Jr.</span><span class="home-role">Software Engineer</span></p>
+        <p><span class="home-role">Software Engineer</span></p>
         <a class="text-link" href="#contact">Let’s talk <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg></a>
       </div>
       <div class="home-stage">
@@ -666,51 +830,70 @@ dialog::backdrop { background: #07110dbd; }
           <a class="text-link" href="https://github.com/melvingamanajr" target="_blank" rel="noopener noreferrer">GitHub repositories <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
         </div>
         <div id="projects-gallery">
-          <article class="project-card featured-project" data-project-card="hangman">
-            <div class="project-copy">
-              <div><h3>Hangman: three ways to play</h3><p class="project-tech">HTML, CSS, JavaScript</p></div>
-              <div class="project-description">
-                <p>A personal project focused on game state, keyboard controls, and browser storage.</p>
+          <article class="project-card project-feature featured-project" data-project-card="hangman" aria-labelledby="hangman-title">
+            <div class="project-media">
+              <div class="product-frame" data-preview>
+                <img data-preview-image src="assets/hangman-preview.png" width="1100" height="760" loading="lazy" fetchpriority="auto" decoding="async" alt="Actual Hangman gameplay showing a hidden word, countdown timer, score, and on-screen letter keyboard.">
+                <div class="preview-skeleton" data-preview-skeleton aria-hidden="true" hidden>
+                  <div class="skeleton-content">
+                    <div class="skeleton-toolbar"><span class="skeleton-bar"></span><div class="skeleton-tools"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div></div>
+                    <div class="skeleton-play">
+                      <div class="skeleton-board"></div>
+                      <div class="skeleton-game"><span class="skeleton-bar"></span><div class="skeleton-word"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div><span class="skeleton-bar"></span></div>
+                    </div>
+                    <div class="skeleton-keyboard"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div>
+                  </div>
+                </div>
+                <p class="preview-status" data-preview-status role="status" aria-live="polite" hidden>Loading game preview…</p>
+                <p class="preview-error" data-preview-error hidden>The game preview couldn’t load. You can still use the Play game link in this project.</p>
+              </div>
+            </div>
+            <div class="project-editorial-copy">
+              <p class="project-kind">Personal project</p>
+              <h3 id="hangman-title">Hangman:<br>three ways to play.</h3>
+              <p class="project-lead">Hangman, reworked for a quick break or a race against the clock.</p>
+              <p class="project-contribution">I built the game state, keyboard controls, and browser storage for Classic, Timed Rush, and Daily Challenge.</p>
+              <p class="project-tech">HTML · CSS · JavaScript</p>
+              <div class="project-actions">
+                <a class="button primary" href="https://melvingamanajr.github.io/hangman-game/src/index.html" target="_blank" rel="noopener noreferrer">Play game <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
+                <a class="text-link" href="https://github.com/melvingamanajr/hangman-game" target="_blank" rel="noopener noreferrer">Source code <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
+              </div>
+              <details class="project-process">
+                <summary>Behind the build <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></summary>
                 <dl class="project-story">
                   <div><dt>Challenge</dt><dd>Make a classic word game replayable across casual and timed sessions.</dd></div>
-                  <div><dt>Approach</dt><dd>Built Classic, Timed Rush, and Daily Challenge modes, with keyboard controls and progress saved on the player’s device.</dd></div>
+                  <div><dt>Approach</dt><dd>Built three modes with physical and on-screen keyboard controls, saving progress on the player’s device.</dd></div>
                   <div><dt>Outcome</dt><dd>A playable browser game with <strong>three modes</strong>, no build step, and no runtime dependencies.</dd></div>
                 </dl>
-                <div class="project-actions">
-                  <a class="button primary" href="https://melvingamanajr.github.io/hangman-game/src/index.html" target="_blank" rel="noopener noreferrer">Play game <svg class="icon" aria-hidden="true"><use href="#i-up-right"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
-                  <a class="text-link" href="https://github.com/melvingamanajr/hangman-game" target="_blank" rel="noopener noreferrer">Source code <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
-                  <button class="text-link js-only" data-project="hangman" aria-haspopup="dialog">Project details <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-                </div>
-              </div>
-            </div>
-            <div class="product-frame" data-preview>
-              <img data-preview-image src="assets/hangman-preview.png" width="1100" height="760" loading="lazy" fetchpriority="auto" decoding="async" alt="Actual Hangman gameplay showing a hidden word, countdown timer, score, and on-screen letter keyboard.">
-              <div class="preview-skeleton" data-preview-skeleton aria-hidden="true" hidden>
-                <div class="skeleton-content">
-                  <div class="skeleton-toolbar"><span class="skeleton-bar"></span><div class="skeleton-tools"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div></div>
-                  <div class="skeleton-play">
-                    <div class="skeleton-board"></div>
-                    <div class="skeleton-game"><span class="skeleton-bar"></span><div class="skeleton-word"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div><span class="skeleton-bar"></span></div>
-                  </div>
-                  <div class="skeleton-keyboard"><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span><span class="skeleton-tile"></span></div>
-                </div>
-              </div>
-              <p class="preview-status" data-preview-status role="status" aria-live="polite" hidden>Loading game preview…</p>
-              <p class="preview-error" data-preview-error hidden>The game preview couldn’t load. You can still play the game using the link above.</p>
+              </details>
+              <button class="text-link project-details-link js-only" data-project="hangman" aria-haspopup="dialog">Project details <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
             </div>
           </article>
-          <article class="project-card case-study" data-project-card="attendance">
-            <div><h3>Face recognition attendance system</h3><p class="project-period">Capstone project · 2023–2024</p></div>
-            <div>
-              <p>A web application that automates attendance check-ins using face recognition.</p>
-              <dl class="project-story">
-                <div><dt>Challenge</dt><dd>Reduce manual recording and the risk of attendance errors.</dd></div>
-                <div><dt>Approach</dt><dd>Developed the application, optimized database queries, and tested recognition accuracy and system reliability.</dd></div>
-                <div><dt>Outcome</dt><dd>A <strong>35% reduction in database retrieval time</strong> through query optimization.</dd></div>
-              </dl>
-              <button class="text-link js-only" data-project="attendance" aria-haspopup="dialog">Read case study <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <article class="project-card project-outcome" data-project-card="attendance" aria-labelledby="attendance-title">
+            <div class="project-editorial-copy">
+              <p class="project-kind">Capstone project · 2023–2024</p>
+              <h3 id="attendance-title">Attendance<br>by face recognition.</h3>
+              <p class="project-lead">A web application designed to automate manual attendance check-ins with face recognition.</p>
+              <p class="project-contribution">I developed the web application, optimized database queries, and tested recognition accuracy and system reliability.</p>
+              <div class="project-actions">
+                <button class="text-link js-only" data-project="attendance" aria-haspopup="dialog">Read case study <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              </div>
+              <details class="project-process">
+                <summary>Project approach <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+                <dl class="project-story">
+                  <div><dt>Challenge</dt><dd>Reduce manual recording and the risk of attendance errors.</dd></div>
+                  <div><dt>Approach</dt><dd>Developed the application, optimized database queries, and tested recognition accuracy and system reliability.</dd></div>
+                  <div><dt>Outcome</dt><dd>A <strong>35% reduction in database retrieval time</strong> through query optimization.</dd></div>
+                </dl>
+              </details>
+            </div>
+            <div class="project-result">
+              <p class="project-result-number">35<span>%</span></p>
+              <p class="project-result-description">reduction in database retrieval time</p>
+              <p class="project-result-method">Through query optimization</p>
             </div>
           </article>
+
         </div>
       </div>
     </section>
@@ -1116,7 +1299,7 @@ dialog::backdrop { background: #07110dbd; }
 
       // One-time reveals use a single observer and never delay keyboard access.
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const revealTargets = $$('.section-head, .project-copy, .product-frame, .case-study, .experience-aside, .experience-item, .about-top, .skills-layout, .learning-grid, .contact-layout > div, .contact-form');
+      const revealTargets = $$('.section-head, .project-card, .experience-aside, .experience-item, .about-top, .skills-layout, .learning-grid, .contact-layout > div, .contact-form');
       const revealElement = (element, instant = false) => {
         if (instant) element.classList.add('reveal-instant');
         element.classList.remove('reveal-pending');
@@ -1136,8 +1319,11 @@ dialog::backdrop { background: #07110dbd; }
         });
       }
       document.addEventListener('focusin', (event) => {
-        const target = event.target.closest('.reveal-pending');
-        if (target) revealElement(target, true);
+        let target = event.target.closest('.reveal-pending');
+        while (target) {
+          revealElement(target, true);
+          target = target.parentElement?.closest('.reveal-pending');
+        }
       });
       reducedMotion.addEventListener('change', () => {
         if (reducedMotion.matches) $$('.reveal-pending').forEach((element) => revealElement(element, true));

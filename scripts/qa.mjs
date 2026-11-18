@@ -298,7 +298,7 @@ async function interactions(page) {
   await goView(page, 'skills');
   assert.deepEqual(await page.locator('#panel-frontend .skill-pill').allTextContents(), skillOrder, 'Skill order must survive navigation');
   await goView(page, 'experience');
-  const details = page.locator('details').first();
+  const details = page.locator('#experience details').first();
   assert.ok(await details.count(), 'Experience should offer an expandable disclosure');
   const original = await details.getAttribute('open');
   await details.locator('summary').click();
